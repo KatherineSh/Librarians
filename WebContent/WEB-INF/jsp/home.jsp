@@ -18,7 +18,16 @@
   </head>
   <body>
     <h1>Hello, world! Librarians</h1>
-
+	
+	<br/>
+	USER:<c:out value="${login}"></c:out>
+	<br/>
+	PASSWORD:<c:out value="${pass}"></c:out>
+	<br/>
+	ROLE:<c:out value="${role}"></c:out>
+	<br/>
+	 
+	
     <div class="bs-example">
     <form class="form-horizontal">
         <div class="form-group">
