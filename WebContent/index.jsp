@@ -9,9 +9,9 @@
   </head>
   <body>
   
-  	<h1>Index page of Librarians!</h1>
+  	<h1>Welcome page of Librarians!</h1>
   	</br>
-  	<a href="./home">Go to home</a>
+  	<a href="./main">Go to main page</a>
 
   </body>
 </html>

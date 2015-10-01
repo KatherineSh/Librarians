@@ -21,16 +21,12 @@ public class MainController {
 	
 	static Logger log = Logger.getLogger(MainController.class.getName());
 
-	@RequestMapping("/home")
-	public String showHomePage(Model model){
+	@RequestMapping("/main")
+	public String showLoginPage(Model model){
 		
-		log.info("---------Add attributes in model---------");
+		log.info("---------Going to main page---------");
 		
-		model.addAttribute("login", getUser().getLogin());
-		model.addAttribute("pass", getUser().getPass());
-		model.addAttribute("role", getUser().getRole());
-		
-		return "home";
+		return "main";
 	}
 
 	public User getUser() {

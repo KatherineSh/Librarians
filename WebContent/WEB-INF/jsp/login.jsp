@@ -13,33 +13,31 @@
 
     <!-- Bootstrap -->
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-
+	<!-- By styles -->
+	<link href="css/styles.css" rel="stylesheet" type="text/css">
     
   </head>
   <body>
-    <h1>Hello, world! Librarians</h1>
 	
 	<br/>
-	USER:<c:out value="${login}"></c:out>
+    <h1>Hello, Librarians! Please, log in:</h1>
+    <c:if test="${param.error != null}">Failed..</c:if>
 	<br/>
-	PASSWORD:<c:out value="${pass}"></c:out>
-	<br/>
-	ROLE:<c:out value="${role}"></c:out>
-	<br/>
-	 
 	
     <div class="bs-example">
-    <form class="form-horizontal">
+    <form class="form-horizontal login-form" method="POST" action="./login">
+    
+    	
         <div class="form-group">
-            <label for="inputEmail" class="control-label col-xs-2">Email</label>
+            <label for="inputEmail" class="control-label col-xs-2">Login</label>
             <div class="col-xs-10">
-                <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                <input class="form-control" placeholder="Login" name="username">
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword" class="control-label col-xs-2">Password</label>
             <div class="col-xs-10">
-                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                <input type="password" class="form-control" placeholder="Password"  name="password">
             </div>
         </div>
         <div class="form-group">
@@ -51,7 +49,7 @@
         </div>
         <div class="form-group">
             <div class="col-xs-offset-2 col-xs-10">
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button  type="submit" class="btn btn-primary">Login</button>
             </div>
         </div>
     </form>
