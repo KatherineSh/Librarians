@@ -7,26 +7,27 @@
 
 	<security:authentication-manager>
 		<security:authentication-provider>
+		<security:password-encoder hash="sha"/>
 			<security:user-service>
-				<security:user name="kate" authorities="admin" password="12345" />
-
+				<security:user name="kate" authorities="admin" password="8cb2237d0679ca88db6464eac60da96345513964" />
 			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>
 	
 		
-	<security:http use-expressions="true">
+	<security:http use-expressions="true" auto-config="true">
 		<security:intercept-url pattern="/main" access="isAuthenticated()"/>
 		
 		<security:intercept-url pattern="/login" access="permitAll"/>
 		<security:intercept-url pattern="/index" access="permitAll"/>
 		<security:intercept-url pattern="/logout" access="permitAll"/>
+		
 		<security:intercept-url pattern="/bootstrap/**" access="permitAll"/>
 		<security:intercept-url pattern="/css/**" access="permitAll"/>
 	
 		<security:form-login login-page="/login" authentication-failure-url="/login?error=true" />
-		<security:logout invalidate-session="true" logout-success-url="/index.jsp" />
-		<security:csrf disabled="true"/>
+		<security:logout logout-url="/logout" invalidate-session="true" logout-success-url="/index.jsp" />
+		<security:csrf />
 	</security:http>
 
 </beans>

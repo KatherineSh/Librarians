@@ -22,8 +22,11 @@
   <br/>
   Here should be the main content.
   <br/>
-  <p><a href="<c:url value="/logout"/>">Logout</a></p>
-  
+  <form action="<c:url value="/logout"/>" method="post" id="logout_form">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+		<a onclick="document.getElementById('logout_form').submit();" style="cursor: pointer">Log out</a>
+  </form>
+	
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

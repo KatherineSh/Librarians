@@ -30,9 +30,9 @@
 	<br />
 
 	<div class="bs-example">
-		<form class="form-horizontal login-form" method="POST"
-			action="./login">
-
+		<form class="form-horizontal login-form" method="POST" action="./login">
+		
+		<input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 			<div class="form-group">
 				<label for="inputEmail" class="control-label col-xs-2">Login</label>
