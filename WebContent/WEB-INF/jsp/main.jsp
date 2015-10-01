@@ -21,6 +21,8 @@
   <h1>Welcome! You are loged in!</h1>
   <br/>
   Here should be the main content.
+  <br/>
+  <p><a href="<c:url value="/logout"/>">Logout</a></p>
   
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

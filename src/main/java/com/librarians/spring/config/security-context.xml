@@ -17,11 +17,15 @@
 		
 	<security:http use-expressions="true">
 		<security:intercept-url pattern="/main" access="isAuthenticated()"/>
-		<security:intercept-url pattern="/login" access="permitAll"/>
-		<security:intercept-url pattern="/**" access="permitAll"/>
-		<security:intercept-url pattern="/" access="permitAll"/>
 		
+		<security:intercept-url pattern="/login" access="permitAll"/>
+		<security:intercept-url pattern="/index" access="permitAll"/>
+		<security:intercept-url pattern="/logout" access="permitAll"/>
+		<security:intercept-url pattern="/bootstrap/**" access="permitAll"/>
+		<security:intercept-url pattern="/css/**" access="permitAll"/>
+	
 		<security:form-login login-page="/login" authentication-failure-url="/login?error=true" />
+		<security:logout invalidate-session="true" logout-success-url="/index.jsp" />
 		<security:csrf disabled="true"/>
 	</security:http>
 

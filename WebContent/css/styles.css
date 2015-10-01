@@ -2,3 +2,7 @@
     width: 400px;
     margin-left: 50px;
 }
+.error{
+	color: red;
+	text-indent: 30px;
+}
