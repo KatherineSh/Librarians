@@ -8,7 +8,8 @@
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>WebContent/WEB-INF/librarians-servlet.xml</config>
-		<config>src/main/java/com/librarians/spring/config/security-context.xml</config>
+		<config>WebContent/WEB-INF/hibernate-context.xml</config>
+		<config>WebContent/WEB-INF/security-context.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

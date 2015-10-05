@@ -26,7 +26,8 @@
   <context-param>
   	<param-name>contextConfigLocation</param-name>
   	<param-value>
-  		classpath:com/librarians/spring/config/security-context.xml
+  		/WEB-INF/security-context.xml
+  		/WEB-INF/hibernate-context.xml
   	</param-value>
   </context-param>
   

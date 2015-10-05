@@ -22,6 +22,11 @@
   <br/>
   Here should be the main content.
   <br/>
+   <c:if  test="${!empty userEmail}">
+   E-mail:
+   	<c:out value="${userEmail}"></c:out>
+   </c:if>
+  <br/>
   <form action="<c:url value="/logout"/>" method="post" id="logout_form">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<a onclick="document.getElementById('logout_form').submit();" style="cursor: pointer">Log out</a>
