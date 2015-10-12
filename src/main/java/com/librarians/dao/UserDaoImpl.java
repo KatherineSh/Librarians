@@ -1,6 +1,7 @@
 package com.librarians.dao;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,21 +15,21 @@ public class UserDaoImpl implements UserDao {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public String findEmailByUserLogin(String login) {	
-		
-		Query query =  sessionFactory.getCurrentSession().createQuery("select user.email from User as user where user.login = ?");
-		query.setString(0, login);
+	public String getEmailByUserName(String name) {
+		Query query =  openSession().createQuery("select user.email from User as user where user.name = ?");
+		query.setString(0, name);
 		String email = (String) query.uniqueResult();
 
 		return email;
 	}
 	
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+	@Override
+	public Integer createNewLibrarian(User user) {
+		Integer savedUserId = (Integer) openSession().save(user);
+		 return savedUserId;
 	}
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+	
+	private Session openSession(){
+		return sessionFactory.getCurrentSession();
 	}
-
 }

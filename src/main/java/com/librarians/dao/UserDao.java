@@ -1,6 +1,10 @@
 package com.librarians.dao;
 
+import com.librarians.model.User;
+
 public interface UserDao {
 
-	public String findEmailByUserLogin(String login);
+	public String getEmailByUserName(String name);
+	
+	public Integer createNewLibrarian(User user);
 }

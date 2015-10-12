@@ -8,8 +8,7 @@
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context 
-		http://www.springframework.org/schema/context/spring-context-4.2.xsd"
-		>
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
 	<context:annotation-config />
 	<context:component-scan base-package="com.librarians.controller"></context:component-scan>
@@ -21,8 +20,7 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	<property name="prefix" value="/WEB-INF/jsp/"></property>
 	<property name="suffix" value=".jsp"></property>
-	</bean>
-	
+	</bean>    
 <!-- <bean id="adminRole" class="com.librarians.model.UserRole" factory-method="valueOf">
 		<constructor-arg>
 			<value>ADMIN</value>
@@ -34,4 +32,7 @@
 		<constructor-arg name="role" ref="adminRole"></constructor-arg>
 	</bean> -->
 
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages"></property>
+	</bean>
 </beans>

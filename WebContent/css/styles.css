@@ -4,5 +4,10 @@
 }
 .error{
 	color: red;
+	font-size:small;
 	text-indent: 30px;
+	margin-top: 5px;
 }
+
+.date-form { margin: 10px; }
+label.control-label span { cursor: pointer; }
