@@ -16,7 +16,7 @@ public class UserDaoImpl implements UserDao {
 	
 	@Override
 	public String getEmailByUserName(String name) {
-		Query query =  openSession().createQuery("select user.email from User as user where user.name = ?");
+		Query query =  getSession().createQuery("select user.email from User as user where user.name = ?");
 		query.setString(0, name);
 		String email = (String) query.uniqueResult();
 
@@ -25,11 +25,11 @@ public class UserDaoImpl implements UserDao {
 	
 	@Override
 	public Integer createNewLibrarian(User user) {
-		Integer savedUserId = (Integer) openSession().save(user);
+		Integer savedUserId = (Integer) getSession().save(user);
 		 return savedUserId;
 	}
 	
-	private Session openSession(){
+	private Session getSession(){
 		return sessionFactory.getCurrentSession();
 	}
 }

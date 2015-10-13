@@ -10,13 +10,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="USER")
-//uniqueConstraints=@UniqueConstraint(columnNames={"email","user_id"})
+@Table(name="USER", uniqueConstraints=@UniqueConstraint(columnNames={"email"}) )
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 6806558306202297628L;
@@ -26,15 +29,17 @@ public class User implements Serializable {
 	@Column(name="USER_ID", columnDefinition="unsigned int(11)", unique=true)
 	private Integer id;
 	
-	@Size(min=5)
+	@Size(min=5) 
 	@Column(name="PASSWORD", length=255)
 	private String pass;
 	
 	@Size(max=120)
+	@NotBlank
 	@Column(name="NAME", length=120)
 	private String name;
 	
-	@Size(min=10)
+	@Email
+	@NotBlank
 	@Column(name="EMAIL", length=255)
 	private String email;
 	
@@ -42,18 +47,19 @@ public class User implements Serializable {
 	@Column(name="ROLE", columnDefinition="not null default 'USER'")
 	private UserRole role;
 	
-	@Column(name="AGE")
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	private Date age;
+	@Column(name="BIRTHDAY")
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Past
+	private Date birthday;
 	
 	public User() {
 	}
 	
-	public User(String name, String password, String email, Date age, UserRole role) {
+	public User(String name, String password, String email, Date birthday, UserRole role) {
 		this.name = name;
 		this.pass = password;
 		this.email = email;
-		this.age = age;
+		this.birthday = birthday;
 		this.role = role;
 	}
 	
@@ -87,10 +93,10 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Date getAge() {
-		return age;
+	public Date getBirthday() {
+		return birthday;
 	}
-	public void setAge(Date age) {
-		this.age = age;
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 }

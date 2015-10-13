@@ -28,9 +28,11 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="inputPassword" class="control-label col-xs-2">Age</label>
+		<label for="inputPassword" class="control-label col-xs-2">Birthday</label>
 		<div class="col-xs-10">
-			<jsp:include page="calendar.jsp"></jsp:include>
+			<jsp:include page="../utils/calendar.jsp">
+				<jsp:param value="birthday" name="fieldName"/>
+			</jsp:include>
 		</div>
 	</div>
 	<div class="form-group">

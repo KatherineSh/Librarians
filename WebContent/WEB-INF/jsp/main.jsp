@@ -16,7 +16,7 @@
 	<link href="css/styles.css" rel="stylesheet" type="text/css">
     
   </head>
-  <body>
+  <body style="margin: 50px;">
   
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -27,14 +27,14 @@
   <br/>
   <h1>Welcome! You are loged in!</h1>
   <br/>
-  <c:if  test="${!empty userEmail}">
+<%--   <c:if  test="${!empty userEmail}">
   	E-mail:<c:out value="${userEmail}"></c:out>
   </c:if>
-  <br/>
+  <br/> --%>
   
-  <jsp:include page="addLibrariansForm.jsp"></jsp:include>
-  <c:if  test="${!empty newLibrarianId}">
-  	New librarian added	
+  <jsp:include page="librarian/addLibrariansForm.jsp"></jsp:include>
+  <c:if  test="${param.newLibrarianAdded == true}">
+  	<br/><h4>New librarian added</h4>	
   </c:if>
   <form action="<c:url value="/logout"/>" method="post" id="logout_form">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
