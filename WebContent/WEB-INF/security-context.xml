@@ -5,13 +5,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <import resource="hibernate-context.xml"/>
+    
 	<security:authentication-manager>
 		<security:authentication-provider>
-		<security:password-encoder hash="sha" />
-			<security:user-service>
-				<security:user name="kate" authorities="admin" password="8cb2237d0679ca88db6464eac60da96345513964" />
-			</security:user-service>
 			<security:password-encoder ref="passwordEncoder"></security:password-encoder>
+			<security:jdbc-user-service data-source-ref="dataSource" 
+			users-by-username-query="select name, password, enabled from user where name = ?"
+			authorities-by-username-query="select name, role from user where name = ?"/>			
 		</security:authentication-provider>
 	</security:authentication-manager>
 	

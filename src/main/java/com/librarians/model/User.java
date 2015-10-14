@@ -11,12 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
+
 
 @Entity
 @Table(name="USER", uniqueConstraints=@UniqueConstraint(columnNames={"email"}) )
@@ -51,6 +53,10 @@ public class User implements Serializable {
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	@Past
 	private Date birthday;
+	
+	@NotNull
+	@Column(name="ENABLED")
+	private boolean enabled = true;
 	
 	public User() {
 	}
@@ -98,5 +104,11 @@ public class User implements Serializable {
 	}
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
+	}	
+	public boolean isEnabled() {
+		return enabled;
+	}
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 }
