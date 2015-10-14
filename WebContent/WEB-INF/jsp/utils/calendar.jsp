@@ -7,7 +7,7 @@
 <div class="control-group">
 	<div class="controls">
 		<div class="input-group">
-			<form:input path="${field}" class="date-picker form-control" data-date-format="dd-mm-yyyy"/> 
+			<form:input path="${field}" class="date-picker form-control" data-date-format="dd-mm-yyyy" /> 
 			<label for="${field}" class="input-group-addon btn"> 
 				<span class="glyphicon glyphicon-calendar"></span>
 			</label>
@@ -17,7 +17,7 @@
 		
 		<script type="text/javascript">
 			$(".date-picker").datepicker();
-	
+				
 			$(".date-picker").on("change", function () {
 			    var id = $(this).attr("id");
 			    var val = $("label[for='" + id + "']").text();

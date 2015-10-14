@@ -14,8 +14,6 @@
 	<context:annotation-config />
 	<context:component-scan base-package="com.librarians.dao com.librarians.model"></context:component-scan>
 	
-	<tx:annotation-driven transaction-manager="transactionManager"/>
-	
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
@@ -46,5 +44,5 @@
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
-	
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

@@ -8,4 +8,6 @@ public interface UserService {
 	
 	public Integer addLibrarian(User librarian);
 
+	public boolean exist(User user);
+
 }

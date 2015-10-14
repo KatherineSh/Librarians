@@ -24,4 +24,9 @@ public class UserServiceImpl implements UserService {
 		return userDao.createNewLibrarian(librarian);
 	}
 
+	@Override
+	public boolean exist(User user) {
+		return userDao.isUserExistedBy(user.getEmail());
+	}
+
 }

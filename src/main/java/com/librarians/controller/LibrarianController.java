@@ -32,12 +32,14 @@ public class LibrarianController {
 		log.info("---------Adding Librarian---------");
 		if(result.hasErrors()){	
 			return "main";
+		} else if(userService.exist(user)){
+			result.rejectValue("email", "duplicate.email");
+			return "main";	
 		}
 		
 		user.setRole(UserRole.LIBRARIAN);
 		userService.addLibrarian(user);
 		model.addAttribute("newLibrarianAdded", true);
-
 		return "redirect:/main";
 	}
 	
