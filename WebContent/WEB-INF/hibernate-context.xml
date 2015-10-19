@@ -12,22 +12,19 @@
 	
 	<context:property-placeholder location="classpath:jdbc.properties" />
 	<context:annotation-config />
-	<context:component-scan base-package="com.librarians.dao com.librarians.model"></context:component-scan>
+	<context:component-scan base-package="com.librarians.dao com.librarians.model com.librarians.service"></context:component-scan>
 	
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
+		<property name="packagesToScan" value="com.librarians.model"/>
+				
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
-		</property>
-		<property name="packagesToScan">
-			<list>
-				<value>com.librarians.model</value>
-				<value>com.librarians.dao</value>
-			</list>
 		</property>
 	</bean>
 

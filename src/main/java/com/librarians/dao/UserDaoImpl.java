@@ -14,17 +14,10 @@ import com.librarians.model.User;
 import com.mysql.jdbc.Util;
 
 @Repository
-public class UserDaoImpl implements UserDao {
-
-	@Autowired
-	private SessionFactory sessionFactory;
+public class UserDaoImpl extends AbstractDao implements UserDao {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-
-	private Session getSession(){
-		return sessionFactory.getCurrentSession();
-	}
 	
 	@Override
 	public String getEmailByUserName(String name) {

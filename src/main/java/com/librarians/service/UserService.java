@@ -1,4 +1,4 @@
-package com.librarians.dao;
+package com.librarians.service;
 
 import com.librarians.model.User;
 

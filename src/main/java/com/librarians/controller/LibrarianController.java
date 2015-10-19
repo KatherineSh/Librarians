@@ -10,9 +10,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.librarians.dao.UserService;
 import com.librarians.model.User;
 import com.librarians.model.UserRole;
+import com.librarians.service.UserService;
 
 @Controller
 public class LibrarianController {
@@ -31,9 +31,11 @@ public class LibrarianController {
 		
 		log.info("---------Adding Librarian---------");
 		if(result.hasErrors()){	
+			System.out.println("Validation error in librariansController");
 			return "main";
 		} else if(userService.exist(user)){
 			result.rejectValue("email", "duplicate.email");
+			System.out.println("Error during call of exist method");
 			return "main";	
 		}
 		
@@ -42,5 +44,5 @@ public class LibrarianController {
 		model.addAttribute("newLibrarianAdded", true);
 		return "redirect:/main";
 	}
-	
+		
 }

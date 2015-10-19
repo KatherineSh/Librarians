@@ -10,13 +10,17 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 
@@ -28,34 +32,35 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue
-	@Column(name="USER_ID", columnDefinition="unsigned int(11)", unique=true)
+	@Column(name="user_id", columnDefinition="int(11) unsigned", unique=true)
 	private Integer id;
 	
+	@NotBlank
 	@Size(min=5) 
-	@Column(name="PASSWORD", length=255)
+	@Column(name="password", length=255)
 	private String pass;
 	
-	@Size(max=120)
 	@NotBlank
-	@Column(name="NAME", length=120)
+	@Size(max=120)
+	@Column(name="name", length=120)
 	private String name;
 	
 	@Email
 	@NotBlank
-	@Column(name="EMAIL", length=255)
+	@Column(name="email", length=255)
 	private String email;
-	
+		
 	@Enumerated(EnumType.STRING)
-	@Column(name="ROLE", columnDefinition="not null default 'USER'")
-	private UserRole role;
+	@Column(name="role", columnDefinition="enum('ADMIN','USER','LIBRARIAN') default 'USER'")
+	private UserRole role = UserRole.USER;
 	
-	@Column(name="BIRTHDAY")
+	@Column(name="birthday")
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	@Past
+	@Temporal(TemporalType.DATE) 
 	private Date birthday;
 	
-	@NotNull
-	@Column(name="ENABLED")
+	@Column(name="enabled")
 	private boolean enabled = true;
 	
 	public User() {
