@@ -17,15 +17,15 @@
 
 <link href="css/styles.css" rel="stylesheet" type="text/css">
 
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="bootstrap/js/bootstrap-datepicker.js"></script>
+
 </head>
 <body style="margin: 50px;">
-
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="bootstrap/js/bootstrap.js"></script>
-	<script src="bootstrap/js/bootstrap-datepicker.js"></script>
 
 	<br />
 	<h1>Welcome! You are loged in!</h1>
@@ -35,7 +35,7 @@
   </c:if>
   <br/> --%>
   
-  
+ <div class="container" style="margin-left: 0;">
 
 	<sec:authorize access="hasAuthority('ADMIN')">
 		<jsp:include page="librarian/addLibrariansForm.jsp"></jsp:include>
@@ -54,6 +54,6 @@
 			onclick="document.getElementById('logout_form').submit();"
 			style="cursor: pointer">Log out</a>
 	</form>
-
+</div>
 </body>
 </html>

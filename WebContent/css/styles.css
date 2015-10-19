@@ -1,12 +1,12 @@
 .login-form {
-    width: 400px;
-    margin-left: 50px;
+/*     width: 400px;
+    margin-left: 50px; */
 }
 .error{
 	color: red;
 	font-size:small;
-	text-indent: 30px;
-	margin-top: 5px;
+/* 	text-indent: 65px;
+	margin-top: 5px; */
 }
 
 .date-form { margin: 10px; }

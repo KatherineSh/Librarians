@@ -11,10 +11,18 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <title>Bootstrap 101 Template</title>
 
-<!-- Bootstrap -->
 <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-<!-- By styles -->
+<link href="bootstrap/css/datepicker.css" rel="stylesheet">
+<link href="bootstrap/css/datepicker.less" rel="stylesheet">
+
 <link href="css/styles.css" rel="stylesheet" type="text/css">
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="bootstrap/js/bootstrap-datepicker.js"></script>
 
 </head>
 <body>
@@ -22,47 +30,61 @@
 	<br />
 	<h1>Hello, Librarians! Please, log in:</h1>
 	<br />
-	<p class="error">
-		<c:if test="${param.error != null}">
-			<c:out value="${error}"></c:out>
-		</c:if>
-	</p>
-	<br />
-
-	<div class="bs-example">
-		<form class="form-horizontal login-form" method="POST" action="./login">
+	
+	<div class="container" style="margin-left: 0;">
 		
-		<input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}" />
-
-			<div class="form-group">
-				<label for="inputEmail" class="control-label col-xs-2">Login</label>
-				<div class="col-xs-10">
-					<input class="form-control" placeholder="Login" name="username">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="col-xs-offset-3 col-xs-9">
+					<h3>Sign in:</h3>
 				</div>
-			</div>
-			<div class="form-group">
-				<label for="inputPassword" class="control-label col-xs-2">Password</label>
-				<div class="col-xs-10">
-					<input type="password" class="form-control" placeholder="Password"
-						name="password">
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-xs-offset-2 col-xs-10">
-					<div class="checkbox">
-						<label><input type="checkbox"> Remember me</label>
+				
+				<form class="form-horizontal login-form" method="POST" action="./login">
+					<input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}" />
+		
+					<div class="form-group">
+						<label for="inputEmail" class="control-label col-xs-3">Login</label>
+						<div class="col-xs-9">
+							<input class="form-control" placeholder="Login" name="username">
+						</div>
 					</div>
-				</div>
+					<div class="form-group">
+						<label for="inputPassword" class="control-label col-xs-3">Password</label>
+						<div class="col-xs-9">
+							<input type="password" class="form-control" placeholder="Password"
+								name="password">
+						</div>
+					</div>
+					<!--<div class="form-group">
+						<div class="col-xs-offset-2 col-xs-9">
+							<div class="checkbox">
+								<label><input type="checkbox"> Remember me</label>
+							</div>
+						</div>
+					</div> -->
+					<div class="col-xs-offset-3 col-xs-9">
+						<p class="error">
+							<c:if test="${param.error != null}">
+								<c:out value="${error}"></c:out>
+							</c:if>
+						</p>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-offset-3 col-xs-9">
+							<button type="submit" class="btn btn-primary">Login</button>
+						</div>
+					</div>
+				</form>
+				
 			</div>
-			<div class="form-group">
-				<div class="col-xs-offset-2 col-xs-10">
-					<button type="submit" class="btn btn-primary">Login</button>
-				</div>
+			<div class="col-md-6">
+				<jsp:include page="user/registrationForm.jsp">
+					<jsp:param value="birthday" name="fieldName"/>
+				</jsp:include>
 			</div>
-		</form>
+		</div>
 	</div>
-
-
+	
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

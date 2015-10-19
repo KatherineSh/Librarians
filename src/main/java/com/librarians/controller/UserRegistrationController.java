@@ -9,40 +9,35 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.librarians.model.User;
 import com.librarians.model.UserRole;
 import com.librarians.service.UserService;
 
 @Controller
-public class LibrarianController {
-
-	static Logger log = Logger.getLogger(LibrarianController.class.getName());
+public class UserRegistrationController {
 	
 	@Autowired
 	private UserService userService;
 	
-	
-	@RequestMapping(path="/main", method=RequestMethod.POST)
-	public String addLibrarian(
-			@Valid User user,
-			BindingResult result,
-			Model model){
+	static Logger log = Logger.getLogger(UserRegistrationController.class.getName());
+
+	@RequestMapping(path="/register", method=RequestMethod.POST)
+	public String registerUser(@Valid User user, BindingResult result, Model model, RedirectAttributes redirectAttrs){
 		
-		log.info("---------Adding Librarian---------");
-		if(result.hasErrors()){	
-			System.out.println("Validation error in librariansController");
-			return "main";
+		if(result.hasErrors()) {
+			System.out.println("Validation errors in registration user form");
+			return "login";
 		} else if(userService.exist(user)){
 			result.rejectValue("email", "duplicate.email");
 			System.out.println("Error during call of exist method");
-			return "main";	
+			return "login";	
 		}
 		
-		user.setRole(UserRole.LIBRARIAN);
 		userService.addUser(user);
-		model.addAttribute("newLibrarianAdded", true);
-		return "redirect:/main";
-	}
 		
+		redirectAttrs.addFlashAttribute("newUserCreated", user.getName());
+		return "redirect:/login";
+	}
 }

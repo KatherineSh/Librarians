@@ -12,6 +12,5 @@
   	<h1>Welcome page of Librarians!</h1>
   	</br>
   	<a href="./main">Go to main page</a>
-
   </body>
 </html>

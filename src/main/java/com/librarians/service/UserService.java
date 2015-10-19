@@ -6,7 +6,7 @@ public interface UserService {
 	
 	public String findEmailByUserName(String name);
 	
-	public Integer addLibrarian(User librarian);
+	public Integer addUser(User user);
 
 	public boolean exist(User user);
 

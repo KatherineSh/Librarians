@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Integer addLibrarian(User librarian) {
-		return userDao.createNewLibrarian(librarian);
+	public Integer addUser(User user) {
+		return userDao.createNewLibrarian(user);
 	}
 
 	@Override
