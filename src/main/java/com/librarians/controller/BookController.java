@@ -23,11 +23,11 @@ public class BookController {
 	@RequestMapping(path="/newBook", method=RequestMethod.POST)
 	public String addBook(@Valid Book book, BindingResult result) {
 		if(result.hasErrors()){	
-			System.out.println("Book entity has errors"+result.getFieldError().getField());
+			System.out.println("Book entity has validaion errors " + result.getFieldError().getField());
 			return "main";
 		} else if(bookService.exist(book)){
 			result.rejectValue("isbn", "duplicate.isbn");
-			System.out.println("Error during call of exist method");
+			System.out.println("Validation - isbn is already exist");
 			return "main";	
 		}
 		bookService.addBook(book);

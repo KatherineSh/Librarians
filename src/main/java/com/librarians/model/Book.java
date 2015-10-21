@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.librarians.validation.NumberLength;
+
 @Entity
 @Table(name="BOOK", uniqueConstraints=@UniqueConstraint(columnNames={"isbn"}) )
 public class Book  implements Serializable {
@@ -39,6 +41,7 @@ public class Book  implements Serializable {
 	private Short year;
 	
 	@NotNull
+	@NumberLength(min=10, max=13)
 	@Column(name="isbn")
 	private Long isbn;
 	
