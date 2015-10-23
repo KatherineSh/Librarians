@@ -1,9 +1,6 @@
 package com.librarians.dao;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.librarians.model.User;
-import com.mysql.jdbc.Util;
 
 @Repository
 public class UserDaoImpl extends AbstractDao implements UserDao {

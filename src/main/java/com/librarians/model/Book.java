@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.librarians.validation.NumberLength;
+import com.librarians.validation.Year;
 
 @Entity
 @Table(name="BOOK", uniqueConstraints=@UniqueConstraint(columnNames={"isbn"}) )
@@ -37,6 +38,7 @@ public class Book  implements Serializable {
 	@Column(name="author", length=255)
 	private String author;
 	
+	@Year(min=1900)
 	@Column(name="year")
 	private Short year;
 	

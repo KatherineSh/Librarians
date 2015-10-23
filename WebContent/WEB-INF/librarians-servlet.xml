@@ -11,7 +11,7 @@
 		http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.librarians.controller"></context:component-scan>
+	<context:component-scan base-package="com.librarians.controller com.librarians.observer"></context:component-scan>
 
 	<mvc:annotation-driven/>
     <mvc:resources mapping="/**" location="/"/>
@@ -35,4 +35,26 @@
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="messages"></property>
 	</bean>
+	
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="465" />
+		<property name="username" value="librarians.company@gmail.com"/>
+		<property name="password" value="librarians220588"/>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.ssl.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+	    <property name="from">
+	    	 <value><![CDATA[Librarians <librarians.company@gmail.com>]]></value>
+	    </property>
+	    <property name="subject" value="Registration confirmation"/>
+	</bean>
+	
 </beans>

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.librarians.model.User;
 import com.librarians.model.UserRole;
+import com.librarians.observer.EmailService;
 import com.librarians.service.UserService;
 
 @Controller
@@ -20,6 +21,8 @@ public class UserRegistrationController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private EmailService emailService;
 	
 	static Logger log = Logger.getLogger(UserRegistrationController.class.getName());
 
@@ -36,6 +39,7 @@ public class UserRegistrationController {
 		}
 		
 		userService.addUser(user);
+		emailService.sendEmail(user.getEmail(), "You are geristered");
 		
 		redirectAttrs.addFlashAttribute("newUserCreated", user.getName());
 		return "redirect:/login";
