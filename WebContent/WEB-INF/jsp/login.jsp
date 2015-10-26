@@ -65,15 +65,55 @@
 					<div class="col-xs-offset-3 col-xs-9">
 						<p class="error">
 							<c:if test="${param.error != null}">
-								<c:out value="${error}"></c:out>
-							</c:if>
+								<%-- ${SPRING_SECURITY_LAST_EXCEPTION.message} --%>
+							    <c:choose>
+							        <c:when test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'User is disabled'}">
+							            <div class="error">
+							                User is not enabled. Check email to complete registration.
+							            </div>
+							        </c:when>
+							        <c:when test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'User account has expired'}">
+							            <div class="error">
+							                 <c:out value="${error}"></c:out>
+							            </div>
+							        </c:when>
+							        <c:otherwise>
+							            <div class="error">
+							          		 <c:out value="${error}"></c:out>
+							           </div>
+							        </c:otherwise>
+							    </c:choose>
+						    </c:if>
+    
 						</p>
+						<h3>
+						<c:if test="${registrationConfirmationError != null}">
+							<c:choose>
+								<c:when test="${registrationConfirmationError == true}">
+									Account was enabled. Please enter your credentials to log in.
+								</c:when>
+								<c:when test="${registrationConfirmationError == false}">
+									Your registration link was expired or some another problem was occurred during registration. 
+									Please, make the new registration or contact with administration.
+								</c:when>
+							</c:choose>
+						</c:if>
+						</h3>
 					</div>
 					<div class="form-group">
 						<div class="col-xs-offset-3 col-xs-9">
 							<button type="submit" class="btn btn-primary">Login</button>
 						</div>
 					</div>
+
+					<%-- <div class="col-xs-offset-3 col-xs-9">
+						<c:if test="${registrationConfirmationError != null}">
+							<h3>
+								Your registration link was expired or some another problem was occurred. 
+								Please, make the new registration or contact with administration.
+							</h3>
+						</c:if>
+					</div> --%>
 				</form>
 				
 			</div>
@@ -83,6 +123,7 @@
 				</jsp:include>
 			</div>
 		</div>
+
 	</div>
 	
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

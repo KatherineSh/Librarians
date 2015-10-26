@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -25,14 +26,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name="USER", uniqueConstraints=@UniqueConstraint(columnNames={"email"}) )
+@Table(name="USER")
+//uniqueConstraints=@UniqueConstraint(columnNames={"email"}) )
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 6806558306202297628L;
 
 	@Id
 	@GeneratedValue
-	@Column(name="user_id", columnDefinition="int(11) unsigned", unique=true)
+	@Column(name="id", columnDefinition="int(11) unsigned", unique=true)
 	private Integer id;
 	
 	@NotBlank
@@ -42,12 +44,14 @@ public class User implements Serializable {
 	
 	@NotBlank
 	@Size(max=120)
-	@Column(name="name", length=120)
+	@Index(name="name_index")
+	@Column(name="name", length=120, unique=true)
 	private String name;
 	
 	@Email
 	@NotBlank
-	@Column(name="email", length=255)
+	@Index(name="email_index")
+	@Column(name="email", length=255, unique=true)
 	private String email;
 		
 	@Enumerated(EnumType.STRING)
@@ -61,7 +65,7 @@ public class User implements Serializable {
 	private Date birthday;
 	
 	@Column(name="enabled")
-	private boolean enabled = true;
+	private boolean enabled = false;
 	
 	public User() {
 	}

@@ -2,15 +2,19 @@ package com.librarians.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 import com.librarians.dao.UserDao;
+import com.librarians.dao.VerificationTokenDao;
 import com.librarians.model.User;
+import com.librarians.model.VerificationToken;
 
 @Service("userService")
-@Transactional
 public class UserServiceImpl implements UserService {
 
+	@Autowired
+	private TokenService tokenService;
+	
 	@Autowired
 	private UserDao userDao;
 	
@@ -21,13 +25,42 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Integer addUser(User user) {
-		return userDao.createNewLibrarian(user);
+	public Integer createUser(User user) {
+		return userDao.createNewUser(user);
 	}
 
 	@Override
-	public boolean exist(User user) {
-		return userDao.isUserExistedBy(user.getEmail());
+	public boolean isExistedEmail(User user) {
+		return userDao.isUserExistedByEmail(user.getEmail());
+	}
+	
+	@Override
+	public boolean isExistedName(User user) {
+		return userDao.isUserExistedByName(user.getName());
 	}
 
+	@Override
+	public boolean setUserEnabled(String tokenId) {
+		
+		VerificationToken token = tokenService.findToken(tokenId);
+		
+		if(token != null && tokenService.isTokenNotExpired(token)){
+			User user = token.getUser();
+			userDao.setEnabled(user);
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public BindingResult isUserUnique(User user, BindingResult result){
+		if(isExistedEmail(user)){
+			result.rejectValue("email", "duplicate.email");
+		}
+		if(isExistedName(user)){
+			result.rejectValue("name", "duplicate.name");
+		}
+		return result;	
+	}
+	
 }

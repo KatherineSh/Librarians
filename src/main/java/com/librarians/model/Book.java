@@ -11,20 +11,22 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.librarians.validation.NumberLength;
 import com.librarians.validation.Year;
 
 @Entity
-@Table(name="BOOK", uniqueConstraints=@UniqueConstraint(columnNames={"isbn"}) )
+@Table(name="BOOK")
+//, uniqueConstraints=@UniqueConstraint(columnNames={"isbn"}) )
 public class Book  implements Serializable {
 
 	private static final long serialVersionUID = 6050908002150364357L;
 
 	@Id
 	@GeneratedValue
-	@Column(name="book_id",columnDefinition="int(11) unsigned", unique=true)
+	@Column(name="id",columnDefinition="int(11) unsigned", unique=true)
 	private Integer id;
 	
 	@NotBlank
@@ -44,7 +46,8 @@ public class Book  implements Serializable {
 	
 	@NotNull
 	@NumberLength(min=10, max=13)
-	@Column(name="isbn")
+	@Index(name="isbn_index")
+	@Column(name="isbn", unique=true)
 	private Long isbn;
 	
 	public Book(){

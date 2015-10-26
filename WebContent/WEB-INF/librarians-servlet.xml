@@ -54,7 +54,6 @@
 	    <property name="from">
 	    	 <value><![CDATA[Librarians <librarians.company@gmail.com>]]></value>
 	    </property>
-	    <property name="subject" value="Registration confirmation"/>
 	</bean>
 	
 </beans>

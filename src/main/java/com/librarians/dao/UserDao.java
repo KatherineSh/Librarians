@@ -6,7 +6,11 @@ public interface UserDao {
 
 	public String getEmailByUserName(String name);
 	
-	public Integer createNewLibrarian(User user);
+	public Integer createNewUser(User user);
 
-	public boolean isUserExistedBy(String email);
+	public boolean isUserExistedByEmail(String email);
+	
+	public boolean isUserExistedByName(String name);
+
+	public void setEnabled(User user);
 }

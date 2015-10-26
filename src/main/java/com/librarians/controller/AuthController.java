@@ -26,10 +26,10 @@ public class AuthController {
 		}
 		
 		model.addObject("user", new User());
-		//((Object) model).addAttribute("user", new User());
 		model.setViewName("login");
 		return model;
 	}
+
 
 
 }

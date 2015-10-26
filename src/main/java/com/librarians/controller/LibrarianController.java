@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.librarians.model.User;
 import com.librarians.model.UserRole;
+import com.librarians.observer.EventBuilder;
+import com.librarians.observer.EventPublisher;
 import com.librarians.service.UserService;
 
 @Controller
@@ -21,7 +24,10 @@ public class LibrarianController {
 	
 	@Autowired
 	private UserService userService;
-	
+	@Autowired
+	private EventBuilder eventBuilder;
+	@Autowired
+	private EventPublisher eventPublisher;
 	
 	@RequestMapping(path="/main", method=RequestMethod.POST)
 	public String addLibrarian(
@@ -33,15 +39,27 @@ public class LibrarianController {
 		if(result.hasErrors()){	
 			System.out.println("Validation error in librariansController");
 			return "main";
-		} else if(userService.exist(user)){
+		} 
+		if(userService.isExistedEmail(user)){
 			result.rejectValue("email", "duplicate.email");
-			System.out.println("Error during call of exist method");
-			return "main";	
+			return "login";	
+		} 
+		if(userService.isExistedName(user)){
+			result.rejectValue("name", "duplicate.name");
+			return "login";	
 		}
 		
 		user.setRole(UserRole.LIBRARIAN);
-		userService.addUser(user);
-		model.addAttribute("newLibrarianAdded", true);
+		user.setEnabled(true);
+		Integer librarianId = userService.createUser(user);
+		if(librarianId != null) {
+			ApplicationEvent event = eventBuilder.createNewListenerWasAddedEvent(user);
+			eventPublisher.publish(event);
+			
+			model.addAttribute("newLibrarianAdded", true);
+		} else {
+			//another event
+		}
 		return "redirect:/main";
 	}
 		
