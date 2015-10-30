@@ -40,18 +40,12 @@ public class LibrarianController {
 			System.out.println("Validation error in librariansController");
 			return "main";
 		} 
-		if(userService.isExistedEmail(user)){
-			result.rejectValue("email", "duplicate.email");
-			return "login";	
-		} 
-		if(userService.isExistedName(user)){
-			result.rejectValue("name", "duplicate.name");
-			return "login";	
+		result = userService.isUserUnique(user, result);
+		if (result.hasErrors()){
+			return "login";
 		}
 		
-		user.setRole(UserRole.LIBRARIAN);
-		user.setEnabled(true);
-		Integer librarianId = userService.createUser(user);
+		Integer librarianId = userService.createLibrarian(user);
 		if(librarianId != null) {
 			ApplicationEvent event = eventBuilder.createNewListenerWasAddedEvent(user);
 			eventPublisher.publish(event);

@@ -11,12 +11,14 @@ public interface UserService {
 	
 	public Integer createUser(User user);
 
+	public Integer createLibrarian(User librarian);
+
+	public boolean setUserEnabled(String tokenId);
+	
 	public boolean isExistedEmail(User user);
 	
 	public boolean isExistedName(User user);
 
-	public boolean setUserEnabled(String tokenId);
-
 	public BindingResult isUserUnique(User user, BindingResult result);
-	
+
 }

@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import com.librarians.dao.UserDao;
 import com.librarians.dao.VerificationTokenDao;
 import com.librarians.model.User;
+import com.librarians.model.UserRole;
 import com.librarians.model.VerificationToken;
 
 @Service("userService")
@@ -27,6 +28,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Integer createUser(User user) {
 		return userDao.createNewUser(user);
+	}
+	
+	@Override
+	public Integer createLibrarian(User librarian) {
+		librarian.setRole(UserRole.LIBRARIAN);
+		librarian.setEnabled(true);
+		return userDao.createNewUser(librarian);
 	}
 
 	@Override

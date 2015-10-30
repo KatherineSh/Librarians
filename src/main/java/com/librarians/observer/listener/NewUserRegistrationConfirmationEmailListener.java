@@ -27,8 +27,10 @@ public class NewUserRegistrationConfirmationEmailListener {
 
 	@EventListener(NewUserWasRegisteredEvent.class)
 	public void publishSendEmailEvent(NewUserWasRegisteredEvent event){
+		
 		User user = event.getUser();
 		String appUrl = event.getAppUrl();
+		
 		if(user != null && appUrl != null) {
 			EmailSendEvent emailSendEvent = fillMessageTemplate(user, appUrl);
 			eventPublisher.publish(emailSendEvent);
@@ -42,8 +44,8 @@ public class NewUserRegistrationConfirmationEmailListener {
 		text.append("Hi ").append(user.getName()).append("\n\n")
 				.append("You've created a new account on librarians site. Confirm your email by clicking ")
 				.append(appUrl).append("/").append(UserRegistrationController.REGISTRATION_CONFIRM_PAGE_SUFFIX).append("/").append(token)
-				.append(" link to complete registration.").append("\n\n").append("Synserly,").append("\n")
-				.append("yours Librarians");
+				.append(" link to complete registration.").append("\n\n")
+				.append("Synserly,").append("\n").append("yours Librarians");
 
 		template.setText(text.toString());
 		template.setTo(user.getEmail());

@@ -8,31 +8,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link
-	href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.css"
-	rel="stylesheet">
-<link
-	href="${pageContext.request.contextPath}/bootstrap/css/datepicker.css"
-	rel="stylesheet">
-<link
-	href="${pageContext.request.contextPath}/bootstrap/css/datepicker.less"
-	rel="stylesheet">
-
-<link href="${pageContext.request.contextPath}/css/styles.css"
-	rel="stylesheet" type="text/css">
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script
-	src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js"></script>
-<script
-	src="${pageContext.request.contextPath}/bootstrap/js/bootstrap-datepicker.js"></script>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet" type="text/css">
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	
+	
+	<!-- BOOTSTRAP CSS -->
+	<link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.css"	rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/bootstrap/css/datepicker.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/bootstrap/css/datepicker.less" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap-table.css" rel="stylesheet">
+	
+	<!-- BOOTSTRAP JS -->
+	<script	src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js"></script>
+	<script	src="${pageContext.request.contextPath}/bootstrap/js/bootstrap-datepicker.js"></script>
+	<script	src="${pageContext.request.contextPath}/bootstrap/js/bootstrap-table.js"></script>
 
 </head>
 <body style="margin: 50px;">
@@ -40,13 +33,13 @@
 	<br />
 	<h1>Welcome! You are loged in!</h1>
 	<br />
-	<%--   <c:if  test="${!empty userEmail}">
-  	E-mail:<c:out value="${userEmail}"></c:out>
-  </c:if>
-  <br/> --%>
 
 	<div class="container" style="margin-left: 0;">
 
+		<sec:authorize access="hasAnyAuthority('LIBRARIAN','USER')">
+			<jsp:include page="book/bookList.jsp"></jsp:include>
+		</sec:authorize>
+		
 		<sec:authorize access="hasAuthority('ADMIN')">
 			<jsp:include page="librarian/addLibrariansForm.jsp"></jsp:include>
 			<c:if test="${param.newLibrarianAdded == true}">
