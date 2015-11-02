@@ -1,12 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+<jsp:include page="../utils/pageHeader.jsp"></jsp:include>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <div class="row">
 	<div class="col-md-6">
 
-		<form:form action="./newBook" method="POST" modelAttribute="book"
+		<form:form action="${contextPath}/newBook" method="POST" modelAttribute="book"
 			class="form-horizontal login-form">
 		
 			<h1>Add a new book:</h1>
@@ -60,3 +61,5 @@
 		</form:form>
 	</div>
 </div>
+
+<jsp:include page="../utils/pageFooter.jsp"></jsp:include>

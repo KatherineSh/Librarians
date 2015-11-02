@@ -14,5 +14,7 @@ public interface BookDao {
 
 	public Long getBookCount();
 
-	public List<Book> getBooksForPage(Integer offset, Integer limit, String sort, String sortField);
+	public List<Book> getLimitedAndSortedList(Integer offset, Integer limit, String sort, String sortField);
+
+	public List<Book> searchBookBy(String search);
 }

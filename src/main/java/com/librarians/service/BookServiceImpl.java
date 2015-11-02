@@ -36,6 +36,11 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public List<Book> listPage(Integer offset, Integer limit, String sort, String sortField) {
-		return bookDao.getBooksForPage(offset,limit, sort, sortField);
+		return bookDao.getLimitedAndSortedList(offset,limit, sort, sortField);
+	}
+
+	@Override
+	public List<Book> searchBookBy(String search) {
+		return bookDao.searchBookBy(search);
 	}
 }

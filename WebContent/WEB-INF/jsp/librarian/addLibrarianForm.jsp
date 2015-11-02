@@ -1,10 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<jsp:include page="../utils/pageHeader.jsp"></jsp:include>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <div class="row">
 <div class="col-md-6">
-	<form:form class="form-horizontal login-form" modelAttribute="user"  autocomplete="off" method="POST" action="./main">
+	<form:form action="${contextPath}/addLibrarian"  method="POST"  modelAttribute="user" autocomplete="off"
+	 class="form-horizontal login-form">
 	
 		<h1>Create new librarian:</h1>
 		
@@ -46,3 +49,6 @@
 	</form:form>
 </div>
 </div>
+
+
+<jsp:include page="../utils/pageFooter.jsp"></jsp:include>

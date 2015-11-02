@@ -1,5 +1,8 @@
 package com.librarians.dao;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.librarians.model.User;
+import com.librarians.model.UserRole;
 
 @Component("userDao")
 public class UserDaoImpl extends AbstractDao implements UserDao {
@@ -56,5 +60,23 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	public void setEnabled(User user) {
 		user.setEnabled(true);
 		getSession().saveOrUpdate(user);
+	}
+
+	@Transactional
+	public Long getUserCount(UserRole role) {
+		Long count = (Long) getSession().createCriteria(User.class)
+				.add(Restrictions.eq("role", role))
+				.setProjection(Projections.rowCount()).uniqueResult();
+		return count;
+	}
+
+	@Transactional
+	public List<User> getLimitedUserList(UserRole role, Integer offset, Integer limit) {
+		Criteria criteria = getSession().createCriteria(User.class)
+				.add(Restrictions.eq("role", role));
+		
+		@SuppressWarnings("unchecked")
+		List<User> list = criteria.setFirstResult(offset).setMaxResults(limit).list();
+		return list;
 	}
 }

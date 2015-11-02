@@ -1,8 +1,11 @@
 package com.librarians.service;
 
+import java.util.List;
+
 import org.springframework.validation.BindingResult;
 
 import com.librarians.model.User;
+import com.librarians.model.UserRole;
 import com.librarians.model.VerificationToken;
 
 public interface UserService {
@@ -20,5 +23,9 @@ public interface UserService {
 	public boolean isExistedName(User user);
 
 	public BindingResult isUserUnique(User user, BindingResult result);
+
+	public Long getUserCount(UserRole role);
+
+	public List<User> listUser(UserRole role, Integer offset, Integer limit);
 
 }

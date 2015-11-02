@@ -32,18 +32,18 @@ public class BookController {
 	public String addBook(@Valid Book book, BindingResult result) {
 		if(result.hasErrors()){	
 			System.out.println("Book entity has validaion errors " + result.getFieldError().getField());
-			return "main";
+			return "book/newBookForm";
 		} else if(bookService.exist(book)){
 			result.rejectValue("isbn", "duplicate.isbn");
 			System.out.println("Validation - isbn is already exist");
-			return "main";	
+			return "book/newBookForm";	
 		}
 		bookService.addBook(book);
-		return "redirect:/main";
+		return "redirect:/addBook";
 	}
 	
 	@RequestMapping(path="/bookPage", method=RequestMethod.GET, produces="application/json" )
-	public @ResponseBody Map<String, Object> countPages(
+	public @ResponseBody Map<String, Object> showBookListInTable(
 			 
 			@RequestParam Integer limit,
 			@RequestParam Integer offset,
@@ -61,7 +61,20 @@ public class BookController {
 		
 		return result;
 	}
-
 	
+	@RequestMapping(path="/searchBook", method=RequestMethod.GET, produces="application/json" )
+	public @ResponseBody Map<String, Object> searchInBookTable(
+			
+			@RequestParam String search){		
+		
+		List<Book> resultList = bookService.searchBookBy(search);
+		Integer totalResults = resultList.size();
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		result.put("total", totalResults);
+		result.put("rows", resultList);
+		
+		return  result;
+	}
 	
 }

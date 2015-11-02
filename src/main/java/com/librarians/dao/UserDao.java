@@ -1,6 +1,9 @@
 package com.librarians.dao;
 
+import java.util.List;
+
 import com.librarians.model.User;
+import com.librarians.model.UserRole;
 
 public interface UserDao {
 
@@ -13,4 +16,8 @@ public interface UserDao {
 	public boolean isUserExistedByName(String name);
 
 	public void setEnabled(User user);
+
+	public Long getUserCount(UserRole role);
+
+	public List<User> getLimitedUserList(UserRole role, Integer offset, Integer limit);
 }

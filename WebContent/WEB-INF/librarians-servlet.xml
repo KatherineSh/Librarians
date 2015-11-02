@@ -15,12 +15,13 @@
 
 	<mvc:annotation-driven/>
     <mvc:resources mapping="/**" location="/"/>
-	
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	<property name="prefix" value="/WEB-INF/jsp/"></property>
-	<property name="suffix" value=".jsp"></property>
-	</bean>    
+    
+	<bean id="viewResolver"	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+		<!-- <property name="order"><value>0</value></property> -->
+	</bean>
+	    
 <!-- <bean id="adminRole" class="com.librarians.model.UserRole" factory-method="valueOf">
 		<constructor-arg>
 			<value>ADMIN</value>

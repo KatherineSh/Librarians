@@ -15,5 +15,7 @@ public interface BookService {
 	public Long getBookCount();
 
 	public List<Book> listPage(Integer offset, Integer limit, String sort, String sortField);
+
+	public List<Book> searchBookBy(String search);
 	
 }

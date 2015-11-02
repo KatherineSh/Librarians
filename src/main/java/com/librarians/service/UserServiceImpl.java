@@ -1,5 +1,7 @@
 package com.librarians.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -69,6 +71,16 @@ public class UserServiceImpl implements UserService {
 			result.rejectValue("name", "duplicate.name");
 		}
 		return result;	
+	}
+
+	@Override
+	public Long getUserCount(UserRole role) {
+		return userDao.getUserCount(role);
+	}
+
+	@Override
+	public List<User> listUser(UserRole role, Integer offset, Integer limit) {
+		return userDao.getLimitedUserList(role, offset, limit);
 	}
 	
 }

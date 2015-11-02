@@ -29,7 +29,7 @@ public class LibrarianController {
 	@Autowired
 	private EventPublisher eventPublisher;
 	
-	@RequestMapping(path="/main", method=RequestMethod.POST)
+	@RequestMapping(path="/addLibrarian", method=RequestMethod.POST)
 	public String addLibrarian(
 			@Valid User user,
 			BindingResult result,
@@ -38,11 +38,11 @@ public class LibrarianController {
 		log.info("---------Adding Librarian---------");
 		if(result.hasErrors()){	
 			System.out.println("Validation error in librariansController");
-			return "main";
+			return "librarian/addLibrarianForm";
 		} 
 		result = userService.isUserUnique(user, result);
 		if (result.hasErrors()){
-			return "login";
+			return "librarian/addLibrarianForm";
 		}
 		
 		Integer librarianId = userService.createLibrarian(user);
@@ -54,7 +54,7 @@ public class LibrarianController {
 		} else {
 			//another event
 		}
-		return "redirect:/main";
+		return "redirect:/addLibrarian";
 	}
 		
 }
