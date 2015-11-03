@@ -29,7 +29,7 @@ public class VerificationToken implements Serializable {
 	private Long id;
 
 	@JoinColumn(name="user_id",nullable=false)
-	@OneToOne(targetEntity=User.class,fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.EAGER)
 	private User user;
 
 	@NotNull

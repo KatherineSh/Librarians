@@ -2,13 +2,14 @@ package com.librarians.model;
 
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Index;
@@ -19,13 +20,11 @@ import com.librarians.validation.Year;
 
 @Entity
 @Table(name="BOOK")
-//, uniqueConstraints=@UniqueConstraint(columnNames={"isbn"}) )
 public class Book  implements Serializable {
 
 	private static final long serialVersionUID = 6050908002150364357L;
 
-	@Id
-	@GeneratedValue
+	@Id @GeneratedValue
 	@Column(name="id",columnDefinition="int(11) unsigned", unique=true)
 	private Integer id;
 	
@@ -41,15 +40,16 @@ public class Book  implements Serializable {
 	private String author;
 	
 	@Year(min=1900)
-	@Column(name="year")
 	private Short year;
 	
-	@NotNull
-	@NumberLength(min=10, max=13)
+	@NotNull @NumberLength(min=10, max=13)
 	@Index(name="isbn_index")
 	@Column(name="isbn", unique=true)
 	private Long isbn;
 	
+	@OneToMany(mappedBy="book")
+	private Set<BookInstance> instances;
+
 	public Book(){
 	}
 	
@@ -60,11 +60,14 @@ public class Book  implements Serializable {
 		this.year = year;
 		this.isbn = isbn;
 	}
-
+	
+	public Integer getId() {
+		return id;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -72,7 +75,6 @@ public class Book  implements Serializable {
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -80,7 +82,6 @@ public class Book  implements Serializable {
 	public String getAuthor() {
 		return author;
 	}
-
 	public void setAuthor(String author) {
 		this.author = author;
 	}
@@ -88,7 +89,6 @@ public class Book  implements Serializable {
 	public Short getYear() {
 		return year;
 	}
-
 	public void setYear(Short year) {
 		this.year = year;
 	}
@@ -96,8 +96,12 @@ public class Book  implements Serializable {
 	public Long getIsbn() {
 		return isbn;
 	}
-
 	public void setIsbn(Long isbn) {
 		this.isbn = isbn;
 	}	
+	
+	public Set<BookInstance> getInstances() {
+		return instances;
+	}
+
 }

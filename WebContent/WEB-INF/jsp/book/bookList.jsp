@@ -48,7 +48,6 @@
 				data: data,
 				method: "GET"
 			}).done(function(table) {
-				//alert("response");
 			   	redrowTable(table);
 			});
 			;
