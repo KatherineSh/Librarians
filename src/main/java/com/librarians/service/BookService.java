@@ -6,7 +6,7 @@ import com.librarians.model.Book;
 
 public interface BookService {
 	
-	public void addBook(Book book);
+	public void addBook(Book book, Integer instanceCount);
 
 	public boolean exist(Book book);
 

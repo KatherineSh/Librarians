@@ -1,12 +1,15 @@
 package com.librarians.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.librarians.dao.BookDao;
 import com.librarians.model.Book;
+import com.librarians.model.BookInstance;
 
 @Service("bookService")
 public class BookServiceImpl implements BookService {
@@ -15,7 +18,13 @@ public class BookServiceImpl implements BookService {
 	private BookDao bookDao;
 
 	@Override
-	public void addBook(Book book) {
+	public void addBook(Book book, Integer instanceCount) {
+		Set<BookInstance> instances = new HashSet<BookInstance>();
+		while(instanceCount > 0){
+			instances.add(new BookInstance(book));
+			instanceCount--;
+		}
+		book.setInstances(instances);
 		bookDao.addBook(book);
 	}
 

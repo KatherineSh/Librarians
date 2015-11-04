@@ -2,16 +2,20 @@ package com.librarians.model;
 
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -47,8 +51,9 @@ public class Book  implements Serializable {
 	@Column(name="isbn", unique=true)
 	private Long isbn;
 	
-	@OneToMany(mappedBy="book")
-	private Set<BookInstance> instances;
+	@OneToMany(mappedBy="book", fetch=FetchType.LAZY)
+	@Cascade({CascadeType.SAVE_UPDATE})
+	private Set<BookInstance> instances = new HashSet<BookInstance>();
 
 	public Book(){
 	}
@@ -99,9 +104,12 @@ public class Book  implements Serializable {
 	public void setIsbn(Long isbn) {
 		this.isbn = isbn;
 	}	
-	
+
 	public Set<BookInstance> getInstances() {
 		return instances;
+	}
+	public void setInstances(Set<BookInstance> instances) {
+		this.instances = instances;
 	}
 
 }

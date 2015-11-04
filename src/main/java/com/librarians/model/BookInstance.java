@@ -2,6 +2,7 @@ package com.librarians.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,7 +21,7 @@ public class BookInstance implements Serializable {
 	@GeneratedValue
 	private Integer id;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="book_id")
 	private Book book;
 	
@@ -33,6 +34,10 @@ public class BookInstance implements Serializable {
 	
 	public BookInstance(){	
 		
+	}
+	
+	public BookInstance(Book book){	
+		this.book = book;
 	}
 	
 	public Integer getId() {
@@ -53,8 +58,5 @@ public class BookInstance implements Serializable {
 	public User getUser() {
 		return user;
 	}	
-
-
-	
 
 }

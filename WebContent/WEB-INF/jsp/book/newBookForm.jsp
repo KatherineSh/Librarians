@@ -51,6 +51,13 @@
 					<form:errors path="isbn" class="error" />
 				</div>
 			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-xs-2">Count of instances:</label>
+				<div class="col-xs-10">
+					<input name="instanceCount" type="number" value="0" min="0" class="form-control">
+				</div>
+			</div>
 		
 			<div class="form-group">
 				<div class="col-xs-offset-2 col-xs-10">

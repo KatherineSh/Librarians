@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import com.librarians.model.Book;
+import com.librarians.model.BookInstance;
 import com.librarians.service.BookService;
 
 @Controller
@@ -29,16 +30,20 @@ public class BookController {
 	private BookService bookService;
 	
 	@RequestMapping(path="/newBook", method=RequestMethod.POST)
-	public String addBook(@Valid Book book, BindingResult result) {
+	public String addBook(@Valid Book book, BindingResult result, @RequestParam Integer instanceCount){
+		
 		if(result.hasErrors()){	
 			System.out.println("Book entity has validaion errors " + result.getFieldError().getField());
 			return "book/newBookForm";
-		} else if(bookService.exist(book)){
+		}else if(bookService.exist(book)){
 			result.rejectValue("isbn", "duplicate.isbn");
 			System.out.println("Validation - isbn is already exist");
 			return "book/newBookForm";	
 		}
-		bookService.addBook(book);
+		if(instanceCount == null) {
+			instanceCount = 0;
+		}		
+		bookService.addBook(book, instanceCount);
 		return "redirect:/addBook";
 	}
 	
