@@ -1,15 +1,21 @@
 package com.librarians.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.librarians.model.Book;
+import com.librarians.model.UserRole;
 import com.librarians.service.BookService;
 
 @Controller
@@ -84,13 +91,18 @@ public class BookController {
 	
 	@RequestMapping(path="/checkBooksCount", method=RequestMethod.GET, produces="application/json" )
 	public @ResponseBody Map<Integer, Integer> checkBooksAvalability(HttpServletRequest req ){
-			//@RequestParam Map<String, String[]> books){
+
+		Map<Integer,Integer> map = new HashMap<>();
 		
-		String[] books = req.getParameterValues("books[]");	
-		Map<Integer,Integer> map = bookService.getBookInstances(Arrays.asList(books));
+		SecurityContext context = SecurityContextHolder.getContext();
+		Iterator<? extends GrantedAuthority> auth =  context.getAuthentication().getAuthorities().iterator();
+		String role = auth.next().getAuthority();
+
 		
-		//Map<String, Object> result = new HashMap<String, Object>();
-		//result.put("bookAvailability", map);
+		if (role.equals(UserRole.USER.toString())) {
+			String[] books = req.getParameterValues("books[]");
+			map = bookService.getBookInstances(Arrays.asList(books));
+		}
 		return map;
 		
 	}
