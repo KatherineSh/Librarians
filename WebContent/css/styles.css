@@ -11,3 +11,11 @@
 
 .date-form { margin: 10px; }
 label.control-label span { cursor: pointer; }
+
+#table tbody tr td div.alert-danger, #table tbody tr td div.alert-success {
+	background-color: transparent;
+}
+
+#table tbody tr td{
+	height: 58px;
+}

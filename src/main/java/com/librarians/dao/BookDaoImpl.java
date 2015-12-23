@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.librarians.model.Book;
+import com.librarians.model.BookInstance;
+import com.librarians.model.User;
 
 @Repository("bookDao")
 public class BookDaoImpl extends AbstractDao implements BookDao {
@@ -101,5 +105,68 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 		List<Book> list = criteria.list();
 		return list;
 	}
+	
+	@Transactional
+	public Integer getInstanceCountById(Integer id) {
+	
+		Criteria criteria =  getSession().createCriteria(Book.class, "book");
+		criteria.createAlias("book.instances","instances");
+		
+		Junction restriction = Restrictions.conjunction()
+				.add(Restrictions.eq("book.id", id))
+				.add(Restrictions.eq("instances.status", true));
+	
+		
+		Long count = (Long) criteria.add(restriction).setProjection(Projections.rowCount()).uniqueResult();
+		return (int) (long) count;
+	}
+	
+	@Transactional
+	public Integer getFreeInstanceCountById(Integer id) {
+	
+		Criteria criteria =  getSession().createCriteria(Book.class, "book");
+		criteria.createAlias("book.instances","instances");
+		
+		Junction restriction = Restrictions.conjunction()
+				.add(Restrictions.eq("book.id", id))
+				.add(Restrictions.eq("instances.status", true))
+				.add(Restrictions.isNull("instances.user.id"));
+	
+		
+		Long count = (Long) criteria.add(restriction).setProjection(Projections.rowCount()).uniqueResult();
+		return (int) (long) count;
+	}
 
+	@Transactional(rollbackFor=Exception.class)
+	public void addBookInstanceToUser(Integer bookId, String userName) throws Exception{
+		// update book_instance set user_id = (select id from user where name = "user2") where book_id = "27" and user_id = null
+		// DetachedCriteria userId = DetachedCriteria.forClass(User.class).add(Restrictions.eq("name", userName));
+
+		Session session = getSession();
+		User user = (User) session.createCriteria(User.class).add(Restrictions.eq("name", userName)).uniqueResult();
+
+		// BookInstance instance = (BookInstance) session.createCriteria(BookInstance.class, "bi")
+		// .createAlias("bi.book", "book").
+		//.add(Restrictions.eq("book.id", bookId))
+		// .uniqueResult();
+
+		// works
+		@SuppressWarnings("unchecked")
+		List<BookInstance> list = (List<BookInstance>) session.createCriteria(BookInstance.class, "bi")
+				.createAlias("bi.book", "book").add(Restrictions.eq("bi.book.id", bookId))
+				.add(Restrictions.isNull("bi.user.id")).list();
+
+		/*
+		 * BookInstance instance = (BookInstance) session.createCriteria(BookInstance.class, "bi")
+		 * .add(Restrictions.eq("bi.book.id",bookId))
+		 * .add(Restrictions.eq("bi.user.id", null)) .uniqueResult();
+		 */
+		if(list.isEmpty()) {
+			throw new Exception();
+		}
+		BookInstance instanceToAssign = list.get(0);
+		instanceToAssign.setUser(user);
+		session.saveOrUpdate(instanceToAssign);
+	}
+	
 }

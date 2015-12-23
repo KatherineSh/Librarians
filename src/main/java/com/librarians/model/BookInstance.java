@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="book_instance")
 public class BookInstance implements Serializable {
@@ -21,19 +23,19 @@ public class BookInstance implements Serializable {
 	@GeneratedValue
 	private Integer id;
 	
-	@ManyToOne(cascade=CascadeType.PERSIST)
+	@ManyToOne
 	@JoinColumn(name="book_id")
+	@JsonManagedReference
 	private Book book;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
-	
+
 	@NotNull
 	private boolean status = true;
 	
 	public BookInstance(){	
-		
 	}
 	
 	public BookInstance(Book book){	
@@ -55,6 +57,10 @@ public class BookInstance implements Serializable {
 		return book;
 	}
 
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	public User getUser() {
 		return user;
 	}	

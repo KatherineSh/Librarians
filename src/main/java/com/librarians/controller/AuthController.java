@@ -1,6 +1,8 @@
 package com.librarians.controller;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +29,9 @@ public class AuthController {
 		
 		model.addObject("user", new User());
 		model.setViewName("login");
+		System.out.println("Auth controller");
+		/*SecurityContext context = SecurityContextHolder.getContext();
+		Object principal = context.getAuthentication().getPrincipal();*/
 		return model;
 	}
 

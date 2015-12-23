@@ -19,6 +19,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.librarians.validation.NumberLength;
 import com.librarians.validation.Year;
 
@@ -52,7 +53,8 @@ public class Book  implements Serializable {
 	private Long isbn;
 	
 	@OneToMany(mappedBy="book", fetch=FetchType.LAZY)
-	@Cascade({CascadeType.SAVE_UPDATE})
+	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
+	@JsonBackReference
 	private Set<BookInstance> instances = new HashSet<BookInstance>();
 
 	public Book(){

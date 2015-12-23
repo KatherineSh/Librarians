@@ -17,4 +17,10 @@ public interface BookDao {
 	public List<Book> getLimitedAndSortedList(Integer offset, Integer limit, String sort, String sortField);
 
 	public List<Book> searchBookBy(String search);
+
+	public Integer getInstanceCountById(Integer id);
+
+	public Integer getFreeInstanceCountById(Integer id);
+
+	public void addBookInstanceToUser(Integer bookId, String userName) throws Exception;
 }

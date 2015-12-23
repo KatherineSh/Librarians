@@ -1,7 +1,10 @@
 package com.librarians.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +54,36 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<Book> searchBookBy(String search) {
 		return bookDao.searchBookBy(search);
+	}
+
+	@Override
+	public Map<Integer, Integer> getBookInstances(List<String> booksIdArray) {
+		Map<Integer, Integer> result = new HashMap<Integer,Integer>();
+		
+		if(!booksIdArray.isEmpty()){
+			for(String id : booksIdArray){
+				int value = Integer.parseInt(id);
+				Integer count = bookDao.getFreeInstanceCountById(value);
+				result.put(value, count);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean assignBookToUser(Integer bookId, String userName) {
+		try {
+			bookDao.addBookInstanceToUser(bookId, userName);
+			
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public Integer getBookInstancesLeftToAssign(Integer bookId) {
+		Integer count = bookDao.getFreeInstanceCountById(bookId);
+		return count;
 	}
 }
