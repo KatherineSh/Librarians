@@ -1,5 +1,6 @@
 package com.librarians.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -104,26 +105,48 @@ public class BookController {
 			map = bookService.getBookInstances(Arrays.asList(books));
 		}
 		return map;
-		
 	}
 	
 	@RequestMapping(path="/assignBookToUser", method=RequestMethod.GET, produces="application/json" )
-	public @ResponseBody  Map<String, Object> assignBookToUser( HttpServletRequest request, @RequestParam Integer bookId){
+	public @ResponseBody  Map<String, Object> assignBookToUser(Principal principal, @RequestParam Integer bookId){
 		
-		SecurityContext context = SecurityContextHolder.getContext();
+		/*SecurityContext context = SecurityContextHolder.getContext();
 		Object principal = context.getAuthentication().getPrincipal();
 		String userName = "";
 		if(principal instanceof org.springframework.security.core.userdetails.User) {
 			userName = ((org.springframework.security.core.userdetails.User) principal).getUsername();
-		}
+		}*/
+		String currentUserName = principal.getName();
 		
-		boolean isAssigned = bookService.assignBookToUser(bookId, userName);
+		boolean isAssigned = bookService.assignBookToUser(bookId, currentUserName);
 		Integer bookInstancesLeft = bookService.getBookInstancesLeftToAssign(bookId);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("isAssigned", isAssigned);
 		result.put("bookCountLeft", bookInstancesLeft);
 		
+		return result;
+	}
+	
+	@RequestMapping(path="/isReturnBookAvailable", method=RequestMethod.GET, produces="application/json" )
+	public @ResponseBody  Map<String, Object> checkIsBookAssignedToUser(Principal principal, @RequestParam Integer bookId){
+		String currentUserName = principal.getName();
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		boolean shouldToShow = bookService.isBookAssignedToCurrentUser(bookId, currentUserName);
+		result.put("isReturnBookAvailable", shouldToShow);
+		return result;
+	}
+	
+	@RequestMapping(path="/returnBook", method=RequestMethod.GET, produces="application/json" )
+	public @ResponseBody  Map<String, Object> returnBookInstance(Principal principal, @RequestParam Integer bookId){
+
+		String currentUserName = principal.getName();
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		boolean isMoreBookInstanceLeft = bookService.returnBook(bookId, currentUserName);
+				
+		result.put("isMoreBookInstanceLeft", isMoreBookInstanceLeft);
 		return result;
 	}
 }

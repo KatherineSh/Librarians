@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -45,23 +46,64 @@
 	$(function() {
 		$('#table').bootstrapTable({
 		}).on('load-success.bs.table', function() {
-			checkBooksAvailability(table);
+			var rows = $("#table").find(" tbody tr");
+			
+	 		$.each(rows, function(i, val){
+				var id = $(val).data('uniqueid');
+				var tdNode = $(val).children().last();
+	
+				var	takeButton = $("<button id=\""+getTakeButtonId(id)+"\" data-id=\""+ id +"\" type='button' style='display:none' class='btn btn-info take-book'>Take</button>");
+				takeButton.click(function(){takeBook($(this).data("id"))});
+				tdNode.html(takeButton);
+				
+				var returnButton = $("<button id=\""+getReturnButtonId(id)+"\" data-id=\""+ id +"\" type='button' style='display:none' class='btn btn-info return-book'>Return</button>");
+				returnButton.click(function(){returnBook($(this).data("id"))});
+				tdNode.append(returnButton);
+				
+				var messageNode = $("<div id=\""+getInfoMessageId(id)+"\" data-id=\""+ id +"\" style='display:none' class='info-message'></div>");
+				tdNode.append(messageNode);
+
+			});
+	 		
+			var jsonBookId = getBooksId();
+			checkBooksAvailability(jsonBookId);
+			
+			checkIfNeedBookReturn();
 		});
 	});
+
+	function getReturnButtonId(id){
+		return "return_book-"+ id;
+	}
 	
-	function checkBooksAvailability(table) {
-		//var data = {'booksIdArray' : getBooksId(table)};
-		var data = getBooksId(table);
+	function getTakeButtonId(id){
+		return "take_book-"+ id;
+	}
+	
+	function getInfoMessageId(id){
+		return "info_message-"+ id;
+	}
+	
+	function checkBooksAvailability(data) {
 		  $.ajax({
 			url:"/Librarians/checkBooksCount",
 			data: data,
 			method: "GET"
-		}).done(function(bookInstances) {
-		   	showButton(bookInstances);
+		}).done(function(bookInstances) {;
+			showTakeButton(bookInstances);
 		});  
 	}
 	
-	function getBooksId(table){
+	function checkIfNeedBookReturn(){
+		var rows = $("#table").find(" tbody tr");
+
+		$.each(rows, function(i, val){
+			var id = $(val).data('uniqueid');
+			showReturnButton(id);
+		});
+	}
+	
+	function getBooksId(){
 		var result = [];
 		var rows = $("#table").find(" tbody tr");
 		for(var i=0; i <rows.length; i++){	
@@ -70,63 +112,83 @@
 		result = result.join('&');
 		return result;
 	}
-
-	function showButton(bookInstances) {
-		if(bookInstances){
-			for (var prop in bookInstances) {
-				var button = $("<button type='button' class='btn btn-info'>Take</button>");
-				
-				if(bookInstances.hasOwnProperty(prop)){
-					var selector = "#table tbody tr[data-uniqueid='".concat(prop,"']");
-					
-			    	if(bookInstances[prop] > 0){
-						$(selector + ' td').last().html(button);
-						$(selector).find('button').click(
-								function(){takeBook(this)});
-			    	}
-			    }
-			}
-		}
-	}
-	//borrow action handling
 	
-	function takeBook(element){
-		var trNode = element.parentNode.parentNode;
-		var bookId = trNode.getAttribute("data-uniqueid");
+	function showTakeButton(bookInstances){		
+	   	if(bookInstances){
+			for (var prop in bookInstances) {
+				if(bookInstances.hasOwnProperty(prop)){
+					
+					if(bookInstances[prop] > 0) {
+						$("#take_book-" + prop).show();
+					} else {
+						$("#take_book-" + prop).hide();
+					}
+				}
+			}
+	   	}		
+	}
+	
+	function showReturnButton(bookId) {		
+		var data = {"bookId" : bookId};
+		$.ajax({
+			url:"/Librarians/isReturnBookAvailable",
+			data: data,
+			method: "GET"
+		}).done(function(result){
+			if(result.isReturnBookAvailable){
+				$("#return_book-" + bookId).show();		
+			} else {
+				$("#return_book-" + bookId).hide();
+			}
+		});
+	}
+
+	function returnBook(bookId){
+		var data = {"bookId":bookId};
 		
+		$.ajax({
+			url:"/Librarians/returnBook",
+			data: data,
+			method: "GET"
+		}).done(function(result){			
+			var messageNode = $("#info_message-" + bookId);
+			
+			if(!result.isMoreBookInstanceLeft){
+				$("#return_book-" + bookId).hide();
+				messageNode.text("Book is returned.");
+			} else {
+				messageNode.text("Book is returned, but you have more the same book taken.");
+			}
+			messageNode.show();
+			checkBooksAvailability('books[]=' + bookId);
+		});
+	}
+	
+	function takeBook(bookId){
 		var data = {"bookId" : bookId}; 
 		 $.ajax({
 				url:"/Librarians/assignBookToUser",
 				data: data,
 				method: "GET"
 			}).done(function(result) {
-				renderMessageAndButton(bookId, result);
+				renderMessageAndTakeButton(bookId, result);
+				showReturnButton(bookId);
 			});  
 	}
 	
-	function renderMessageAndButton(bookId, result) {
-		var selector = "tr[data-uniqueid='".concat(bookId,"']");
-		var button = $(selector).find("button");
-		var lastTd = $(selector + " td").last();
-		
-		var messageNode = $(selector + " td").find("div").css("class","info-message");
-		if(messageNode.length == 0){
-			messageNode = $("<div class=\"info-message\"></div>");
-		}
+	function renderMessageAndTakeButton(bookId, result) {
+		var messageNode = $("#info_message-" + bookId);
 		
 		if(!result.isAssigned){
 			messageNode.text("Sorry, this book is not available now.");
-			messageNode.addClass('alert-danger');
 		} else {
 			messageNode.text("You've took this book.");
-			messageNode.addClass('alert-success');
 		}
-		lastTd.append(messageNode);
-		
+		messageNode.show();
 		if(result.bookCountLeft == 0) {
-			button.remove();
+			$("#take_book-" + bookId).hide();
 		}
-	}
+	};
 	
 	//redrow table after search in table
 	$(function() {

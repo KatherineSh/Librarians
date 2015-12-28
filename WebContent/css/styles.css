@@ -19,3 +19,12 @@ label.control-label span { cursor: pointer; }
 #table tbody tr td{
 	height: 58px;
 }
+
+.filter-taken-books {
+    float: right;
+    margin-top: -45px;
+    margin-right: 5px;
+}
+.return-book, .take-book {
+    margin: 3px;
+}

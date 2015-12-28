@@ -86,4 +86,16 @@ public class BookServiceImpl implements BookService {
 		Integer count = bookDao.getFreeInstanceCountById(bookId);
 		return count;
 	}
+
+	@Override
+	public boolean isBookAssignedToCurrentUser(Integer bookId, String userName) {
+		boolean isAssigned = bookDao.isBookAssignedToUser(bookId, userName);
+		return isAssigned;
+	}
+
+	@Override
+	public boolean returnBook(Integer bookId, String userName) {
+		boolean isMoreBookInstanceLeft = bookDao.removeUserAssignmentFromBookInstance(bookId, userName);
+		return isMoreBookInstanceLeft;
+	}
 }

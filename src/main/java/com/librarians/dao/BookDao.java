@@ -23,4 +23,8 @@ public interface BookDao {
 	public Integer getFreeInstanceCountById(Integer id);
 
 	public void addBookInstanceToUser(Integer bookId, String userName) throws Exception;
+
+	public boolean isBookAssignedToUser(Integer bookId, String userName);
+
+	public boolean removeUserAssignmentFromBookInstance(Integer bookId, String userName);
 }

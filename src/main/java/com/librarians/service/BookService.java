@@ -24,4 +24,8 @@ public interface BookService {
 	public boolean assignBookToUser(Integer bookId, String userName);
 	
 	public Integer getBookInstancesLeftToAssign(Integer bookId);
+	
+	public boolean isBookAssignedToCurrentUser(Integer bookId, String currentUerName);
+
+	public boolean returnBook(Integer bookId, String currentUerName);
 }
