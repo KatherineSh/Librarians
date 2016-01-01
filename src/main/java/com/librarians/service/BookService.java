@@ -1,9 +1,11 @@
 package com.librarians.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.librarians.model.Book;
+import com.librarians.model.BookCategory;
 
 public interface BookService {
 	
@@ -28,4 +30,8 @@ public interface BookService {
 	public boolean isBookAssignedToCurrentUser(Integer bookId, String currentUerName);
 
 	public boolean returnBook(Integer bookId, String currentUerName);
+
+	public List<BookCategory> getAllBookCategories();
+
+	public boolean addBookCategory(BookCategory category);
 }

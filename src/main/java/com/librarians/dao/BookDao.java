@@ -1,8 +1,10 @@
 package com.librarians.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.librarians.model.Book;
+import com.librarians.model.BookCategory;
 
 public interface BookDao {
 	
@@ -27,4 +29,8 @@ public interface BookDao {
 	public boolean isBookAssignedToUser(Integer bookId, String userName);
 
 	public boolean removeUserAssignmentFromBookInstance(Integer bookId, String userName);
+
+	public List<BookCategory> getAllCategories();
+
+	public boolean addBookCategory(BookCategory newCategory);
 }

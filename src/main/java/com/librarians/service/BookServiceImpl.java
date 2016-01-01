@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.librarians.dao.BookDao;
 import com.librarians.model.Book;
+import com.librarians.model.BookCategory;
 import com.librarians.model.BookInstance;
 
 @Service("bookService")
@@ -97,5 +98,15 @@ public class BookServiceImpl implements BookService {
 	public boolean returnBook(Integer bookId, String userName) {
 		boolean isMoreBookInstanceLeft = bookDao.removeUserAssignmentFromBookInstance(bookId, userName);
 		return isMoreBookInstanceLeft;
+	}
+
+	@Override
+	public List<BookCategory> getAllBookCategories() {
+		return bookDao.getAllCategories();
+	}
+
+	@Override
+	public boolean addBookCategory(BookCategory newCategory) {
+		return bookDao.addBookCategory(newCategory);
 	}
 }

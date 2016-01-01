@@ -53,20 +53,133 @@
 			</div>
 			
 			<div class="form-group">
-				<label class="control-label col-xs-2">Count of instances:</label>
+				<label class="control-label col-xs-2">Count of instances</label>
 				<div class="col-xs-10">
 					<input name="instanceCount" type="number" value="0" min="0" class="form-control">
 				</div>
 			</div>
 		
 			<div class="form-group">
+				<label class="control-label col-xs-2">Book Category</label> 
+				<div class="col-xs-7"> 
+					<select class="form-control" id="dropdown-categories">
+ 						 <c:forEach items="${categories}" var="category">
+							<option id="${category.id}">
+								<c:out value="${category.categoryName}"></c:out>
+							</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="col-xs-2"> 
+					<button type="button" class="btn btn-primary" onclick="javascript:showAddCategoryWindow()">Add Category</button>
+				</div>					
+				<div class="form-group">
+					<label class="control-label col-xs-10">
+						<c:if test="${isCategoryAdded}">
+							<span>New category was successfully added.</span>
+						</c:if>
+					</label>
+				</div>			
+			</div>
+			
+			<div class="form-group">
 				<div class="col-xs-offset-2 col-xs-10">
 					<form:button class="btn btn-primary">Add book</form:button>
 				</div>
 			</div>
-		
+
 		</form:form>
+
+
+	<div id="myModal" class="modal fade" aria-hidden="false">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="javascript: closeModalWindow()">&times;</button>
+	                <h4 class="modal-title">Adding a new book category</h4>
+	            </div>
+	      	<div class="modal-body">
+					<div class="form-group">
+						<label class="control-label col-xs-2">Category name</label>
+						<div class="col-xs-10">
+							<input id="categoryName" type="text" maxlength="255" class="form-control" placeholder="Name" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-10"> 
+							<span class="error" id="error"></span>
+						</label>
+					</div>
+			
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true" onclick="javascript: closeModalWindow()">Close</button>
+					<button type="button" class="btn btn-primary" aria-hidden="false" onclick="javascript: sendAddingCategory($('#categoryName').val());" >Add category</button>
+				</div>
+	
+	
+			</div>
+	    </div>
 	</div>
 </div>
+</div>
+<%-- <c:out  value="${pageContext.request.requestURI}"/> --%>
 
 <jsp:include page="../utils/pageFooter.jsp"></jsp:include>
+
+
+<script type="text/javascript">
+	function showAddCategoryWindow() {
+		$("#myModal").modal('show');
+	}
+	
+	function sendAddingCategory(categoryName){
+
+		if(categoryName == "") {
+			$('#error').text("Name should be not empty");
+		} 
+		else {
+			var data = {"categoryName" : categoryName};
+			$.ajax({
+				url:"/Librarians/addCategory",
+				data: data,
+				method: "GET"
+			}).done(function(result){
+				if(result.isCategoryAdded == true) {
+					$("#myModal").modal('hide');
+					$('#error').text("");
+					
+					updatCategories(result.updatedCategories);
+					
+				} else {
+					$('#error').text("Name should be not empty");
+				}
+			});
+		}
+	}
+	
+	function updatCategories(updatedCategories) {
+		var length = updatedCategories.length;
+		if(length != 0){
+			/*
+			var dropdown = $("#dropdown-categories").find("li");
+
+			$.each(dropdown, function(i, val){
+				$(val).attr("id",updatedCategories[i].id);
+				$(val).text(updatedCategories[i].categoryName);
+			});
+			*/			
+			var newOption = $("<option></option>");
+			newOption.attr("id", updatedCategories[length - 1].id);
+			newOption.text(updatedCategories[length - 1].categoryName);
+			
+			$("#dropdown-categories").append(newOption);
+		}
+		
+	}
+	
+	function closeModalWindow(){
+		$('#error').text("");
+	}
+</script>

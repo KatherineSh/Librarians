@@ -1,5 +1,6 @@
 package com.librarians.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.librarians.model.Book;
+import com.librarians.model.BookCategory;
 import com.librarians.model.BookInstance;
 import com.librarians.model.User;
 
@@ -190,5 +192,25 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 		} 
 		
 		return isMoreBookInstanceLeft;
+	}
+
+	@Transactional
+	public List<BookCategory> getAllCategories() {
+		
+		@SuppressWarnings("unchecked")
+		List<BookCategory> categories = (List<BookCategory>) getSession().createCriteria(BookCategory.class).list();
+		return categories;
+	}
+
+	@Transactional
+	public boolean addBookCategory(BookCategory newCategory) {
+		
+		Session session = getSession();
+		session.saveOrUpdate(newCategory);
+		
+		BookCategory category = (BookCategory) session.createCriteria(BookCategory.class)
+				.add(Restrictions.eq("categoryName", newCategory.getCategoryName())).uniqueResult();
+		
+		return (category != null) ? true : false;
 	}
 }

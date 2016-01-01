@@ -20,13 +20,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.librarians.model.Book;
+import com.librarians.model.BookCategory;
+import com.librarians.model.User;
 import com.librarians.model.UserRole;
 import com.librarians.service.BookService;
 
@@ -38,8 +43,20 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 	
+	
+	@RequestMapping(path="/getCategories", method=RequestMethod.GET)
+	public String getCategories(Model map){
+		
+		List<BookCategory> categories = bookService.getAllBookCategories();
+		map.addAttribute("categories", categories);
+		return "book/newBookForm";
+	}
+	
 	@RequestMapping(path="/newBook", method=RequestMethod.POST)
-	public String addBook(@Valid Book book, BindingResult result, @RequestParam Integer instanceCount){
+	public String addBook(
+			@Valid Book book, 
+			BindingResult result, 
+			@RequestParam Integer instanceCount){
 		
 		if(result.hasErrors()){	
 			System.out.println("Book entity has validaion errors " + result.getFieldError().getField());
@@ -109,13 +126,7 @@ public class BookController {
 	
 	@RequestMapping(path="/assignBookToUser", method=RequestMethod.GET, produces="application/json" )
 	public @ResponseBody  Map<String, Object> assignBookToUser(Principal principal, @RequestParam Integer bookId){
-		
-		/*SecurityContext context = SecurityContextHolder.getContext();
-		Object principal = context.getAuthentication().getPrincipal();
-		String userName = "";
-		if(principal instanceof org.springframework.security.core.userdetails.User) {
-			userName = ((org.springframework.security.core.userdetails.User) principal).getUsername();
-		}*/
+
 		String currentUserName = principal.getName();
 		
 		boolean isAssigned = bookService.assignBookToUser(bookId, currentUserName);
@@ -149,4 +160,47 @@ public class BookController {
 		result.put("isMoreBookInstanceLeft", isMoreBookInstanceLeft);
 		return result;
 	}
+	
+/*	@RequestMapping(path="/addCategory", method=RequestMethod.POST)
+	public String addCategory(
+			@ModelAttribute(value="category") @Valid BookCategory category, 
+			BindingResult result, 
+			Model map){
+		if(result.hasErrors()){	
+			System.out.println("Book categoty has validaion errors " + result.getFieldError().getField());
+			//result.rejectValue("categoryName", "NotNull.category.name");
+			//map.addAttribute("book",new Book());
+			//map.addAttribute("category",new BookCategory());
+			//redirectAttributes.addFlashAttribute("errors", result);
+			return "book/addCategory";
+		}			
+		boolean isCategoryAdded = bookService.addBookCategory(category);
+		map.addAttribute("isCategoryAdded", isCategoryAdded);
+		//map.addAttribute("category", new BookCategory());
+		map.addAttribute("book", new Book());
+		return "forward:/newBook";
+	}*/
+	
+	
+	@RequestMapping(path="/addCategory", method=RequestMethod.GET, produces="application/json" )
+	public @ResponseBody Map<String, Object> addCategory(@RequestParam String categoryName){
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		String name = categoryName.trim();
+		if(name!= null && !name.isEmpty()) {
+			BookCategory category = new BookCategory(name);
+			
+			boolean isCategoryAdded = bookService.addBookCategory(category);			
+			result.put("isCategoryAdded", isCategoryAdded);
+			
+			List<BookCategory> categories = bookService.getAllBookCategories();
+			result.put("updatedCategories", categories);
+			
+		} else {
+			result.put("isCategoryAdded", false);
+		}
+		return result;
+	}
+			
+			
 }
