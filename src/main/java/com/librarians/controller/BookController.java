@@ -15,6 +15,7 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -161,43 +162,26 @@ public class BookController {
 		return result;
 	}
 	
-/*	@RequestMapping(path="/addCategory", method=RequestMethod.POST)
-	public String addCategory(
-			@ModelAttribute(value="category") @Valid BookCategory category, 
-			BindingResult result, 
-			Model map){
-		if(result.hasErrors()){	
-			System.out.println("Book categoty has validaion errors " + result.getFieldError().getField());
-			//result.rejectValue("categoryName", "NotNull.category.name");
-			//map.addAttribute("book",new Book());
-			//map.addAttribute("category",new BookCategory());
-			//redirectAttributes.addFlashAttribute("errors", result);
-			return "book/addCategory";
-		}			
-		boolean isCategoryAdded = bookService.addBookCategory(category);
-		map.addAttribute("isCategoryAdded", isCategoryAdded);
-		//map.addAttribute("category", new BookCategory());
-		map.addAttribute("book", new Book());
-		return "forward:/newBook";
-	}*/
-	
-	
 	@RequestMapping(path="/addCategory", method=RequestMethod.GET, produces="application/json" )
-	public @ResponseBody Map<String, Object> addCategory(@RequestParam String categoryName){
+	public @ResponseBody Map<String, Object> addCategory(Authentication authentication, @RequestParam String categoryName){
 		
+		GrantedAuthority auth = new SimpleGrantedAuthority(UserRole.LIBRARIAN.toString());
+		boolean isLibrarian = authentication.getAuthorities().contains(auth);
+
 		Map<String, Object> result = new HashMap<String, Object>();
-		String name = categoryName.trim();
-		if(name!= null && !name.isEmpty()) {
-			BookCategory category = new BookCategory(name);
-			
-			boolean isCategoryAdded = bookService.addBookCategory(category);			
-			result.put("isCategoryAdded", isCategoryAdded);
-			
-			List<BookCategory> categories = bookService.getAllBookCategories();
-			result.put("updatedCategories", categories);
-			
-		} else {
-			result.put("isCategoryAdded", false);
+		if (isLibrarian) {	
+			String name = categoryName.trim();
+			if(name!= null && !name.isEmpty()) {
+				BookCategory category = new BookCategory(name);
+				
+				boolean isCategoryAdded = bookService.addBookCategory(category);			
+				result.put("isCategoryAdded", isCategoryAdded);
+				
+				List<BookCategory> categories = bookService.getAllBookCategories();
+				result.put("updatedCategories", categories);
+			} else {
+				result.put("isCategoryAdded", false);
+			}
 		}
 		return result;
 	}

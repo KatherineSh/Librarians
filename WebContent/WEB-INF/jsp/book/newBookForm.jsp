@@ -95,7 +95,7 @@
 	    <div class="modal-dialog">
 	        <div class="modal-content">
 	            <div class="modal-header">
-	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="javascript: closeModalWindow()">&times;</button>
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="javascript: clearModalWindow()">&times;</button>
 	                <h4 class="modal-title">Adding a new book category</h4>
 	            </div>
 	      	<div class="modal-body">
@@ -114,7 +114,7 @@
 				</div>
 				
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true" onclick="javascript: closeModalWindow()">Close</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true" onclick="javascript: clearModalWindow()">Close</button>
 					<button type="button" class="btn btn-primary" aria-hidden="false" onclick="javascript: sendAddingCategory($('#categoryName').val());" >Add category</button>
 				</div>
 	
@@ -131,6 +131,7 @@
 
 <script type="text/javascript">
 	function showAddCategoryWindow() {
+		clearModalWindow();
 		$("#myModal").modal('show');
 	}
 	
@@ -152,7 +153,9 @@
 					
 					updatCategories(result.updatedCategories);
 					
-				} else {
+				} else if (typeof result.isCategoryAdded === "undefined") {
+					$('#error').text("Only librarian have permission to add new category.");
+				}else {
 					$('#error').text("Name should be not empty");
 				}
 			});
@@ -179,7 +182,8 @@
 		
 	}
 	
-	function closeModalWindow(){
+	function clearModalWindow(){
 		$('#error').text("");
+		$("#categoryName").val("");
 	}
 </script>

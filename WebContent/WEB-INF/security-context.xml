@@ -20,6 +20,9 @@
 
 	<security:http auto-config="true" use-expressions="true">
 		<security:intercept-url pattern="/main"	access="isAuthenticated()"  />
+		<security:intercept-url pattern="/addBook"	access="ROLE_LIBRARIAN"  />
+		<security:intercept-url pattern="/userList"	access="isAuthenticated()"  />
+		
 		<!-- <security:intercept-url pattern="/main" access="permitAll" method="POST" /> -->
 
 
