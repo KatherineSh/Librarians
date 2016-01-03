@@ -169,16 +169,22 @@ public class BookController {
 		boolean isLibrarian = authentication.getAuthorities().contains(auth);
 
 		Map<String, Object> result = new HashMap<String, Object>();
-		if (isLibrarian) {	
+		if (isLibrarian && categoryName != null) {	
 			String name = categoryName.trim();
-			if(name!= null && !name.isEmpty()) {
-				BookCategory category = new BookCategory(name);
+			if(!name.isEmpty()) {
 				
-				boolean isCategoryAdded = bookService.addBookCategory(category);			
-				result.put("isCategoryAdded", isCategoryAdded);
-				
-				List<BookCategory> categories = bookService.getAllBookCategories();
-				result.put("updatedCategories", categories);
+				boolean isExisted = bookService.isCategoryExisted(name);
+				if(!isExisted){
+					BookCategory category = new BookCategory(name);
+					boolean isCategoryAdded = bookService.addBookCategory(category);			
+					result.put("isCategoryAdded", isCategoryAdded);
+					
+					List<BookCategory> categories = bookService.getAllBookCategories();
+					result.put("updatedCategories", categories);
+				} else {
+					result.put("isCategoryAdded", false);
+					result.put("isCategoryExisted", true);
+				}
 			} else {
 				result.put("isCategoryAdded", false);
 			}

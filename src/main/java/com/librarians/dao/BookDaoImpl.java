@@ -1,18 +1,14 @@
 package com.librarians.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.tomcat.util.buf.UEncoder;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -212,5 +208,13 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 				.add(Restrictions.eq("categoryName", newCategory.getCategoryName())).uniqueResult();
 		
 		return (category != null) ? true : false;
+	}
+
+	@Transactional
+	public boolean isBookCagtegoryExisted(String categoryName) {
+		Long result = (Long) getSession().createCriteria(BookCategory.class)
+				.add(Restrictions.eq("categoryName", categoryName))
+				.setProjection(Projections.rowCount()).uniqueResult();
+		return (result > 0 ) ? true : false;
 	}
 }

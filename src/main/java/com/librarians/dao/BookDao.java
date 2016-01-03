@@ -33,4 +33,6 @@ public interface BookDao {
 	public List<BookCategory> getAllCategories();
 
 	public boolean addBookCategory(BookCategory newCategory);
+
+	public boolean isBookCagtegoryExisted(String categoryName);
 }

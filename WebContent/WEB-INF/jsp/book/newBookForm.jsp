@@ -155,7 +155,9 @@
 					
 				} else if (typeof result.isCategoryAdded === "undefined") {
 					$('#error').text("Only librarian have permission to add new category.");
-				}else {
+				} else if(result.isCategoryExisted == true) {
+					$('#error').text("The tipped category name is already existed. Duplication is not allowed.");
+				} else {
 					$('#error').text("Name should be not empty");
 				}
 			});

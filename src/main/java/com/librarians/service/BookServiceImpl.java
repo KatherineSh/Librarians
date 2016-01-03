@@ -109,4 +109,9 @@ public class BookServiceImpl implements BookService {
 	public boolean addBookCategory(BookCategory newCategory) {
 		return bookDao.addBookCategory(newCategory);
 	}
+
+	@Override
+	public boolean isCategoryExisted(String categoryName) {
+		return bookDao.isBookCagtegoryExisted(categoryName);
+	}
 }

@@ -34,4 +34,6 @@ public interface BookService {
 	public List<BookCategory> getAllBookCategories();
 
 	public boolean addBookCategory(BookCategory category);
+
+	public boolean isCategoryExisted(String name);
 }
