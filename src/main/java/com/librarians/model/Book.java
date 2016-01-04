@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -24,7 +26,7 @@ import com.librarians.validation.NumberLength;
 import com.librarians.validation.Year;
 
 @Entity
-@Table(name="BOOK")
+@Table(name="book")
 public class Book  implements Serializable {
 
 	private static final long serialVersionUID = 6050908002150364357L;
@@ -56,8 +58,13 @@ public class Book  implements Serializable {
 	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
 	@JsonBackReference
 	private Set<BookInstance> instances = new HashSet<BookInstance>();
+	
+	//Association's owner, because it's many side
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="category_id",nullable=false)
+	private Category category;
 
-	public Book(){
+	public Book(){ 
 	}
 	
 	public Book(String title, String description, String author, Short year, Long isbn) {
@@ -103,10 +110,19 @@ public class Book  implements Serializable {
 	public Long getIsbn() {
 		return isbn;
 	}
+	
 	public void setIsbn(Long isbn) {
 		this.isbn = isbn;
 	}	
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	
 	public Set<BookInstance> getInstances() {
 		return instances;
 	}

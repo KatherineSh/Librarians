@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.librarians.dao.BookDao;
 import com.librarians.model.Book;
-import com.librarians.model.BookCategory;
+import com.librarians.model.Category;
 import com.librarians.model.BookInstance;
 
 @Service("bookService")
@@ -101,12 +101,12 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<BookCategory> getAllBookCategories() {
+	public List<Category> getAllCategories() {
 		return bookDao.getAllCategories();
 	}
 
 	@Override
-	public boolean addBookCategory(BookCategory newCategory) {
+	public boolean addCategory(Category newCategory) {
 		return bookDao.addBookCategory(newCategory);
 	}
 

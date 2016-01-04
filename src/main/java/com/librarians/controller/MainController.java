@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.librarians.model.Book;
-import com.librarians.model.BookCategory;
+import com.librarians.model.Category;
 import com.librarians.model.User;
 
 @Controller
@@ -30,7 +30,7 @@ public class MainController {
 	public String showAddBookPage(Model map){
 		
 		map.addAttribute("book", new Book());
-		map.addAttribute("category", new BookCategory());
+		map.addAttribute("category", new Category());
 		
 		return "forward:/getCategories";		//"book/newBookForm";
 	}

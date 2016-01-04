@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.librarians.model.Book;
-import com.librarians.model.BookCategory;
+import com.librarians.model.Category;
 
 public interface BookService {
 	
@@ -31,9 +31,9 @@ public interface BookService {
 
 	public boolean returnBook(Integer bookId, String currentUerName);
 
-	public List<BookCategory> getAllBookCategories();
+	public List<Category> getAllCategories();
 
-	public boolean addBookCategory(BookCategory category);
+	public boolean addCategory(Category category);
 
 	public boolean isCategoryExisted(String name);
 }

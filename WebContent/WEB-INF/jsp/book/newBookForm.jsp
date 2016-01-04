@@ -62,17 +62,19 @@
 			<div class="form-group">
 				<label class="control-label col-xs-2">Book Category</label> 
 				<div class="col-xs-7"> 
-					<select class="form-control" id="dropdown-categories">
- 						 <c:forEach items="${categories}" var="category">
-							<option id="${category.id}">
-								<c:out value="${category.categoryName}"></c:out>
-							</option>
-						</c:forEach>
-					</select>
+					<form:select path="category.id" class="form-control" id="dropdown-categories">
+					<form:option value="-" label="Select category"></form:option>
+ 						<c:forEach items="${categories}" var="category"> 
+							<form:option value="${category.id}" label="${category.categoryName}"></form:option>
+						 </c:forEach>
+					</form:select>
+					<form:errors path="category" class="error" />
 				</div>
+				
 				<div class="col-xs-2"> 
 					<button type="button" class="btn btn-primary" onclick="javascript:showAddCategoryWindow()">Add Category</button>
 				</div>					
+				
 				<div class="form-group">
 					<label class="control-label col-xs-10">
 						<c:if test="${isCategoryAdded}">
@@ -87,7 +89,6 @@
 					<form:button class="btn btn-primary">Add book</form:button>
 				</div>
 			</div>
-
 		</form:form>
 
 
@@ -117,8 +118,6 @@
 					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true" onclick="javascript: clearModalWindow()">Close</button>
 					<button type="button" class="btn btn-primary" aria-hidden="false" onclick="javascript: sendAddingCategory($('#categoryName').val());" >Add category</button>
 				</div>
-	
-	
 			</div>
 	    </div>
 	</div>
@@ -166,22 +165,13 @@
 	
 	function updatCategories(updatedCategories) {
 		var length = updatedCategories.length;
-		if(length != 0){
-			/*
-			var dropdown = $("#dropdown-categories").find("li");
-
-			$.each(dropdown, function(i, val){
-				$(val).attr("id",updatedCategories[i].id);
-				$(val).text(updatedCategories[i].categoryName);
-			});
-			*/			
+		if(length != 0){		
 			var newOption = $("<option></option>");
 			newOption.attr("id", updatedCategories[length - 1].id);
 			newOption.text(updatedCategories[length - 1].categoryName);
 			
 			$("#dropdown-categories").append(newOption);
 		}
-		
 	}
 	
 	function clearModalWindow(){

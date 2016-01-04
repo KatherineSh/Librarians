@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.librarians.model.Book;
-import com.librarians.model.BookCategory;
+import com.librarians.model.Category;
 import com.librarians.model.BookInstance;
 import com.librarians.model.User;
 
@@ -191,20 +191,20 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 	}
 
 	@Transactional
-	public List<BookCategory> getAllCategories() {
+	public List<Category> getAllCategories() {
 		
 		@SuppressWarnings("unchecked")
-		List<BookCategory> categories = (List<BookCategory>) getSession().createCriteria(BookCategory.class).list();
+		List<Category> categories = (List<Category>) getSession().createCriteria(Category.class).list();
 		return categories;
 	}
 
 	@Transactional
-	public boolean addBookCategory(BookCategory newCategory) {
+	public boolean addBookCategory(Category newCategory) {
 		
 		Session session = getSession();
 		session.saveOrUpdate(newCategory);
 		
-		BookCategory category = (BookCategory) session.createCriteria(BookCategory.class)
+		Category category = (Category) session.createCriteria(Category.class)
 				.add(Restrictions.eq("categoryName", newCategory.getCategoryName())).uniqueResult();
 		
 		return (category != null) ? true : false;
@@ -212,7 +212,7 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 
 	@Transactional
 	public boolean isBookCagtegoryExisted(String categoryName) {
-		Long result = (Long) getSession().createCriteria(BookCategory.class)
+		Long result = (Long) getSession().createCriteria(Category.class)
 				.add(Restrictions.eq("categoryName", categoryName))
 				.setProjection(Projections.rowCount()).uniqueResult();
 		return (result > 0 ) ? true : false;

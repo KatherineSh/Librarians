@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
+import org.hibernate.annotations.AccessType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,7 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.librarians.model.Book;
-import com.librarians.model.BookCategory;
+import com.librarians.model.Category;
 import com.librarians.model.User;
 import com.librarians.model.UserRole;
 import com.librarians.service.BookService;
@@ -48,14 +49,14 @@ public class BookController {
 	@RequestMapping(path="/getCategories", method=RequestMethod.GET)
 	public String getCategories(Model map){
 		
-		List<BookCategory> categories = bookService.getAllBookCategories();
+		List<Category> categories = bookService.getAllCategories();
 		map.addAttribute("categories", categories);
 		return "book/newBookForm";
 	}
 	
 	@RequestMapping(path="/newBook", method=RequestMethod.POST)
 	public String addBook(
-			@Valid Book book, 
+			@ModelAttribute(value="book") @Valid Book book, 
 			BindingResult result, 
 			@RequestParam Integer instanceCount){
 		
@@ -70,6 +71,8 @@ public class BookController {
 		if(instanceCount == null) {
 			instanceCount = 0;
 		}		
+		book.getCategory().addBook(book);
+		//book.setCategory(book.getCategory());
 		bookService.addBook(book, instanceCount);
 		return "redirect:/addBook";
 	}
@@ -175,11 +178,12 @@ public class BookController {
 				
 				boolean isExisted = bookService.isCategoryExisted(name);
 				if(!isExisted){
-					BookCategory category = new BookCategory(name);
-					boolean isCategoryAdded = bookService.addBookCategory(category);			
+					Category category = new Category();
+					category.setCategoryName(name);
+					boolean isCategoryAdded = bookService.addCategory(category);			
 					result.put("isCategoryAdded", isCategoryAdded);
 					
-					List<BookCategory> categories = bookService.getAllBookCategories();
+					List<Category> categories = bookService.getAllCategories();
 					result.put("updatedCategories", categories);
 				} else {
 					result.put("isCategoryAdded", false);
@@ -192,5 +196,9 @@ public class BookController {
 		return result;
 	}
 			
+	
+	//change relation ship oneToMany at BookCategory, and ManyToOne at Book
+	//check all setters and getters in this classes
+	
 			
 }

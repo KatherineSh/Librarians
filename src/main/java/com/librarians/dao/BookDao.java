@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.librarians.model.Book;
-import com.librarians.model.BookCategory;
+import com.librarians.model.Category;
 
 public interface BookDao {
 	
@@ -30,9 +30,9 @@ public interface BookDao {
 
 	public boolean removeUserAssignmentFromBookInstance(Integer bookId, String userName);
 
-	public List<BookCategory> getAllCategories();
+	public List<Category> getAllCategories();
 
-	public boolean addBookCategory(BookCategory newCategory);
+	public boolean addBookCategory(Category newCategory);
 
 	public boolean isBookCagtegoryExisted(String categoryName);
 }
