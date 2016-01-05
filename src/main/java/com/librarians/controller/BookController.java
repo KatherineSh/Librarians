@@ -49,21 +49,8 @@ public class BookController {
 		
 		map.addAttribute("book", new Book());
 		return "book/newBookForm";
-		//"forward:/getCategories";
 	}
-	
-/*	@RequestMapping(path="/getCategories", method=RequestMethod.GET)
-	public String getCategories(Model map,	ModelAndView mv){
-		
-		List<Category> categories = bookService.getAllCategories();
-		map.addAttribute("categories", categories);
-		//return "book/newBookForm";\
-		String name = mv.getViewName();
-		
-		return name;
-	}*/
-	
-	
+
 	@RequestMapping(path="/editBook", method=RequestMethod.GET)
 	public String showBookEditPage(
 			@RequestParam Integer bookId,
@@ -85,24 +72,30 @@ public class BookController {
 	
 	@RequestMapping(path="/newBook", method=RequestMethod.POST)
 	public String addBook(
-			@ModelAttribute(value="book") @Valid Book book, 
+			@ModelAttribute(value="book") @Valid Book book,
 			BindingResult result, 
-			@RequestParam Integer instanceCount){
+			@RequestParam Integer instanceCount,
+			Model map){
 		
+		//TODO
+		//make category selection as must and check if it not null 
 		if(result.hasErrors()){	
 			System.out.println("Book entity has validaion errors " + result.getFieldError().getField());
-			return "book/newBookForm";
-		}else if(bookService.exist(book)){
+		} else if(bookService.exist(book)){
 			result.rejectValue("isbn", "duplicate.isbn");
 			System.out.println("Validation - isbn is already exist");
-			return "book/newBookForm";	
+		} else{
+			if(instanceCount == null) {
+				instanceCount = 0;
+			}		
+			book.getCategory().addBook(book);
+			bookService.addBook(book, instanceCount);
+			map.addAttribute("isBookAdded",true);
 		}
-		if(instanceCount == null) {
-			instanceCount = 0;
-		}		
-		book.getCategory().addBook(book);
-		bookService.addBook(book, instanceCount);
-		return "redirect:/addBook";
+
+		List<Category> categories = bookService.getAllCategories();
+		map.addAttribute("categories", categories);
+		return "book/newBookForm";
 	}
 	
 	@RequestMapping(path="/bookPage", method=RequestMethod.GET, produces="application/json" )

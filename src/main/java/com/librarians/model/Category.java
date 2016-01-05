@@ -28,7 +28,6 @@ public class Category implements Serializable {
 	@Column(name="id", columnDefinition="int(11) unsigned", unique=true)
 	private Integer id;
 	
-	@NotNull
 	@Index(name="category_index")
 	@Column(name="category_name", length=255, unique=true)
 	private String categoryName;

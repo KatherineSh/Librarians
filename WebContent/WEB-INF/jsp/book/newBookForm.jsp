@@ -63,7 +63,7 @@
 				<label class="control-label col-xs-2">Book Category</label> 
 				<div class="col-xs-7"> 
 					<form:select path="category.id" class="form-control" id="dropdown-categories">
-					<form:option value="-" label="Select category"></form:option>
+						<option value="" disabled selected>Select your option</option>
  						<c:forEach items="${categories}" var="category"> 
 							<form:option value="${category.id}" label="${category.categoryName}"></form:option>
 						 </c:forEach>
@@ -89,6 +89,15 @@
 					<form:button class="btn btn-primary">Add book</form:button>
 				</div>
 			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-xs-5">
+					<c:if test="${isBookAdded}">
+						<span>New book was successfully added.</span>
+					</c:if>
+				</label>
+			</div>			
+				
 		</form:form>
 
 

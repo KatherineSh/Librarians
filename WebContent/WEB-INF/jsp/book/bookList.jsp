@@ -29,7 +29,7 @@
 			<tr>
 				<th class="col-md-2" data-field="title" data-align="center" data-sortable="true">Title</th>
 				<th class="col-md-2" data-field="author" data-align="center" data-sortable="true">Author</th>
-				<th class="col-md-2"data-field="year" data-align="center" data-sortable="true">Item	Name</th>
+				<th class="col-md-2"data-field="year" data-align="center" data-sortable="true">Year</th>
 				<th class="col-md-2" data-field="isbn" data-align="center" data-sortable="true">ISBN</th>
 				<th class="col-md-2" data-field="description" data-align="center" data-sortable="true">Description</th>
 				<th class="col-md-2" data-align="center" style="text-align:center; vertical-align:middle;">Action</th>
