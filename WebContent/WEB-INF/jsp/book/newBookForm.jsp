@@ -111,7 +111,6 @@
 							<span class="error" id="error"></span>
 						</label>
 					</div>
-			
 				</div>
 				
 				<div class="modal-footer">

@@ -48,6 +48,17 @@
 		}).on('load-success.bs.table', function() {
 			var rows = $("#table").find(" tbody tr");
 			
+			$.each(rows, function(i, val){
+				var tdInside = $(val).children();
+				var firstTd = tdInside.first();
+			
+				var newContent = $("<a href='' ></a>");
+				newContent.attr("href","${contextPath}/editBook?bookId="+$(val).data('uniqueid'));
+				newContent.text(firstTd.text())
+				
+				firstTd.html(newContent);
+			});
+			
 	 		$.each(rows, function(i, val){
 				var id = $(val).data('uniqueid');
 				var tdNode = $(val).children().last();

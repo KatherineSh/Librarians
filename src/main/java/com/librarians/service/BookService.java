@@ -1,6 +1,5 @@
 package com.librarians.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,10 +11,10 @@ public interface BookService {
 	public void addBook(Book book, Integer instanceCount);
 
 	public boolean exist(Book book);
+	
+	public Long getBookCount();
 
 	public List<Book> list();
-
-	public Long getBookCount();
 
 	public List<Book> listPage(Integer offset, Integer limit, String sort, String sortField);
 
@@ -36,4 +35,6 @@ public interface BookService {
 	public boolean addCategory(Category category);
 
 	public boolean isCategoryExisted(String name);
+	
+	public Book getBookDetails(Integer id);
 }

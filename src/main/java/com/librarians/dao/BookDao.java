@@ -1,6 +1,5 @@
 package com.librarians.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.librarians.model.Book;
@@ -35,4 +34,6 @@ public interface BookDao {
 	public boolean addBookCategory(Category newCategory);
 
 	public boolean isBookCagtegoryExisted(String categoryName);
+
+	public Book getBook(Integer id);
 }

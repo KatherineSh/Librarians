@@ -1,20 +1,16 @@
 package com.librarians.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
-import org.hibernate.annotations.AccessType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,11 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.librarians.model.Book;
 import com.librarians.model.Category;
-import com.librarians.model.User;
 import com.librarians.model.UserRole;
 import com.librarians.service.BookService;
 
@@ -46,13 +41,47 @@ public class BookController {
 	private BookService bookService;
 	
 	
-	@RequestMapping(path="/getCategories", method=RequestMethod.GET)
-	public String getCategories(Model map){
+	@RequestMapping(path="/addBook", method=RequestMethod.GET)
+	public String showAddBookPage(Model map){
 		
 		List<Category> categories = bookService.getAllCategories();
 		map.addAttribute("categories", categories);
+		
+		map.addAttribute("book", new Book());
 		return "book/newBookForm";
+		//"forward:/getCategories";
 	}
+	
+/*	@RequestMapping(path="/getCategories", method=RequestMethod.GET)
+	public String getCategories(Model map,	ModelAndView mv){
+		
+		List<Category> categories = bookService.getAllCategories();
+		map.addAttribute("categories", categories);
+		//return "book/newBookForm";\
+		String name = mv.getViewName();
+		
+		return name;
+	}*/
+	
+	
+	@RequestMapping(path="/editBook", method=RequestMethod.GET)
+	public String showBookEditPage(
+			@RequestParam Integer bookId,
+			Model map,
+			ModelAndView mv){
+		
+		if(bookId != null){
+			Book book = bookService.getBookDetails(bookId);
+			map.addAttribute("book", book);
+			
+			List<Category> categories = bookService.getAllCategories();
+			map.addAttribute("categories", categories);
+			
+			return "book/editBookForm";
+		}
+		return "main";
+	}
+	
 	
 	@RequestMapping(path="/newBook", method=RequestMethod.POST)
 	public String addBook(
@@ -72,7 +101,6 @@ public class BookController {
 			instanceCount = 0;
 		}		
 		book.getCategory().addBook(book);
-		//book.setCategory(book.getCategory());
 		bookService.addBook(book, instanceCount);
 		return "redirect:/addBook";
 	}
@@ -101,9 +129,13 @@ public class BookController {
 			
 			@RequestParam String search){		
 		
-		List<Book> resultList = bookService.searchBookBy(search);
-		Integer totalResults = resultList.size();
+		Integer totalResults = null;
+		List<Book> resultList = null;
 		
+		if(search != null && !search.trim().isEmpty()) {
+			resultList = bookService.searchBookBy(search);
+			totalResults = resultList.size();
+		}
 		Map<String,Object> result = new HashMap<String, Object>();
 		result.put("total", totalResults);
 		result.put("rows", resultList);
@@ -195,10 +227,4 @@ public class BookController {
 		}
 		return result;
 	}
-			
-	
-	//change relation ship oneToMany at BookCategory, and ManyToOne at Book
-	//check all setters and getters in this classes
-	
-			
 }

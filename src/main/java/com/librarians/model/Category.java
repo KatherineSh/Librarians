@@ -16,6 +16,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Index;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="book_category")
 public class Category implements Serializable {
@@ -33,18 +35,16 @@ public class Category implements Serializable {
 	
 	//inverse side of association,
 	//i name mappedBy attribute to say which field in Book have association to this one
-	@OneToMany(mappedBy="category", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	
+	@OneToMany(mappedBy="category", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JsonBackReference
 	private Set<Book> books = new HashSet<Book>();
 
 	public Category() {
 	}
 
-//	public Category(String categoryName) {
-//		this.categoryName = categoryName;
-//	}
-
-	public Category(String id) {
-		this.id = Integer.getInteger(id);
+	public Category(String categoryName) {
+		this.categoryName = categoryName;
 	}
 		
 	public Integer getId() {

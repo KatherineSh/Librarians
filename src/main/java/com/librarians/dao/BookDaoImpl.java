@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.Order;
@@ -131,9 +132,6 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 
 	@Transactional(rollbackFor = Exception.class)
 	public void addBookInstanceToUser(Integer bookId, String userName) throws Exception {
-		// update book_instance set user_id = (select id from user where name = "user2") where book_id = "27" and user_id = null
-		// DetachedCriteria userId = DetachedCriteria.forClass(User.class).add(Restrictions.eq("name", userName));
-
 		Session session = getSession();
 		User user = (User) session.createCriteria(User.class).add(Restrictions.eq("name", userName)).uniqueResult();
 
@@ -216,5 +214,13 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 				.add(Restrictions.eq("categoryName", categoryName))
 				.setProjection(Projections.rowCount()).uniqueResult();
 		return (result > 0 ) ? true : false;
+	}
+
+	@Transactional
+	public Book getBook(Integer id) {
+		Session session = getSession();
+		Book book = (Book) session.get(Book.class, id);
+		Hibernate.initialize(book);
+		return book;
 	}
 }

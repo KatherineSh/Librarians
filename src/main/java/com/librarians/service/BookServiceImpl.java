@@ -114,4 +114,9 @@ public class BookServiceImpl implements BookService {
 	public boolean isCategoryExisted(String categoryName) {
 		return bookDao.isBookCagtegoryExisted(categoryName);
 	}
+
+	@Override
+	public Book getBookDetails(Integer id) {
+		return bookDao.getBook(id);
+	}
 }
