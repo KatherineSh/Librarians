@@ -80,9 +80,13 @@ public class Book  implements Serializable {
 	}
 	
 	public Integer getId() {
-		return id;
+		return this.id;
 	}
 	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getTitle() {
 		return title;
 	}

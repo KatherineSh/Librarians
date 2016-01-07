@@ -36,4 +36,6 @@ public interface BookDao {
 	public boolean isBookCagtegoryExisted(String categoryName);
 
 	public Book getBook(Integer id);
+
+	public void setBookDetails(Book book);
 }

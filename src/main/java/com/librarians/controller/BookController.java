@@ -69,6 +69,21 @@ public class BookController {
 		return "main";
 	}
 	
+	@RequestMapping(path="/editBook", method=RequestMethod.POST)
+	public String editBook(
+			@Valid Book book,
+			BindingResult result,
+			Model map){
+		
+		if(!result.hasErrors()){	
+			bookService.changeBookDetails(book);
+			map.addAttribute("isBookEdited", true);
+		} else {
+			System.out.println("Book entity has validaion errors " + result.getFieldError().getField());
+		}
+		return "main";
+	}
+	
 	
 	@RequestMapping(path="/newBook", method=RequestMethod.POST)
 	public String addBook(
@@ -77,8 +92,6 @@ public class BookController {
 			@RequestParam Integer instanceCount,
 			Model map){
 		
-		//TODO
-		//make category selection as must and check if it not null 
 		if(result.hasErrors()){	
 			System.out.println("Book entity has validaion errors " + result.getFieldError().getField());
 		} else if(bookService.exist(book)){

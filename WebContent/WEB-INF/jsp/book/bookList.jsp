@@ -3,6 +3,8 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
+<sec:authorize access="hasAuthority('LIBRARIAN')" var="isAuthorizedLibrarian"></sec:authorize>
+
 <div id="book-table" class="panel panel-default" style="margin-top: 30px;">
 
 		<table id="table" class="table table-striped" 
@@ -37,27 +39,48 @@
 		</thead>
 
 	</table>	
+
+	<script type="text/javascript">
+	$(function() {
+		$('#table').bootstrapTable({
+	}).on('search.bs.table', function() {
+		var rows = $("#table").find(" tbody tr");
+		
+		$.each(rows, function(i, val){
+			var tdInside = $(val).children();
+			var firstTd = tdInside.first();
+		
+			var newContent = $("<a href='' ></a>");
+			newContent.attr("href","${contextPath}/editBook?bookId="+$(val).data('uniqueid'));
+			newContent.text(firstTd.text())
+			
+			firstTd.html(newContent);
+		});
+	});
+	});
+	
+	</script>
+
 </div>
-
-
 <script type="text/javascript">
-
 	//check is book available to borrow, if yes - show "Borrow book" button in the table
 	$(function() {
 		$('#table').bootstrapTable({
 		}).on('load-success.bs.table', function() {
 			var rows = $("#table").find(" tbody tr");
 			
-			$.each(rows, function(i, val){
-				var tdInside = $(val).children();
-				var firstTd = tdInside.first();
-			
-				var newContent = $("<a href='' ></a>");
-				newContent.attr("href","${contextPath}/editBook?bookId="+$(val).data('uniqueid'));
-				newContent.text(firstTd.text())
+			if( <c:out value="${isAuthorizedLibrarian}"/> == true ){
+				$.each(rows, function(i, val){
+					var tdInside = $(val).children();
+					var firstTd = tdInside.first();
 				
-				firstTd.html(newContent);
-			});
+					var newContent = $("<a href='' ></a>");
+					newContent.attr("href","${contextPath}/editBook?bookId="+$(val).data('uniqueid'));
+					newContent.text(firstTd.text())
+					
+					firstTd.html(newContent);
+				});
+			}
 			
 	 		$.each(rows, function(i, val){
 				var id = $(val).data('uniqueid');

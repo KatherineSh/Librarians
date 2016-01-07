@@ -37,4 +37,7 @@ public interface BookService {
 	public boolean isCategoryExisted(String name);
 	
 	public Book getBookDetails(Integer id);
+
+	public void changeBookDetails(Book book);
+
 }

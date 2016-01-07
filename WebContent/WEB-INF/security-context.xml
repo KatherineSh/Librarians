@@ -22,6 +22,7 @@
 		<security:intercept-url pattern="/main"	access="isAuthenticated()"  />
 		<security:intercept-url pattern="/addBook"	access="isAuthenticated()"  />
 		<security:intercept-url pattern="/userList"	access="isAuthenticated()"  />
+<!-- 		<security:intercept-url pattern="/editBook"	access="hasAuthority('LIBRARIAN')"  method="GET" /> -->
 		
 		<!-- <security:intercept-url pattern="/main" access="permitAll" method="POST" /> -->
 

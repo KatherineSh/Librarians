@@ -119,4 +119,9 @@ public class BookServiceImpl implements BookService {
 	public Book getBookDetails(Integer id) {
 		return bookDao.getBook(id);
 	}
+
+	@Override
+	public void changeBookDetails(Book book) {	
+		bookDao.setBookDetails(book);
+	}
 }

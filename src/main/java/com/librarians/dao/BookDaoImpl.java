@@ -1,6 +1,7 @@
 package com.librarians.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -220,7 +221,14 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 	public Book getBook(Integer id) {
 		Session session = getSession();
 		Book book = (Book) session.get(Book.class, id);
-		Hibernate.initialize(book);
+		Hibernate.initialize(book);  //to initialize associated entities (lazily fetched)
+		book.getInstances().size();  //to set in book instances
 		return book;
+	}
+
+	@Transactional
+	public void setBookDetails(Book book) {
+		Session session = getSession();
+		session.update(book); ///difference from merge?
 	}
 }
