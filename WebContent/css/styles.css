@@ -28,3 +28,9 @@ label.control-label span { cursor: pointer; }
 .return-book, .take-book {
     margin: 3px;
 }
+.current-user-label {
+	vertical-align: middle;
+	padding:15px;
+	line-height: 20px;
+	color: #555;	
+}

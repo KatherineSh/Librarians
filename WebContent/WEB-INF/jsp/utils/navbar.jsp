@@ -24,7 +24,7 @@
 					<li><a href="${contextPath}/addLibrarian">Add librarian</a></li>
 				</sec:authorize>
 			</ul>
-
+			
 			<ul class="nav navbar-nav navbar-right">
 				<li><a
 					onclick="document.getElementById('logout_form').submit();"
@@ -34,8 +34,24 @@
 			<form:form action="${contextPath}/logout" method="post" id="logout_form" class="navbar-form navbar-right">
 				<!-- <button type="submit" class="btn btn-default">Log out</button> -->
 			</form:form>
-
 			
+			<ul class="nav navbar-nav navbar-right">
+				<li class="current-user-label">Authorized:  
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication property="principal.username"/>
+					</sec:authorize>
+				</li>
+				<li class="current-user-label">Role:
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication property="authorities" var="authorities"/>
+					</sec:authorize>
+					<c:forEach items="${authorities}" var="authority" varStatus="status">
+						<c:out value="${authority}" />
+						<c:if test="${ ! status.last}">&nbsp</c:if>
+					</c:forEach>
+				</li>
+			</ul>
+
 		</div>
 	</div>
 </nav>
