@@ -6,7 +6,6 @@ import org.springframework.validation.BindingResult;
 
 import com.librarians.model.User;
 import com.librarians.model.UserRole;
-import com.librarians.model.VerificationToken;
 
 public interface UserService {
 	
@@ -24,8 +23,7 @@ public interface UserService {
 
 	public BindingResult isUserUnique(User user, BindingResult result);
 
-	public Long getUserCount(UserRole role);
+	public Long getUserCount(UserRole role, String search);
 
-	public List<User> listUser(UserRole role, Integer offset, Integer limit);
-
+	public List<User> listUser(UserRole role, Integer offset, Integer limit, String search);
 }

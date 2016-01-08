@@ -2,6 +2,7 @@ package com.librarians.dao;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Projections;
@@ -19,6 +20,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	static Logger log = Logger.getLogger(UserDaoImpl.class.getName());
 	
 	@Transactional
 	public String getEmailByUserName(String name) {
@@ -62,20 +65,40 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	}
 
 	@Transactional
-	public Long getUserCount(UserRole role) {
-		Long count = (Long) getSession().createCriteria(User.class)
-				.add(Restrictions.eq("role", role))
-				.setProjection(Projections.rowCount()).uniqueResult();
+	public Long getUserCount(UserRole role, String search) {
+		Criteria createria = getSession().createCriteria(User.class);
+		
+		if(search != null && !search.isEmpty()){
+			createria = search(createria, search); 
+		}
+		
+		Long count = (Long) createria.add(Restrictions.eq("role", role)).setProjection(Projections.rowCount()).uniqueResult();
 		return count;
 	}
 
 	@Transactional
-	public List<User> getLimitedUserList(UserRole role, Integer offset, Integer limit) {
-		Criteria criteria = getSession().createCriteria(User.class)
-				.add(Restrictions.eq("role", role));
+	public List<User> getLimitedUserList(UserRole role, Integer offset, Integer limit, String search) {
+		Criteria criteria = getSession().createCriteria(User.class);
+		
+		if(search != null && !search.isEmpty()){
+			criteria = search(criteria, search); 
+		}
+		criteria.add(Restrictions.eq("role", role));
 		
 		@SuppressWarnings("unchecked")
 		List<User> list = criteria.setFirstResult(offset).setMaxResults(limit).list();
 		return list;
 	}
+
+
+	public Criteria search(Criteria criteria, String search) {
+		search = '%' + search.trim() + '%';
+
+		System.out.println("--------------------------");
+		System.out.println("search = " + search);
+
+		criteria = criteria.add(Restrictions.disjunction().add(Restrictions.like("name", search)).add(Restrictions.like("email", search)));
+		return criteria;
+	}
+		
 }

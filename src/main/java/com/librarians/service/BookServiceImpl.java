@@ -1,6 +1,5 @@
 package com.librarians.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,12 +11,13 @@ import org.springframework.stereotype.Service;
 
 import com.librarians.dao.BookDao;
 import com.librarians.model.Book;
-import com.librarians.model.Category;
 import com.librarians.model.BookInstance;
+import com.librarians.model.Category;
 
 @Service("bookService")
 public class BookServiceImpl implements BookService {
 	
+
 	@Autowired
 	private BookDao bookDao;
 
@@ -43,18 +43,13 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public Long getBookCount() {
-		return bookDao.getBookCount();
+	public Long getBookCount(String search) {
+		return bookDao.getBookCount(search);
 	}
 
 	@Override
-	public List<Book> listPage(Integer offset, Integer limit, String sort, String sortField) {
-		return bookDao.getLimitedAndSortedList(offset,limit, sort, sortField);
-	}
-
-	@Override
-	public List<Book> searchBookBy(String search) {
-		return bookDao.searchBookBy(search);
+	public List<Book> listPage(Integer offset, Integer limit, String sort, String sortField, String search) {
+		return bookDao.getLimitedAndSortedList(offset,limit, sort, sortField, search);
 	}
 
 	@Override

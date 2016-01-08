@@ -1,7 +1,6 @@
 package com.librarians.dao;
 
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -15,8 +14,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.librarians.model.Book;
-import com.librarians.model.Category;
 import com.librarians.model.BookInstance;
+import com.librarians.model.Category;
 import com.librarians.model.User;
 
 @Repository("bookDao")
@@ -44,17 +43,24 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 	}
 
 	@Transactional
-	public Long getBookCount() {
+	public Long getBookCount(String search) {
 		Criteria criteria = getSession().createCriteria(Book.class);
+		
+		if (search != null && !search.isEmpty()) {
+			criteria = search(criteria, search);
+		}
 		criteria.setProjection(Projections.rowCount());
 		Long count = (Long) criteria.uniqueResult();
 		return count;
 	}
 
 	@Transactional
-	public List<Book> getLimitedAndSortedList(Integer offset, Integer limit, String order, String sortField) {
+	public List<Book> getLimitedAndSortedList(Integer offset, Integer limit, String order, String sortField, String search) {
 		Criteria criteria = getSession().createCriteria(Book.class);
 
+		if (search != null && !search.isEmpty()) {
+			criteria = search(criteria, search);
+		}
 		if (order != null && sortField != null) {
 			Order sortOrder = (order.equals("asc")) ? Order.asc(sortField) : Order.desc(sortField);
 			criteria.addOrder(sortOrder);
@@ -64,10 +70,7 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 		return list;
 	}
 
-	@Transactional
-	public List<Book> searchBookBy(String search) {
-		Criteria criteria = getSession().createCriteria(Book.class);
-
+	public Criteria search(Criteria criteria, String search) {
 		Short year = null;
 		try {
 			year = Short.parseShort(search);
@@ -82,7 +85,7 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 			log.info("Search text string can't be casted to number");
 		}
 
-		search = '%' + search + '%';
+		search = '%' + search.trim() + '%';
 
 		System.out.println("--------------------------");
 		System.out.println("year=" + year);
@@ -99,10 +102,7 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 			restriction.add(Restrictions.like("isbn", isbn));
 		}
 		criteria.add(restriction);
-
-		@SuppressWarnings("unchecked")
-		List<Book> list = criteria.list();
-		return list;
+		return criteria;
 	}
 
 	@Transactional

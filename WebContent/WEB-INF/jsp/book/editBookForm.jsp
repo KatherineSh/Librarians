@@ -87,12 +87,10 @@
 					<form:button type="submit" class="btn btn-primary">Save changes</form:button>
 				</div>
 				<div class="col-xs-2">
-					<button  type="button" class="btn btn-primary" onclick="javascript: $('#cancelEditForm').submit();">Cancel</button>
+					<button  type="button" class="btn btn-primary" onclick="javascript: window.location.replace('${contextPath}/main');">Back</button>
 				</div>
 			</div>
 		</form:form>
-		
-		<form action="${contextPath}/main" method="GET" class="form-horizontal" id="cancelEditForm"></form>
 	</div>
 </div>
 <%-- <c:out  value="${pageContext.request.requestURI}"/> --%>

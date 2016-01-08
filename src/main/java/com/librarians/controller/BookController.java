@@ -119,34 +119,15 @@ public class BookController {
 			@RequestParam(required=false) String sort,
 			@RequestParam(required=false) String search
 	) {
-												
-		Long totalItems = bookService.getBookCount();
-		List<Book> list = bookService.listPage(offset, limit, order, sort);
+		
+		Long totalItems = bookService.getBookCount(search);
+		List<Book> list = bookService.listPage(offset, limit, order, sort, search);
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		result.put("total", totalItems);
 		result.put("rows", list);
 		
 		return result;
-	}
-	
-	@RequestMapping(path="/searchBook", method=RequestMethod.GET, produces="application/json" )
-	public @ResponseBody Map<String, Object> searchInBookTable(
-			
-			@RequestParam String search){		
-		
-		Integer totalResults = null;
-		List<Book> resultList = null;
-		
-		if(search != null && !search.trim().isEmpty()) {
-			resultList = bookService.searchBookBy(search);
-			totalResults = resultList.size();
-		}
-		Map<String,Object> result = new HashMap<String, Object>();
-		result.put("total", totalResults);
-		result.put("rows", resultList);
-		
-		return  result;
 	}
 	
 	@RequestMapping(path="/checkBooksCount", method=RequestMethod.GET, produces="application/json" )

@@ -12,13 +12,11 @@ public interface BookService {
 
 	public boolean exist(Book book);
 	
-	public Long getBookCount();
+	public Long getBookCount(String search);
 
 	public List<Book> list();
 
-	public List<Book> listPage(Integer offset, Integer limit, String sort, String sortField);
-
-	public List<Book> searchBookBy(String search);
+	public List<Book> listPage(Integer offset, Integer limit, String sort, String sortField, String search);
 
 	public Map<Integer, Integer> getBookInstances(List<String> booksIdArray);
 

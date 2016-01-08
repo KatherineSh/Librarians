@@ -39,36 +39,38 @@
 		</thead>
 
 	</table>	
-
-	<script type="text/javascript">
-	$(function() {
-		$('#table').bootstrapTable({
-	}).on('search.bs.table', function() {
-		var rows = $("#table").find(" tbody tr");
-		
-		$.each(rows, function(i, val){
-			var tdInside = $(val).children();
-			var firstTd = tdInside.first();
-		
-			var newContent = $("<a href='' ></a>");
-			newContent.attr("href","${contextPath}/editBook?bookId="+$(val).data('uniqueid'));
-			newContent.text(firstTd.text())
-			
-			firstTd.html(newContent);
-		});
-	});
-	});
-	
-	</script>
-
 </div>
 <script type="text/javascript">
+		$(function() {
+			$('#table').bootstrapTable({
+		}).on('search.bs.table', function() {
+			var rows = $("#table").find(" tbody tr");
+			
+			$.each(rows, function(i, val){
+				var tdInside = $(val).children();
+				var firstTd = tdInside.first();
+			
+				var newContent = $("<a href='' ></a>");
+				newContent.attr("href","${contextPath}/editBook?bookId="+$(val).data('uniqueid'));
+				newContent.text(firstTd.text())
+				
+				firstTd.html(newContent);
+			});
+		});
+	});
+
 	//check is book available to borrow, if yes - show "Borrow book" button in the table
 	$(function() {
 		$('#table').bootstrapTable({
 		}).on('load-success.bs.table', function() {
-			var rows = $("#table").find(" tbody tr");
 			
+			var noResultsResponse = $('#table tbody').find('tr.no-records-found');
+			if( noResultsResponse != undefined && noResultsResponse.length > 0){
+				return;
+			}		
+			
+			var rows = $("#table").find(" tbody tr");
+	
 			if( <c:out value="${isAuthorizedLibrarian}"/> == true ){
 				$.each(rows, function(i, val){
 					var tdInside = $(val).children();
@@ -223,27 +225,5 @@
 			$("#take_book-" + bookId).hide();
 		}
 	};
-	
-	//redrow table after search in table
-	$(function() {
-		$('#table').bootstrapTable({
-			
-		}).on('search.bs.table',function(e, text) {
-			var data = {'search': text};
-			
-			$.ajax({
-				url:"/Librarians/searchBook",
-				data: data,
-				method: "GET"
-			}).done(function(table) {
-			   	redrowTable(table);
-			});
-			;
-		});
-	});
-	
-	function redrowTable(table){
-		$('#table').bootstrapTable('load', table);
-	}
 	
 </script>

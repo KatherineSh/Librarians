@@ -28,10 +28,14 @@ public class UserController {
 	@RequestMapping(path="/userPage", method=RequestMethod.GET, produces="application/json")
 	public @ResponseBody Map<String,Object> showUserListInTable(
 			@RequestParam Integer offset,
-			@RequestParam Integer limit){
+			@RequestParam Integer limit,
+			@RequestParam(required=false) String order,
+			@RequestParam(required=false) String sort,
+			@RequestParam(required=false) String search	)
+	{
 		
-		Long userCount = userservice.getUserCount(UserRole.USER);
-		List<User> userList = userservice.listUser(UserRole.USER, offset, limit); 
+		Long userCount = userservice.getUserCount(UserRole.USER, search);
+		List<User> userList = userservice.listUser(UserRole.USER, offset, limit, search); 
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", userCount);
