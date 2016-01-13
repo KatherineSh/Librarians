@@ -2,7 +2,7 @@ package com.librarians.observer.event;
 
 import org.springframework.context.ApplicationEvent;
 
-import com.librarians.model.User;
+import com.librarians.model.entity.User;
 
 public class NewLibrarianWasAddedEvent extends ApplicationEvent {
 

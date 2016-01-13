@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.librarians.model.User;
+import com.librarians.model.entity.User;
 
 @Controller
 public class MainController {

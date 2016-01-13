@@ -1,6 +1,7 @@
 package com.librarians.dao;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -13,10 +14,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.librarians.model.Book;
-import com.librarians.model.BookInstance;
-import com.librarians.model.Category;
-import com.librarians.model.User;
+import com.librarians.model.entity.Book;
+import com.librarians.model.entity.BookInstance;
+import com.librarians.model.entity.Category;
+import com.librarians.model.entity.User;
 
 @Repository("bookDao")
 public class BookDaoImpl extends AbstractDao implements BookDao {
@@ -56,14 +57,26 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 
 	@Transactional
 	public List<Book> getLimitedAndSortedList(Integer offset, Integer limit, String order, String sortField, String search) {
-		Criteria criteria = getSession().createCriteria(Book.class);
+		Criteria criteria = getSession().createCriteria(Book.class, "book");
 
 		if (search != null && !search.isEmpty()) {
 			criteria = search(criteria, search);
 		}
+		
+		Order sortOrder = null;
 		if (order != null && sortField != null) {
-			Order sortOrder = (order.equals("asc")) ? Order.asc(sortField) : Order.desc(sortField);
-			criteria.addOrder(sortOrder);
+			
+			if(sortField.contains(".")) {
+				StringTokenizer tokenizer = new StringTokenizer(sortField,".");
+				String tableName = tokenizer.nextToken();
+				String columnName = tokenizer.nextToken();
+				
+				criteria.createAlias("book." + tableName, "c").add(Restrictions.eqProperty("c.id", tableName + ".id"));
+				sortOrder = (order.equals("asc")) ? Order.asc("c." + columnName) : Order.desc("c." + columnName);
+			} else {
+				sortOrder = (order.equals("asc")) ? Order.asc(sortField) : Order.desc(sortField);		
+			}
+			criteria.addOrder(sortOrder);	
 		}
 		@SuppressWarnings("unchecked")
 		List<Book> list = criteria.setFirstResult(offset).setMaxResults(limit).list();

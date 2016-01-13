@@ -11,8 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.librarians.model.User;
 import com.librarians.model.UserRole;
+import com.librarians.model.entity.User;
 import com.librarians.observer.EventBuilder;
 import com.librarians.observer.EventPublisher;
 import com.librarians.service.UserService;

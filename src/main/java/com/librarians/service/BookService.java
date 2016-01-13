@@ -3,8 +3,8 @@ package com.librarians.service;
 import java.util.List;
 import java.util.Map;
 
-import com.librarians.model.Book;
-import com.librarians.model.Category;
+import com.librarians.model.entity.Book;
+import com.librarians.model.entity.Category;
 
 public interface BookService {
 	

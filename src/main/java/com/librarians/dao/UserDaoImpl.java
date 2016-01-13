@@ -1,19 +1,22 @@
 package com.librarians.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.librarians.model.User;
 import com.librarians.model.UserRole;
+import com.librarians.model.entity.User;
 
 @Component("userDao")
 public class UserDaoImpl extends AbstractDao implements UserDao {
@@ -100,5 +103,26 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 		criteria = criteria.add(Restrictions.disjunction().add(Restrictions.like("name", search)).add(Restrictions.like("email", search)));
 		return criteria;
 	}
+	
+	@Transactional
+	public User getUserByName(String name) {
+		User user = (User) getSession().createCriteria(User.class)
+				.add(Restrictions.eq("name", name))
+				.uniqueResult();
+		return user;
+	}
+
+	@Transactional
+	public User updateCurrentUser(User user, Integer id) {
+		Session session = getSession();
+		
+		User persistUser = (User) session.load(User.class, id);
+		persistUser.setEmail(user.getEmail());
+		persistUser.setBirthday(user.getBirthday());
+		persistUser.setName(user.getName());
+		session.flush();
+		return persistUser;
+	}
+	
 		
 }

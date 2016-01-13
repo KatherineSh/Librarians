@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.librarians.dao.BookDao;
-import com.librarians.model.Book;
-import com.librarians.model.BookInstance;
-import com.librarians.model.Category;
+import com.librarians.model.entity.Book;
+import com.librarians.model.entity.BookInstance;
+import com.librarians.model.entity.Category;
 
 @Service("bookService")
 public class BookServiceImpl implements BookService {

@@ -1,4 +1,4 @@
-package com.librarians.model;
+package com.librarians.model.entity;
 
 
 import java.io.Serializable;

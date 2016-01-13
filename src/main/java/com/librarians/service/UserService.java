@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.springframework.validation.BindingResult;
 
-import com.librarians.model.User;
+import com.librarians.model.UserProfile;
 import com.librarians.model.UserRole;
+import com.librarians.model.entity.User;
 
 public interface UserService {
 	
@@ -26,4 +27,8 @@ public interface UserService {
 	public Long getUserCount(UserRole role, String search);
 
 	public List<User> listUser(UserRole role, Integer offset, Integer limit, String search);
+
+	public UserProfile getUserProfile();
+
+	public void updateCurrentUser(User user);
 }

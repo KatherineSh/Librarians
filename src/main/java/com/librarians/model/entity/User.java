@@ -1,8 +1,8 @@
-package com.librarians.model;
+package com.librarians.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,8 +21,10 @@ import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.librarians.model.UserRole;
 
 
 @Entity
@@ -63,7 +65,7 @@ public class User implements Serializable {
 	
 	@OneToMany(mappedBy="user")
 	@JsonBackReference
-	private Set<BookInstance> bookInstances;
+	private List<BookInstance> bookInstances;
 	
 	public User() {
 	}
@@ -80,6 +82,9 @@ public class User implements Serializable {
 		return id;
 	}
 	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getPass() {
 		return pass;
 	}
@@ -122,7 +127,7 @@ public class User implements Serializable {
 		this.enabled = enabled;
 	}
 	
-	public Set<BookInstance> getBookInstances() {
+	public List<BookInstance> getBookInstances() {
 		return bookInstances;
 	}
 }

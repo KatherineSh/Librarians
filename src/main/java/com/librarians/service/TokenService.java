@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.librarians.dao.VerificationTokenDao;
-import com.librarians.model.VerificationToken;
+import com.librarians.model.entity.VerificationToken;
 
 @Service("tokenService")
 public class TokenService {

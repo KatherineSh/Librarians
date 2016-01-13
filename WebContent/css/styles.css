@@ -12,11 +12,12 @@
 .date-form { margin: 10px; }
 label.control-label span { cursor: pointer; }
 
-#table tbody tr td div.alert-danger, #table tbody tr td div.alert-success {
+.table tbody tr td div.alert-danger, 
+.table tbody tr td div.alert-success {
 	background-color: transparent;
 }
 
-#table tbody tr td{
+.table tbody tr td{
 	height: 58px;
 }
 
@@ -34,3 +35,14 @@ label.control-label span { cursor: pointer; }
 	line-height: 20px;
 	color: #555;	
 }
+
+/* to set width of bootstrap-tables's column directly */ 
+/*  #book-list-table tr td:nth-child(1){
+    width:70%;
+}
+ */
+
+.profile-view-labels label {
+	line-height: 25px;
+}
+ 

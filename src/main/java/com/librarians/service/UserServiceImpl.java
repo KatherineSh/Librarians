@@ -1,18 +1,16 @@
 package com.librarians.service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import com.librarians.dao.UserDao;
-import com.librarians.model.User;
+import com.librarians.model.UserProfile;
 import com.librarians.model.UserRole;
-import com.librarians.model.VerificationToken;
+import com.librarians.model.entity.User;
+import com.librarians.model.entity.VerificationToken;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -21,7 +19,10 @@ public class UserServiceImpl implements UserService {
 	private TokenService tokenService;
 	
 	@Autowired
-	private UserDao userDao;
+	private UserProfile userProfile;
+	
+	@Autowired
+	private UserDao userDao; 
 	
 	@Override
 	public String findEmailByUserName(String name) {
@@ -84,5 +85,16 @@ public class UserServiceImpl implements UserService {
 	public List<User> listUser(UserRole role, Integer offset, Integer limit, String search) {
 		return userDao.getLimitedUserList(role, offset, limit, search);
 	}
+
+	@Override
+	public UserProfile getUserProfile() {
+		return this.userProfile;
+	}
 	
+	@Override
+	public void updateCurrentUser(User user) {
+		User currentUser = userProfile.getUser();
+		User cangedCurrentUser = userDao.updateCurrentUser(user, currentUser.getId());
+		userProfile.updateUser(cangedCurrentUser);
+	}
 }

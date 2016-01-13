@@ -2,8 +2,8 @@ package com.librarians.dao;
 
 import java.util.List;
 
-import com.librarians.model.User;
 import com.librarians.model.UserRole;
+import com.librarians.model.entity.User;
 
 public interface UserDao {
 
@@ -20,5 +20,9 @@ public interface UserDao {
 	public Long getUserCount(UserRole role, String search);
 
 	public List<User> getLimitedUserList(UserRole role, Integer offset, Integer limit, String search);
+	
+	public User getUserByName(String name);
+
+	public User updateCurrentUser(User user, Integer integer);
 
 }

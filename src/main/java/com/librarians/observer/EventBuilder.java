@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
-import com.librarians.model.User;
+import com.librarians.model.entity.User;
 import com.librarians.observer.event.EmailSendEvent;
 import com.librarians.observer.event.NewLibrarianWasAddedEvent;
 import com.librarians.observer.event.NewUserWasRegisteredEvent;

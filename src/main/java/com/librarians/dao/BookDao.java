@@ -2,8 +2,8 @@ package com.librarians.dao;
 
 import java.util.List;
 
-import com.librarians.model.Book;
-import com.librarians.model.Category;
+import com.librarians.model.entity.Book;
+import com.librarians.model.entity.Category;
 
 public interface BookDao {
 	

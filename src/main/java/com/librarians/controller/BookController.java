@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.librarians.model.Book;
-import com.librarians.model.Category;
 import com.librarians.model.UserRole;
+import com.librarians.model.entity.Book;
+import com.librarians.model.entity.Category;
 import com.librarians.service.BookService;
 
 @Controller

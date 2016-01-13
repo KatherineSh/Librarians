@@ -1,6 +1,6 @@
 package com.librarians.dao;
 
-import com.librarians.model.VerificationToken;
+import com.librarians.model.entity.VerificationToken;
 
 public interface VerificationTokenDao {
 

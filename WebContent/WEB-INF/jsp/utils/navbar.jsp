@@ -23,6 +23,8 @@
 				<sec:authorize access="hasAuthority('ADMIN')"> 
 					<li><a href="${contextPath}/addLibrarian">Add librarian</a></li>
 				</sec:authorize>
+				
+				<li><a href="${contextPath}/profile">User Profile</a></li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">

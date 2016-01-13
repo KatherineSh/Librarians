@@ -6,7 +6,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
 import com.librarians.controller.UserRegistrationController;
-import com.librarians.model.User;
+import com.librarians.model.entity.User;
 import com.librarians.observer.EventBuilder;
 import com.librarians.observer.EventPublisher;
 import com.librarians.observer.event.EmailSendEvent;

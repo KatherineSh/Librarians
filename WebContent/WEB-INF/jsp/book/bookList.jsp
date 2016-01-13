@@ -7,11 +7,11 @@
 
 <div id="book-table" class="panel panel-default" style="margin-top: 30px;">
 
-		<table id="table" class="table table-striped" 
+		<table id="book-list-table" class="table table-striped" 
 			
-			data-toggle="table" 
+			data-toggle="book-list-table" 
 			data-url="${contextPath}/bookPage" 
-			data-height="522" 
+			data-height="730" 
 			
 			
 			data-content-type="application/json"
@@ -31,9 +31,10 @@
 			<tr>
 				<th class="col-md-2" data-field="title" data-align="center" data-sortable="true">Title</th>
 				<th class="col-md-2" data-field="author" data-align="center" data-sortable="true">Author</th>
-				<th class="col-md-2"data-field="year" data-align="center" data-sortable="true">Year</th>
-				<th class="col-md-2" data-field="isbn" data-align="center" data-sortable="true">ISBN</th>
+				<th class="col-md-1"data-field="year" data-align="center" data-sortable="true">Year</th>
+				<th class="col-md-1" data-field="isbn" data-align="center" data-sortable="true">ISBN</th>
 				<th class="col-md-2" data-field="description" data-align="center" data-sortable="true">Description</th>
+				<th class="col-md-2" data-field="category.categoryName" data-align="center" data-sortable="true">Category</th>
 				<th class="col-md-2" data-align="center" style="text-align:center; vertical-align:middle;">Action</th>
 			</tr>
 		</thead>
@@ -42,9 +43,9 @@
 </div>
 <script type="text/javascript">
 		$(function() {
-			$('#table').bootstrapTable({
+			$('#book-list-table').bootstrapTable({
 		}).on('search.bs.table', function() {
-			var rows = $("#table").find(" tbody tr");
+			var rows = $("#book-list-table").find(" tbody tr");
 			
 			$.each(rows, function(i, val){
 				var tdInside = $(val).children();
@@ -61,15 +62,15 @@
 
 	//check is book available to borrow, if yes - show "Borrow book" button in the table
 	$(function() {
-		$('#table').bootstrapTable({
+		$('#book-list-table').bootstrapTable({
 		}).on('load-success.bs.table', function() {
 			
-			var noResultsResponse = $('#table tbody').find('tr.no-records-found');
+			var noResultsResponse = $('#book-list-table tbody').find('tr.no-records-found');
 			if( noResultsResponse != undefined && noResultsResponse.length > 0){
 				return;
 			}		
 			
-			var rows = $("#table").find(" tbody tr");
+			var rows = $("#book-list-table").find(" tbody tr");
 	
 			if( <c:out value="${isAuthorizedLibrarian}"/> == true ){
 				$.each(rows, function(i, val){
@@ -131,7 +132,7 @@
 	}
 	
 	function checkIfNeedBookReturn(){
-		var rows = $("#table").find(" tbody tr");
+		var rows = $("#book-list-table").find(" tbody tr");
 
 		$.each(rows, function(i, val){
 			var id = $(val).data('uniqueid');
@@ -141,7 +142,7 @@
 	
 	function getBooksId(){
 		var result = [];
-		var rows = $("#table").find(" tbody tr");
+		var rows = $("#book-list-table").find(" tbody tr");
 		for(var i=0; i <rows.length; i++){	
 			result.push('books[]=' + rows[i].getAttribute("data-uniqueid"));	
 		}

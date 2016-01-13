@@ -6,7 +6,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.librarians.model.VerificationToken;
+import com.librarians.model.entity.VerificationToken;
 
 @Component("tokenDao")
 public class VerificationTokenDaoImpl extends AbstractDao implements VerificationTokenDao {

@@ -4,7 +4,7 @@
 	
 <jsp:include page="utils/pageHeader.jsp"></jsp:include>
 	
-	<div class="container" style="margin-left: 0;">
+	<div class="container" style="margin-left:0; width: 1400px;">
 
 		<sec:authorize access="hasAnyAuthority('LIBRARIAN','USER')">
 			<jsp:include page="book/bookList.jsp"></jsp:include>
