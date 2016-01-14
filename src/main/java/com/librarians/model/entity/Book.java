@@ -61,13 +61,12 @@ public class Book  implements Serializable {
 	private Set<BookInstance> instances = new HashSet<BookInstance>();
 	
 	//Association's owner, because it's many side
-	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="category_id",nullable=false)
 	@Valid
 	@NotNull
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="category_id",nullable=false)
 	private Category category;
-
+	
 	public Book(){ 
 	}
 	

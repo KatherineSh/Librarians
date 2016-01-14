@@ -121,6 +121,10 @@ public class BookController {
 	) {
 		
 		Long totalItems = bookService.getBookCount(search);
+		//TODO
+		//SearchCriteria c = new SearchCriteria(offset, limit, order, sort, search); 
+		//value object = one time created (no setters)
+		// and compare by values(fields)
 		List<Book> list = bookService.listPage(offset, limit, order, sort, search);
 		
 		Map<String,Object> result = new HashMap<String, Object>();

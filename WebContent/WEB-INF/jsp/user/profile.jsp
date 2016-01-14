@@ -25,7 +25,7 @@
 			<div class="form-group">
 				<label class="control-label col-md-6">User birthday:</label>
 				<label class="date-picker control-label col-md-6">
-					<fmt:formatDate value="${user.birthday}"  type='date' pattern='dd-mm-yyyy'/>
+					<fmt:formatDate value="${user.birthday}"  type="date" pattern="dd-MM-yyyy"/>
 				</label>
 			</div>
 			<div class="form-group">

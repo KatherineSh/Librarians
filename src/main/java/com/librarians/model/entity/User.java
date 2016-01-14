@@ -21,7 +21,6 @@ import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.librarians.model.UserRole;
@@ -67,6 +66,10 @@ public class User implements Serializable {
 	@JsonBackReference
 	private List<BookInstance> bookInstances;
 	
+	@OneToMany(mappedBy="reader")
+	@JsonBackReference
+	private List<BookHistory> bookInstanceHistory;
+	
 	public User() {
 	}
 	
@@ -85,6 +88,18 @@ public class User implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	public List<BookHistory> getBookInstanceHistory() {
+		return bookInstanceHistory;
+	}
+
+	public void setBookInstanceHistory(List<BookHistory> bookInstanceHistory) {
+		this.bookInstanceHistory = bookInstanceHistory;
+	}
+
+	public void setBookInstances(List<BookInstance> bookInstances) {
+		this.bookInstances = bookInstances;
+	}
+
 	public String getPass() {
 		return pass;
 	}
