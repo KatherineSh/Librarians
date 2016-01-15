@@ -1,6 +1,5 @@
 package com.librarians.controller;
 
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.librarians.model.SearchCriteria;
 import com.librarians.model.UserRole;
 import com.librarians.model.entity.Book;
 import com.librarians.model.entity.Category;
@@ -117,15 +117,13 @@ public class BookController {
 			@RequestParam Integer offset,
 			@RequestParam(required=false) String order,
 			@RequestParam(required=false) String sort,
-			@RequestParam(required=false) String search
-	) {
+			@RequestParam(required=false) String search	) {
 		
 		Long totalItems = bookService.getBookCount(search);
-		//TODO
-		//SearchCriteria c = new SearchCriteria(offset, limit, order, sort, search); 
-		//value object = one time created (no setters)
-		// and compare by values(fields)
-		List<Book> list = bookService.listPage(offset, limit, order, sort, search);
+		
+		//SearchCriteria is a value object = one time created (no setters) and compare by values(fields)
+		SearchCriteria criteria = new SearchCriteria(offset, limit, order, sort, search); 
+		List<Book> list = bookService.search(criteria);
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		result.put("total", totalItems);
@@ -151,71 +149,4 @@ public class BookController {
 		return map;
 	}
 	
-	@RequestMapping(path="/assignBookToUser", method=RequestMethod.GET, produces="application/json" )
-	public @ResponseBody  Map<String, Object> assignBookToUser(Principal principal, @RequestParam Integer bookId){
-
-		String currentUserName = principal.getName();
-		
-		boolean isAssigned = bookService.assignBookToUser(bookId, currentUserName);
-		Integer bookInstancesLeft = bookService.getBookInstancesLeftToAssign(bookId);
-		
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("isAssigned", isAssigned);
-		result.put("bookCountLeft", bookInstancesLeft);
-		
-		return result;
-	}
-	
-	@RequestMapping(path="/isReturnBookAvailable", method=RequestMethod.GET, produces="application/json" )
-	public @ResponseBody  Map<String, Object> checkIsBookAssignedToUser(Principal principal, @RequestParam Integer bookId){
-		String currentUserName = principal.getName();
-		Map<String, Object> result = new HashMap<String, Object>();
-		
-		boolean shouldToShow = bookService.isBookAssignedToCurrentUser(bookId, currentUserName);
-		result.put("isReturnBookAvailable", shouldToShow);
-		return result;
-	}
-	
-	@RequestMapping(path="/returnBook", method=RequestMethod.GET, produces="application/json" )
-	public @ResponseBody  Map<String, Object> returnBookInstance(Principal principal, @RequestParam Integer bookId){
-
-		String currentUserName = principal.getName();
-		Map<String, Object> result = new HashMap<String, Object>();
-		
-		boolean isMoreBookInstanceLeft = bookService.returnBook(bookId, currentUserName);
-				
-		result.put("isMoreBookInstanceLeft", isMoreBookInstanceLeft);
-		return result;
-	}
-	
-	@RequestMapping(path="/addCategory", method=RequestMethod.GET, produces="application/json" )
-	public @ResponseBody Map<String, Object> addCategory(Authentication authentication, @RequestParam String categoryName){
-		
-		GrantedAuthority auth = new SimpleGrantedAuthority(UserRole.LIBRARIAN.toString());
-		boolean isLibrarian = authentication.getAuthorities().contains(auth);
-
-		Map<String, Object> result = new HashMap<String, Object>();
-		if (isLibrarian && categoryName != null) {	
-			String name = categoryName.trim();
-			if(!name.isEmpty()) {
-				
-				boolean isExisted = bookService.isCategoryExisted(name);
-				if(!isExisted){
-					Category category = new Category();
-					category.setCategoryName(name);
-					boolean isCategoryAdded = bookService.addCategory(category);			
-					result.put("isCategoryAdded", isCategoryAdded);
-					
-					List<Category> categories = bookService.getAllCategories();
-					result.put("updatedCategories", categories);
-				} else {
-					result.put("isCategoryAdded", false);
-					result.put("isCategoryExisted", true);
-				}
-			} else {
-				result.put("isCategoryAdded", false);
-			}
-		}
-		return result;
-	}
 }

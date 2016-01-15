@@ -3,7 +3,10 @@ package com.librarians.service;
 import java.util.List;
 import java.util.Map;
 
+import com.librarians.model.SearchCriteria;
 import com.librarians.model.entity.Book;
+import com.librarians.model.entity.BookHistory;
+import com.librarians.model.entity.BookInstance;
 import com.librarians.model.entity.Category;
 
 public interface BookService {
@@ -16,9 +19,11 @@ public interface BookService {
 
 	public List<Book> list();
 
-	public List<Book> listPage(Integer offset, Integer limit, String sort, String sortField, String search);
+	public List<Book> search(SearchCriteria criteria);
 
 	public Map<Integer, Integer> getBookInstances(List<String> booksIdArray);
+	
+	public List<BookInstance> getBookInstances(Integer bookId);
 
 	public boolean assignBookToUser(Integer bookId, String userName);
 	
@@ -37,5 +42,7 @@ public interface BookService {
 	public Book getBookDetails(Integer id);
 
 	public void changeBookDetails(Book book);
+
+	public List<BookHistory> getBookInstanceHistory(Integer bookInstanceId);
 
 }

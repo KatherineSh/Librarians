@@ -1,7 +1,7 @@
 package com.librarians.dao;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -14,7 +14,9 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.librarians.model.SearchCriteria;
 import com.librarians.model.entity.Book;
+import com.librarians.model.entity.BookHistory;
 import com.librarians.model.entity.BookInstance;
 import com.librarians.model.entity.Category;
 import com.librarians.model.entity.User;
@@ -48,7 +50,7 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 		Criteria criteria = getSession().createCriteria(Book.class);
 		
 		if (search != null && !search.isEmpty()) {
-			criteria = search(criteria, search);
+			criteria = addSearch(criteria, search);
 		}
 		criteria.setProjection(Projections.rowCount());
 		Long count = (Long) criteria.uniqueResult();
@@ -56,34 +58,33 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 	}
 
 	@Transactional
-	public List<Book> getLimitedAndSortedList(Integer offset, Integer limit, String order, String sortField, String search) {
+	public List<Book> getLimitedAndSortedList(SearchCriteria searchCriteria) {
 		Criteria criteria = getSession().createCriteria(Book.class, "book");
 
-		if (search != null && !search.isEmpty()) {
-			criteria = search(criteria, search);
+		if (searchCriteria.hasSearchKey()) {
+			criteria = addSearch(criteria, searchCriteria.getSearchKey());
 		}
 		
-		Order sortOrder = null;
-		if (order != null && sortField != null) {
-			
-			if(sortField.contains(".")) {
-				StringTokenizer tokenizer = new StringTokenizer(sortField,".");
-				String tableName = tokenizer.nextToken();
-				String columnName = tokenizer.nextToken();
-				
-				criteria.createAlias("book." + tableName, "c").add(Restrictions.eqProperty("c.id", tableName + ".id"));
-				sortOrder = (order.equals("asc")) ? Order.asc("c." + columnName) : Order.desc("c." + columnName);
+		if (searchCriteria.hasOrderAndSortField()) {
+			Order order = null;
+			if(searchCriteria.isOrderByAssosiatedTable()){
+
+				String assosiatedTable = searchCriteria.getAssosiatedTableName();
+				criteria.createAlias("book" + "." + assosiatedTable, "c").add(Restrictions.eqProperty("c.id", assosiatedTable + ".id"));
+				order = searchCriteria.getOrder("c");
 			} else {
-				sortOrder = (order.equals("asc")) ? Order.asc(sortField) : Order.desc(sortField);		
+				order = searchCriteria.getOrder();
 			}
-			criteria.addOrder(sortOrder);	
+			criteria.addOrder(order);
 		}
+		criteria.setFirstResult(searchCriteria.getOffset()).setMaxResults(searchCriteria.getLimit());
+		
 		@SuppressWarnings("unchecked")
-		List<Book> list = criteria.setFirstResult(offset).setMaxResults(limit).list();
+		List<Book> list = criteria.list();
 		return list;
 	}
 
-	public Criteria search(Criteria criteria, String search) {
+	private Criteria addSearch(Criteria criteria, String search) {
 		Short year = null;
 		try {
 			year = Short.parseShort(search);
@@ -242,6 +243,27 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 	@Transactional
 	public void setBookDetails(Book book) {
 		Session session = getSession();
-		session.update(book); ///difference from merge?
+		session.update(book); 
+	}
+
+	@Transactional
+	public List<BookHistory> getBookInstanceHistory(Integer bookInstanceId) {
+
+		@SuppressWarnings("unchecked")
+		List<BookHistory> historyList = getSession().createCriteria(BookHistory.class).add(Restrictions.eq("bookInstance.id", bookInstanceId)).list();
+				
+		for(BookHistory history : historyList){
+			Hibernate.initialize(history.getReader());
+		}
+		return historyList;
+	}
+
+	@Transactional
+	public List<BookInstance> getBookInstances(Integer bookId) {
+		Book book = (Book) getSession().get(Book.class, bookId);
+		book.getInstances().size();
+
+		List<BookInstance> result = new ArrayList<BookInstance>(book.getInstances());
+		return result; 
 	}
 }

@@ -2,7 +2,10 @@ package com.librarians.dao;
 
 import java.util.List;
 
+import com.librarians.model.SearchCriteria;
 import com.librarians.model.entity.Book;
+import com.librarians.model.entity.BookHistory;
+import com.librarians.model.entity.BookInstance;
 import com.librarians.model.entity.Category;
 
 public interface BookDao {
@@ -15,7 +18,7 @@ public interface BookDao {
 
 	public Long getBookCount(String search);
 
-	public List<Book> getLimitedAndSortedList(Integer offset, Integer limit, String sort, String sortField, String search);
+	public List<Book> getLimitedAndSortedList(SearchCriteria criteria);
 
 	public Integer getInstanceCountById(Integer id);
 
@@ -36,4 +39,8 @@ public interface BookDao {
 	public Book getBook(Integer id);
 
 	public void setBookDetails(Book book);
+
+	public List<BookHistory> getBookInstanceHistory(Integer bookInstanceId);
+
+	public List<BookInstance> getBookInstances(Integer bookId);
 }

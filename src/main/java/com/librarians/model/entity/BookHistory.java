@@ -46,7 +46,7 @@ public class BookHistory implements Serializable {
 	private User reader;
 
 	@NotBlank
-	@Column(name="state",length=10)
+	@Column(name="state",length=10, columnDefinition="enum('IN_TAKE','RETURNED') default 'IN_TAKE'")
 	@Enumerated(EnumType.STRING)
 	private BookState state;
 	
@@ -67,6 +67,10 @@ public class BookHistory implements Serializable {
 	@Column(name="expiration_date")
 	private Date expirationDate;
 	
+	public BookHistory() {
+		
+	}
+
 	public BookHistory(BookInstance bookInstance, User reader, BookState state, Date dateWhenTaken, Date expirationDate) {
 		this.bookInstance = bookInstance;
 		this.reader = reader;

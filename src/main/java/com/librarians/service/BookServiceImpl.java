@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.librarians.dao.BookDao;
+import com.librarians.model.SearchCriteria;
 import com.librarians.model.entity.Book;
+import com.librarians.model.entity.BookHistory;
 import com.librarians.model.entity.BookInstance;
 import com.librarians.model.entity.Category;
 
@@ -48,8 +50,8 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<Book> listPage(Integer offset, Integer limit, String sort, String sortField, String search) {
-		return bookDao.getLimitedAndSortedList(offset,limit, sort, sortField, search);
+	public List<Book> search(SearchCriteria criteria) {
+		return bookDao.getLimitedAndSortedList(criteria);
 	}
 
 	@Override
@@ -118,5 +120,15 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public void changeBookDetails(Book book) {	
 		bookDao.setBookDetails(book);
+	}
+
+	@Override
+	public List<BookHistory> getBookInstanceHistory(Integer bookInstanceId) {
+		return bookDao.getBookInstanceHistory(bookInstanceId);
+	}
+
+	@Override
+	public List<BookInstance> getBookInstances(Integer bookId) {
+		return bookDao.getBookInstances(bookId);
 	}
 }

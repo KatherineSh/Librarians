@@ -10,20 +10,22 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<link href="css/styles.css" rel="stylesheet" type="text/css">
+	<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+	
+	<link href="${contextPath}/css/styles.css" rel="stylesheet" type="text/css">
 	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	
 	
 	<!-- BOOTSTRAP CSS -->
-	<link href="bootstrap/css/bootstrap.css"	rel="stylesheet">
-	<link href="bootstrap/css/datepicker.css" rel="stylesheet">
-	<link href="bootstrap/css/datepicker.less" rel="stylesheet">
-	<link href="bootstrap/css/bootstrap-table.css" rel="stylesheet">
+	<link href="${contextPath}/bootstrap/css/bootstrap.css"	rel="stylesheet">
+	<link href="${contextPath}/bootstrap/css/datepicker.css" rel="stylesheet">
+	<link href="${contextPath}/bootstrap/css/datepicker.less" rel="stylesheet">
+	<link href="${contextPath}/bootstrap/css/bootstrap-table.css" rel="stylesheet">
 	
 	<!-- BOOTSTRAP JS -->
-	<script	src="bootstrap/js/bootstrap.js"></script>
-	<script	src="bootstrap/js/bootstrap-datepicker.js"></script>
-	<script	src="bootstrap/js/bootstrap-table.js"></script>
+	<script	src="${contextPath}/bootstrap/js/bootstrap.js"></script>
+	<script	src="${contextPath}/bootstrap/js/bootstrap-datepicker.js"></script>
+	<script	src="${contextPath}/bootstrap/js/bootstrap-table.js"></script>
 
 </head>
 <body style="margin: 50px;">

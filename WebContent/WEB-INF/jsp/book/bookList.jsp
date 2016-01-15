@@ -4,6 +4,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <sec:authorize access="hasAuthority('LIBRARIAN')" var="isAuthorizedLibrarian"></sec:authorize>
+<sec:authorize access="hasAuthority('USER')" var="isAuthorizedUser"></sec:authorize>
 
 <div id="book-table" class="panel panel-default" style="margin-top: 30px;">
 
@@ -76,36 +77,46 @@
 				$.each(rows, function(i, val){
 					var tdInside = $(val).children();
 					var firstTd = tdInside.first();
-				
+					var bookId = $(val).data('uniqueid');
+					
+					//add link to edit book
 					var newContent = $("<a href='' ></a>");
-					newContent.attr("href","${contextPath}/editBook?bookId="+$(val).data('uniqueid'));
+					newContent.attr("href","${contextPath}/editBook?bookId=" + bookId);
 					newContent.text(firstTd.text())
 					
 					firstTd.html(newContent);
+					
+					//see instances
+					var lastTd = tdInside.last();
+					var showBookInstancesButton = $("<button class='btn btn-info'>See instances</button>");
+					showBookInstancesButton.click(function(){ window.location.replace('${contextPath}/book/instances?bookId=' + bookId)});
+					lastTd.html(showBookInstancesButton);
 				});
-			}
+				
+			} else if(<c:out value="${isAuthorizedUser}"/> == true){
 			
-	 		$.each(rows, function(i, val){
-				var id = $(val).data('uniqueid');
-				var tdNode = $(val).children().last();
+		 		$.each(rows, function(i, val){
+					var id = $(val).data('uniqueid');
+					var tdNode = $(val).children().last();
+		
+					var	takeButton = $("<button id=\""+getTakeButtonId(id)+"\" data-id=\""+ id +"\" type='button' style='display:none' class='btn btn-info take-book'>Take</button>");
+					takeButton.click(function(){takeBook($(this).data("id"))});
+					tdNode.html(takeButton);
+					
+					var returnButton = $("<button id=\""+getReturnButtonId(id)+"\" data-id=\""+ id +"\" type='button' style='display:none' class='btn btn-info return-book'>Return</button>");
+					returnButton.click(function(){returnBook($(this).data("id"))});
+					tdNode.append(returnButton);
+					
+					var messageNode = $("<div id=\""+getInfoMessageId(id)+"\" data-id=\""+ id +"\" style='display:none' class='info-message'></div>");
+					tdNode.append(messageNode);
 	
-				var	takeButton = $("<button id=\""+getTakeButtonId(id)+"\" data-id=\""+ id +"\" type='button' style='display:none' class='btn btn-info take-book'>Take</button>");
-				takeButton.click(function(){takeBook($(this).data("id"))});
-				tdNode.html(takeButton);
+				});
+		 		
+				var jsonBookId = getBooksId();
+				checkBooksAvailability(jsonBookId);
 				
-				var returnButton = $("<button id=\""+getReturnButtonId(id)+"\" data-id=\""+ id +"\" type='button' style='display:none' class='btn btn-info return-book'>Return</button>");
-				returnButton.click(function(){returnBook($(this).data("id"))});
-				tdNode.append(returnButton);
-				
-				var messageNode = $("<div id=\""+getInfoMessageId(id)+"\" data-id=\""+ id +"\" style='display:none' class='info-message'></div>");
-				tdNode.append(messageNode);
-
-			});
-	 		
-			var jsonBookId = getBooksId();
-			checkBooksAvailability(jsonBookId);
-			
-			checkIfNeedBookReturn();
+				checkIfNeedBookReturn();
+			}
 		});
 	});
 

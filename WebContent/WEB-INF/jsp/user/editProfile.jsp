@@ -18,13 +18,13 @@
 			<div class="form-group">
 				<label class="control-label col-xs-3">User name:</label>
 				<div class="col-xs-9">
-					<form:input  path="name" type="text" value="${user.name}"></form:input>
+					<form:input  class="form-control" path="name" type="text" value="${user.name}"></form:input>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-xs-3">User e-mail:</label>
 				<div class="col-xs-9">
-					<form:input  path="email" type="text" value="${user.email}"></form:input>
+					<form:input  class="form-control"  path="email" type="text" value="${user.email}"></form:input>
 				</div>
 			</div>
 			<div class="form-group">
@@ -36,17 +36,15 @@
 				</div>
 			</div>
 
-
 			<div class="form-group">
 				<label class="control-label col-xs-3">User access rights:</label>
-				<div class="col-xs-9">
+				<label class="control-label" style="padding-left: 20px;">
 					<c:choose>
 						<c:when test="${user.role == 'LIBRARIAN'}">Librarian</c:when>
 						<c:when test="${user.role == 'USER'}">User</c:when>
 						<c:when test="${user.role == 'ADMIN'}">Admin</c:when>
 					</c:choose>
-
-				</div>
+				</label>
 			</div>
 			
 			<div class="form-group">
