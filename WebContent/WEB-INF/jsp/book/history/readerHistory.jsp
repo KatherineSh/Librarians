@@ -6,6 +6,8 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
+<br/>
+<br/>
 <c:if test="${fn:length(historyList) > 0}">
 	
 	<div class="col-md-12 ">
@@ -31,7 +33,6 @@
 					<c:forEach items="${historyList}" var="history">
 					
 						<c:set var="instance" value="${history.bookInstance}"/>
-						
 						<c:set var="book" value="${history.bookInstance.book}"/>
 						
 						<tr id="${history.id}">						
@@ -54,12 +55,19 @@
 		
 	</div>
 </c:if>
-<c:if test="${fn:length(historyList) == 0}">
-	No history
-</c:if>
 
 <div class="col-xs-2">
-	<button type="button" class="btn btn-primary" onclick="javascript: window.location.replace('${contextPath}/profile');">Back</button>
+	
+	<div class="form-group ">
+		<c:if test="${fn:length(historyList) == 0}">
+			No history
+		</c:if>
+	</div>
+	
+	<div class="form-group">
+		<button type="button" class="btn btn-primary" onclick="javascript: window.location.replace('${contextPath}/profile');">Back</button>
+	</div>
+	
 </div>
 
 <jsp:include page="../../utils/pageFooter.jsp"></jsp:include>

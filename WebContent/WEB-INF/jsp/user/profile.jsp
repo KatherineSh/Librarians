@@ -15,26 +15,26 @@
  			<h2>User information:</h2>
 			<br/><br/>
 			
-			<div class="form-group">
+			<div class="form-group col-xs-12">
 				<label class="control-label col-md-6">User name:</label>
 				<label class="control-label col-md-6"><c:out value="${user.name}"/></label>
 			</div>
-			<div class="form-group">
+			<div class="form-group col-xs-12">
 				<label class="control-label col-md-6">User e-mail:</label>
 				<label class="control-label col-md-6"><c:out value="${user.email}"/></label>
 			</div>
-			<div class="form-group">
+			<div class="form-group col-xs-12">
 				<label class="control-label col-md-6">User birthday:</label>
 				<label class="date-picker control-label col-md-6">
 					<fmt:formatDate value="${user.birthday}"  type="date" pattern="dd-MM-yyyy"/>
 				</label>
 			</div>
-			<div class="form-group">
+			<div class="form-group col-xs-12">
 				<label class="control-label col-md-6">User access rights:</label>
 				<label class="control-label col-md-6"><c:out value="${user.role}"/></label>
 			</div>
 			
-			<div class="form-group">
+			<div class="form-group col-xs-12">
 				<div class="col-xs-2">
 					<button  type="button" class="btn btn-primary" onclick="javascript: window.location.replace('${contextPath}/editProfile');">Edit</button>
 				</div>
