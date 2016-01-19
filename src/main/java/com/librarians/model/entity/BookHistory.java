@@ -19,7 +19,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -45,7 +44,7 @@ public class BookHistory implements Serializable {
 	@Cascade(value={CascadeType.SAVE_UPDATE})
 	private User reader;
 
-	@NotBlank
+	//@NotBlank
 	@Column(name="state",length=10, columnDefinition="enum('IN_TAKE','RETURNED') default 'IN_TAKE'")
 	@Enumerated(EnumType.STRING)
 	private BookState state;

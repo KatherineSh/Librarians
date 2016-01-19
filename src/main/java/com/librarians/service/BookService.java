@@ -21,6 +21,19 @@ public interface BookService {
 
 	public List<Book> search(SearchCriteria criteria);
 
+	public List<Category> getAllCategories();
+
+	public boolean addCategory(Category category);
+
+	public boolean isCategoryExisted(String name);
+	
+	public Book getBook(Integer id);
+
+	public void saveBook(Book book);
+
+	//instances
+	//TODO move to another service
+	
 	public Map<Integer, Integer> getBookInstances(List<String> booksIdArray);
 	
 	public List<BookInstance> getBookInstances(Integer bookId);
@@ -32,17 +45,9 @@ public interface BookService {
 	public boolean isBookAssignedToCurrentUser(Integer bookId, String currentUerName);
 
 	public boolean returnBook(Integer bookId, String currentUerName);
-
-	public List<Category> getAllCategories();
-
-	public boolean addCategory(Category category);
-
-	public boolean isCategoryExisted(String name);
 	
-	public Book getBookDetails(Integer id);
-
-	public void changeBookDetails(Book book);
-
 	public List<BookHistory> getBookInstanceHistory(Integer bookInstanceId);
+
+	public boolean isMoreAvailableToReturn(Integer bookId, String currentUserName);
 
 }

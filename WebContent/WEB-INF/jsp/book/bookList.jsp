@@ -200,42 +200,47 @@
 			method: "GET"
 		}).done(function(result){			
 			var messageNode = $("#info_message-" + bookId);
-			
-			if(!result.isMoreBookInstanceLeft){
+
+			if (result.isBookReturned && !result.isMoreAvailableToReturn) {
 				$("#return_book-" + bookId).hide();
 				messageNode.text("Book is returned.");
-			} else {
+
+			} else if (result.isBookReturned && result.isMoreAvailableToReturn) {
 				messageNode.text("Book is returned, but you have more the same book taken.");
+
+			} else {
+				messageNode.text("Exception was occured during returning book. Try again or ask librarian.");
 			}
 			messageNode.show();
 			checkBooksAvailability('books[]=' + bookId);
 		});
 	}
-	
-	function takeBook(bookId){
-		var data = {"bookId" : bookId}; 
-		 $.ajax({
-				url:"/Librarians/assignBookToUser",
-				data: data,
-				method: "GET"
-			}).done(function(result) {
-				renderMessageAndTakeButton(bookId, result);
-				showReturnButton(bookId);
-			});  
+
+	function takeBook(bookId) {
+		var data = {
+			"bookId" : bookId
+		};
+		$.ajax({
+			url : "/Librarians/assignBookToUser",
+			data : data,
+			method : "GET"
+		}).done(function(result) {
+			renderMessageAndTakeButton(bookId, result);
+			showReturnButton(bookId);
+		});
 	}
-	
+
 	function renderMessageAndTakeButton(bookId, result) {
 		var messageNode = $("#info_message-" + bookId);
-		
-		if(!result.isAssigned){
+
+		if (!result.isAssigned) {
 			messageNode.text("Sorry, this book is not available now.");
 		} else {
 			messageNode.text("You've took this book.");
 		}
 		messageNode.show();
-		if(result.bookCountLeft == 0) {
+		if (result.bookCountLeft == 0) {
 			$("#take_book-" + bookId).hide();
 		}
 	};
-	
 </script>

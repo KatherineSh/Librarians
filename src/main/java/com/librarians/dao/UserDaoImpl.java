@@ -1,6 +1,5 @@
 package com.librarians.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -10,7 +9,6 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

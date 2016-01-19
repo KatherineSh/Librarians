@@ -1,6 +1,5 @@
 package com.librarians.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.librarians.model.SearchCriteria;
 import com.librarians.model.entity.Book;
-import com.librarians.model.entity.BookHistory;
-import com.librarians.model.entity.BookInstance;
 import com.librarians.model.entity.Category;
-import com.librarians.model.entity.User;
 
 @Repository("bookDao")
 public class BookDaoImpl extends AbstractDao implements BookDao {
@@ -118,91 +114,7 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 		criteria.add(restriction);
 		return criteria;
 	}
-
-	@Transactional
-	public Integer getInstanceCountById(Integer id) {
-
-		Criteria criteria = getSession().createCriteria(Book.class, "book");
-		criteria.createAlias("book.instances", "instances");
-
-		Junction restriction = Restrictions.conjunction().add(Restrictions.eq("book.id", id))
-				.add(Restrictions.eq("instances.status", true));
-
-		Long count = (Long) criteria.add(restriction).setProjection(Projections.rowCount()).uniqueResult();
-		return (int) (long) count;
-	}
-
-	@Transactional
-	public Integer getFreeInstanceCountById(Integer id) {
-
-		Criteria criteria = getSession().createCriteria(Book.class, "book");
-		criteria.createAlias("book.instances", "instances");
-
-		Junction restriction = Restrictions.conjunction().add(Restrictions.eq("book.id", id))
-				.add(Restrictions.eq("instances.status", true)).add(Restrictions.isNull("instances.user.id"));
-
-		Long count = (Long) criteria.add(restriction).setProjection(Projections.rowCount()).uniqueResult();
-		return (int) (long) count;
-	}
-
-	@Transactional(rollbackFor = Exception.class)
-	public void addBookInstanceToUser(Integer bookId, String userName) throws Exception {
-		Session session = getSession();
-		User user = (User) session.createCriteria(User.class).add(Restrictions.eq("name", userName)).uniqueResult();
-
-		@SuppressWarnings("unchecked")
-		List<BookInstance> list = (List<BookInstance>) session.createCriteria(BookInstance.class, "bi")
-				.createAlias("bi.book", "book").add(Restrictions.eq("bi.book.id", bookId))
-				.add(Restrictions.isNull("bi.user.id")).list();
-
-		if (list.isEmpty()) {
-			throw new Exception();
-		}
-		BookInstance instanceToAssign = list.get(0);
-		instanceToAssign.setUser(user);
-		session.saveOrUpdate(instanceToAssign);
-	}
-
-	@Transactional
-	public boolean isBookAssignedToUser(Integer bookId, String userName) {
-
-		@SuppressWarnings("unchecked")
-		List<BookInstance> takenInstances = (List<BookInstance>) getSession().createCriteria(BookInstance.class, "bi")
-				.createAlias("bi.book", "book").add(Restrictions.eq("book.id", bookId))
-				.createAlias("bi.user", "user").add(Restrictions.eq("user.name", userName))
-				.list();
-
-		if (!takenInstances.isEmpty()) {
-			return true;
-		}
-		return false;
-	}
-
-	@Transactional
-	public boolean removeUserAssignmentFromBookInstance(Integer bookId, String userName) {
-		
-		Session currentSession = getSession();
-		boolean isMoreBookInstanceLeft = false;
-		
-		@SuppressWarnings("unchecked")
-		List<BookInstance> takenInstances = (List<BookInstance>) currentSession.createCriteria(BookInstance.class, "bi")
-				.createAlias("bi.book", "book").add(Restrictions.eq("book.id", bookId))
-				.createAlias("bi.user", "user").add(Restrictions.eq("user.name", userName))
-				.list();
-		
-		if(!takenInstances.isEmpty()){
-			if(takenInstances.size() > 1){
-				isMoreBookInstanceLeft = true;
-			}
-			
-			BookInstance instance = takenInstances.get(0);
-			instance.setUser(null);
-			currentSession.update(instance);			
-		} 
-		
-		return isMoreBookInstanceLeft;
-	}
-
+	
 	@Transactional
 	public List<Category> getAllCategories() {
 		
@@ -241,29 +153,8 @@ public class BookDaoImpl extends AbstractDao implements BookDao {
 	}
 
 	@Transactional
-	public void setBookDetails(Book book) {
+	public void saveBook(Book book) {
 		Session session = getSession();
 		session.update(book); 
-	}
-
-	@Transactional
-	public List<BookHistory> getBookInstanceHistory(Integer bookInstanceId) {
-
-		@SuppressWarnings("unchecked")
-		List<BookHistory> historyList = getSession().createCriteria(BookHistory.class).add(Restrictions.eq("bookInstance.id", bookInstanceId)).list();
-				
-		for(BookHistory history : historyList){
-			Hibernate.initialize(history.getReader());
-		}
-		return historyList;
-	}
-
-	@Transactional
-	public List<BookInstance> getBookInstances(Integer bookId) {
-		Book book = (Book) getSession().get(Book.class, bookId);
-		book.getInstances().size();
-
-		List<BookInstance> result = new ArrayList<BookInstance>(book.getInstances());
-		return result; 
 	}
 }

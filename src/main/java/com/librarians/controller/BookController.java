@@ -11,9 +11,7 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -58,7 +56,7 @@ public class BookController {
 			ModelAndView mv){
 		
 		if(bookId != null){
-			Book book = bookService.getBookDetails(bookId);
+			Book book = bookService.getBook(bookId);
 			map.addAttribute("book", book);
 			
 			List<Category> categories = bookService.getAllCategories();
@@ -76,7 +74,7 @@ public class BookController {
 			Model map){
 		
 		if(!result.hasErrors()){	
-			bookService.changeBookDetails(book);
+			bookService.saveBook(book);
 			map.addAttribute("isBookEdited", true);
 		} else {
 			System.out.println("Book entity has validaion errors " + result.getFieldError().getField());

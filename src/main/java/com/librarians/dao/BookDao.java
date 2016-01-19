@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.librarians.model.SearchCriteria;
 import com.librarians.model.entity.Book;
-import com.librarians.model.entity.BookHistory;
-import com.librarians.model.entity.BookInstance;
 import com.librarians.model.entity.Category;
 
 public interface BookDao {
@@ -20,16 +18,6 @@ public interface BookDao {
 
 	public List<Book> getLimitedAndSortedList(SearchCriteria criteria);
 
-	public Integer getInstanceCountById(Integer id);
-
-	public Integer getFreeInstanceCountById(Integer id);
-
-	public void addBookInstanceToUser(Integer bookId, String userName) throws Exception;
-
-	public boolean isBookAssignedToUser(Integer bookId, String userName);
-
-	public boolean removeUserAssignmentFromBookInstance(Integer bookId, String userName);
-
 	public List<Category> getAllCategories();
 
 	public boolean addBookCategory(Category newCategory);
@@ -38,9 +26,5 @@ public interface BookDao {
 
 	public Book getBook(Integer id);
 
-	public void setBookDetails(Book book);
-
-	public List<BookHistory> getBookInstanceHistory(Integer bookInstanceId);
-
-	public List<BookInstance> getBookInstances(Integer bookId);
+	public void saveBook(Book book);
 }

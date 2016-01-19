@@ -66,10 +66,12 @@ public class BookInstanceController {
 
 		String currentUserName = principal.getName();
 		Map<String, Object> result = new HashMap<String, Object>();
+
+		boolean isBookReturned = bookService.returnBook(bookId, currentUserName);
+		boolean isMoreAvailableToReturn = bookService.isMoreAvailableToReturn(bookId, currentUserName);
+		result.put("isBookReturned", isBookReturned);
+		result.put("isMoreAvailableToReturn", isMoreAvailableToReturn);
 		
-		boolean isMoreBookInstanceLeft = bookService.returnBook(bookId, currentUserName);
-				
-		result.put("isMoreBookInstanceLeft", isMoreBookInstanceLeft);
 		return result;
 	}
 }

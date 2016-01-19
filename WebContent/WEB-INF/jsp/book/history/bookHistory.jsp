@@ -49,6 +49,10 @@
 		
 		</tbody>
 	</table>
+	<div class="col-xs-4">
+		<br/><br/>
+		<button type="button" class="btn btn-lg btn-primary" onclick="javascript: window.location.replace('${contextPath}/book/instances?bookId=${bookId}');">Back</button>
+	</div>	
 </c:if>
 
 <jsp:include page="../../utils/pageFooter.jsp"></jsp:include>

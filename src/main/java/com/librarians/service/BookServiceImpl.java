@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.librarians.dao.BookDao;
+import com.librarians.dao.BookInstanceDao;
 import com.librarians.model.SearchCriteria;
 import com.librarians.model.entity.Book;
 import com.librarians.model.entity.BookHistory;
@@ -22,6 +23,9 @@ public class BookServiceImpl implements BookService {
 
 	@Autowired
 	private BookDao bookDao;
+	
+	@Autowired
+	private BookInstanceDao bookInstanceDao;
 
 	@Override
 	public void addBook(Book book, Integer instanceCount) {
@@ -61,7 +65,7 @@ public class BookServiceImpl implements BookService {
 		if(!booksIdArray.isEmpty()){
 			for(String id : booksIdArray){
 				int value = Integer.parseInt(id);
-				Integer count = bookDao.getFreeInstanceCountById(value);
+				Integer count = bookInstanceDao.getFreeInstanceCountById(value);
 				result.put(value, count);
 			}
 		}
@@ -71,30 +75,37 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public boolean assignBookToUser(Integer bookId, String userName) {
 		try {
-			bookDao.addBookInstanceToUser(bookId, userName);
+			bookInstanceDao.addBookInstanceToUser(bookId, userName);
 			
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
 
 	@Override
 	public Integer getBookInstancesLeftToAssign(Integer bookId) {
-		Integer count = bookDao.getFreeInstanceCountById(bookId);
+		Integer count = bookInstanceDao.getFreeInstanceCountById(bookId);
 		return count;
 	}
 
 	@Override
 	public boolean isBookAssignedToCurrentUser(Integer bookId, String userName) {
-		boolean isAssigned = bookDao.isBookAssignedToUser(bookId, userName);
+		boolean isAssigned = bookInstanceDao.isBookAssignedToUser(bookId, userName);
 		return isAssigned;
 	}
 
 	@Override
 	public boolean returnBook(Integer bookId, String userName) {
-		boolean isMoreBookInstanceLeft = bookDao.removeUserAssignmentFromBookInstance(bookId, userName);
-		return isMoreBookInstanceLeft;
+		try {
+			bookInstanceDao.removeUserAssignmentFromBookInstance(bookId, userName);
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -113,22 +124,27 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public Book getBookDetails(Integer id) {
+	public Book getBook(Integer id) {
 		return bookDao.getBook(id);
 	}
 
 	@Override
-	public void changeBookDetails(Book book) {	
-		bookDao.setBookDetails(book);
+	public void saveBook(Book book) {	
+		bookDao.saveBook(book);
 	}
 
 	@Override
 	public List<BookHistory> getBookInstanceHistory(Integer bookInstanceId) {
-		return bookDao.getBookInstanceHistory(bookInstanceId);
+		return bookInstanceDao.getBookInstanceHistory(bookInstanceId);
 	}
 
 	@Override
 	public List<BookInstance> getBookInstances(Integer bookId) {
-		return bookDao.getBookInstances(bookId);
+		return bookInstanceDao.getBookInstances(bookId);
+	}
+
+	@Override
+	public boolean isMoreAvailableToReturn(Integer bookId, String currentUserName) {
+		return bookInstanceDao.getTakenInstancesCount(bookId, currentUserName);
 	}
 }
