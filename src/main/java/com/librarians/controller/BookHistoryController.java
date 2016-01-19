@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.librarians.model.ReaderHistory;
+import com.librarians.model.UserProfile;
 import com.librarians.model.entity.BookHistory;
+import com.librarians.model.entity.User;
 import com.librarians.service.BookService;
+import com.librarians.service.UserService;
 
 @Controller
 public class BookHistoryController {
@@ -20,6 +24,12 @@ public class BookHistoryController {
 
 	@Autowired
 	private BookService bookService;
+	
+	@Autowired
+	private UserService userservice; 
+
+	@Autowired
+	private ReaderHistory readerHistory;
 	
 	@RequestMapping(value = "/book/history", method = RequestMethod.GET)
 	public String getBookHistory(@RequestParam Integer bookId, @RequestParam Integer bookInstanceId, Model map){
@@ -30,4 +40,16 @@ public class BookHistoryController {
 		return "book/history/bookHistory";
 	}
 	
+	@RequestMapping(value = "/book/history/currentUser", method = RequestMethod.GET)
+	public String getUserBookHistory(Model map){
+		
+		UserProfile profile = userservice.getUserProfile();
+		User currentReader = profile.getUser();
+		if(currentReader != null){
+						 
+			List<BookHistory> history= readerHistory.getBookHistoryForUSer(currentReader.getId());
+			map.addAttribute("historyList", history);
+		}
+		return "book/history/readerHistory";
+	}
 }

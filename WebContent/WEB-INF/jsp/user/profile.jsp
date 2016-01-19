@@ -8,6 +8,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <c:set var="user" value="${userProfile.user}"></c:set>
 
+
 <div class="row">
 	<div class="col-md-4 profile-view-labels">
 		
@@ -37,6 +38,11 @@
 				<div class="col-xs-2">
 					<button  type="button" class="btn btn-primary" onclick="javascript: window.location.replace('${contextPath}/editProfile');">Edit</button>
 				</div>
+				<c:if test="${user.role == 'USER'}">
+					<div class="col-xs-2">
+						<button  type="button" class="btn btn-primary" onclick="javascript: window.location.replace('${contextPath}/book/history/currentUser');">My books</button>
+					</div>
+				</c:if>
 			</div>
 
 			<div class="col-xs-offset-3 col-xs-9">
