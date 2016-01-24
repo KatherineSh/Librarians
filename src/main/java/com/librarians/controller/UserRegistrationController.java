@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.librarians.model.entity.User;
 import com.librarians.observer.EventBuilder;
 import com.librarians.observer.EventPublisher;
-import com.librarians.service.UserService;
+import com.librarians.service.user.UserService;
 
 @Controller
 public class UserRegistrationController {

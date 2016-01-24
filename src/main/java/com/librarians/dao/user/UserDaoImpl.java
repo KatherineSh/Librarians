@@ -1,4 +1,4 @@
-package com.librarians.dao;
+package com.librarians.dao.user;
 
 import java.util.List;
 
@@ -13,8 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.librarians.model.UserRole;
+import com.librarians.dao.AbstractDao;
 import com.librarians.model.entity.User;
+import com.librarians.model.service.UserRole;
 
 @Component("userDao")
 public class UserDaoImpl extends AbstractDao implements UserDao {

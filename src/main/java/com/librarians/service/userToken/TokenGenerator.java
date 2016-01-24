@@ -1,11 +1,11 @@
-package com.librarians.service;
+package com.librarians.service.userToken;
 
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.librarians.dao.VerificationTokenDao;
+import com.librarians.dao.user.VerificationTokenDao;
 import com.librarians.model.entity.User;
 import com.librarians.model.entity.VerificationToken;
 

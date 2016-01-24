@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.librarians.model.ReaderHistory;
-import com.librarians.model.UserProfile;
 import com.librarians.model.entity.BookHistory;
 import com.librarians.model.entity.User;
-import com.librarians.service.BookService;
-import com.librarians.service.UserService;
+import com.librarians.model.service.ReaderHistory;
+import com.librarians.model.service.UserProfile;
+import com.librarians.service.book.BookService;
+import com.librarians.service.user.UserService;
 
 @Controller
 public class BookHistoryController {

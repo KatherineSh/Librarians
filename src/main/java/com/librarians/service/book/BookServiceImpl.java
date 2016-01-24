@@ -1,4 +1,4 @@
-package com.librarians.service;
+package com.librarians.service.book;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,13 +9,13 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.librarians.dao.BookDao;
-import com.librarians.dao.BookInstanceDao;
-import com.librarians.model.SearchCriteria;
+import com.librarians.dao.book.BookDao;
+import com.librarians.dao.book.BookInstanceDao;
 import com.librarians.model.entity.Book;
 import com.librarians.model.entity.BookHistory;
 import com.librarians.model.entity.BookInstance;
 import com.librarians.model.entity.Category;
+import com.librarians.model.service.SearchCriteria;
 
 @Service("bookService")
 public class BookServiceImpl implements BookService {

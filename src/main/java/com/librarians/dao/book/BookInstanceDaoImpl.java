@@ -1,4 +1,4 @@
-package com.librarians.dao;
+package com.librarians.dao.book;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,6 +14,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.librarians.dao.AbstractDao;
 import com.librarians.model.entity.Book;
 import com.librarians.model.entity.BookHistory;
 import com.librarians.model.entity.BookInstance;

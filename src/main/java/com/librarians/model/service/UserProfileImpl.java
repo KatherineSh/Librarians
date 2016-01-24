@@ -1,4 +1,4 @@
-package com.librarians.model;
+package com.librarians.model.service;
 
 import javax.annotation.PostConstruct;
 
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import com.librarians.dao.UserDao;
+import com.librarians.dao.user.UserDao;
 import com.librarians.model.entity.User;
 
 @Component("userProfile")

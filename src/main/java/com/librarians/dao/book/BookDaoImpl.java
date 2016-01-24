@@ -1,4 +1,4 @@
-package com.librarians.dao;
+package com.librarians.dao.book;
 
 import java.util.List;
 
@@ -13,9 +13,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.librarians.model.SearchCriteria;
+import com.librarians.dao.AbstractDao;
 import com.librarians.model.entity.Book;
 import com.librarians.model.entity.Category;
+import com.librarians.model.service.SearchCriteria;
 
 @Repository("bookDao")
 public class BookDaoImpl extends AbstractDao implements BookDao {

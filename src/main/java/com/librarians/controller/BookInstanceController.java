@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.librarians.model.entity.BookInstance;
-import com.librarians.service.BookService;
+import com.librarians.service.book.BookService;
 
 @Controller
 public class BookInstanceController {

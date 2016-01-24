@@ -1,13 +1,13 @@
-package com.librarians.service;
+package com.librarians.service.book;
 
 import java.util.List;
 import java.util.Map;
 
-import com.librarians.model.SearchCriteria;
 import com.librarians.model.entity.Book;
 import com.librarians.model.entity.BookHistory;
 import com.librarians.model.entity.BookInstance;
 import com.librarians.model.entity.Category;
+import com.librarians.model.service.SearchCriteria;
 
 public interface BookService {
 	

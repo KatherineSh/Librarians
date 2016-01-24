@@ -24,11 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.librarians.model.SearchCriteria;
-import com.librarians.model.UserRole;
 import com.librarians.model.entity.Book;
 import com.librarians.model.entity.Category;
-import com.librarians.service.BookService;
+import com.librarians.model.service.SearchCriteria;
+import com.librarians.model.service.UserRole;
+import com.librarians.service.book.BookService;
 
 @Controller
 public class BookController {

@@ -1,4 +1,4 @@
-package com.librarians.dao;
+package com.librarians.dao.book;
 
 import java.util.List;
 

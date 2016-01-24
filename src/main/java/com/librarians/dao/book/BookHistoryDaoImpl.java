@@ -1,4 +1,4 @@
-package com.librarians.dao;
+package com.librarians.dao.book;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.librarians.dao.AbstractDao;
 import com.librarians.model.entity.BookHistory;
 
 @Repository("bookHistoryDao")

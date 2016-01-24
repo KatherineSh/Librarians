@@ -1,12 +1,12 @@
-package com.librarians.service;
+package com.librarians.service.user;
 
 import java.util.List;
 
 import org.springframework.validation.BindingResult;
 
-import com.librarians.model.UserProfile;
-import com.librarians.model.UserRole;
 import com.librarians.model.entity.User;
+import com.librarians.model.service.UserProfile;
+import com.librarians.model.service.UserRole;
 
 public interface UserService {
 	

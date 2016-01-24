@@ -11,7 +11,7 @@ import com.librarians.observer.EventBuilder;
 import com.librarians.observer.EventPublisher;
 import com.librarians.observer.event.EmailSendEvent;
 import com.librarians.observer.event.NewUserWasRegisteredEvent;
-import com.librarians.service.TokenGenerator;
+import com.librarians.service.userToken.TokenGenerator;
 
 @Component
 public class NewUserRegistrationConfirmationEmailListener {

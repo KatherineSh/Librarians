@@ -23,7 +23,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.librarians.model.UserRole;
+import com.librarians.model.service.UserRole;
 
 
 @Entity

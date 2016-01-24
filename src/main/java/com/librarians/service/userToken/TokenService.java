@@ -1,11 +1,11 @@
-package com.librarians.service;
+package com.librarians.service.userToken;
 
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.librarians.dao.VerificationTokenDao;
+import com.librarians.dao.user.VerificationTokenDao;
 import com.librarians.model.entity.VerificationToken;
 
 @Service("tokenService")

@@ -1,11 +1,11 @@
-package com.librarians.model;
+package com.librarians.model.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.librarians.dao.BookHistoryDao;
+import com.librarians.dao.book.BookHistoryDao;
 import com.librarians.model.entity.BookHistory;
 
 @Service("readerHistory")

@@ -1,4 +1,4 @@
-package com.librarians.dao;
+package com.librarians.dao.user;
 
 import com.librarians.model.entity.VerificationToken;
 

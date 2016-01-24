@@ -1,4 +1,4 @@
-package com.librarians.dao;
+package com.librarians.dao.user;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.librarians.dao.AbstractDao;
 import com.librarians.model.entity.VerificationToken;
 
 @Component("tokenDao")

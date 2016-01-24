@@ -1,9 +1,9 @@
-package com.librarians.dao;
+package com.librarians.dao.user;
 
 import java.util.List;
 
-import com.librarians.model.UserRole;
 import com.librarians.model.entity.User;
+import com.librarians.model.service.UserRole;
 
 public interface UserDao {
 

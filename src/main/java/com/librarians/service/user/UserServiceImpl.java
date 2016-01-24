@@ -1,4 +1,4 @@
-package com.librarians.service;
+package com.librarians.service.user;
 
 import java.util.List;
 
@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import com.librarians.dao.UserDao;
-import com.librarians.model.UserProfile;
-import com.librarians.model.UserRole;
+import com.librarians.dao.user.UserDao;
 import com.librarians.model.entity.User;
 import com.librarians.model.entity.VerificationToken;
+import com.librarians.model.service.UserProfile;
+import com.librarians.model.service.UserRole;
+import com.librarians.service.userToken.TokenService;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {

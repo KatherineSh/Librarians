@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.librarians.model.UserProfile;
-import com.librarians.model.UserRole;
 import com.librarians.model.entity.User;
-import com.librarians.service.UserService;
+import com.librarians.model.service.UserProfile;
+import com.librarians.model.service.UserRole;
+import com.librarians.service.user.UserService;
 
 
 @Controller
