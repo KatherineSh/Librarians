@@ -22,12 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.librarians.model.entity.Book;
 import com.librarians.model.entity.Category;
 import com.librarians.model.service.SearchCriteria;
 import com.librarians.model.service.UserRole;
+import com.librarians.service.Author;
+import com.librarians.service.AuthorService;
 import com.librarians.service.book.BookService;
 
 @Controller
@@ -38,7 +41,28 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 	
+	@Autowired
+	private AuthorService authorService;
 	
+	@ModelAttribute("authorsList")
+	public List<Author> populateAuthorsList(){
+		return authorService.getAuthorsList();
+	}
+	
+	@RequestMapping(path="/authors", method=RequestMethod.GET, produces="application/json")
+	public @ResponseBody Map<String, Object> addAuthor(@RequestParam String authorName){
+		
+		try{
+			authorService.addAuthor(authorName);
+		} catch(HttpClientErrorException ex){
+			System.out.println("ERROR----------------------------------"+ex.getMessage());
+		}
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("isAuthorAdded", true);
+		return result;
+	}
+		
 	@RequestMapping(path="/addBook", method=RequestMethod.GET)
 	public String showAddBookPage(Model map){
 		

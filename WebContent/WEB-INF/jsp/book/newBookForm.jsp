@@ -31,8 +31,19 @@
 			<div class="form-group">
 				<label class="control-label col-xs-2">Author</label>
 				<div class="col-xs-10">
-					<form:input path="author" type="text" class="form-control" placeholder="Author" />
-					<form:errors path="author" class="error" />
+					<div class="col-xs-7">
+						<%-- <form:input path="author" type="text" class="form-control" placeholder="Author" /> --%>
+						<form:select path="author" class="form-control" id="dropdown-authors">
+							<option value="" disabled selected>Select your option</option>
+	 						<c:forEach items="${authorsList}" var="author"> 
+								<form:option value="${author.name}" label="${author.name}"></form:option>
+							 </c:forEach>
+						</form:select>
+						<form:errors path="author" class="error" />
+					</div>
+					<div class="col-xs-3"> 
+						<button type="button" class="btn btn-primary" onclick="javascript:showModalWindow('addingAuthorModalWindow')">Add Author</button>
+					</div>					
 				</div>
 			</div>
 		
@@ -72,7 +83,7 @@
 				</div>
 				
 				<div class="col-xs-2"> 
-					<button type="button" class="btn btn-primary" onclick="javascript:showAddCategoryWindow()">Add Category</button>
+					<button type="button" class="btn btn-primary" onclick="javascript:showModalWindow('addingCategoryModalWindow')">Add Category</button>
 				</div>					
 				
 				<div class="form-group">
@@ -101,7 +112,7 @@
 		</form:form>
 
 
-	<div id="myModal" class="modal fade" aria-hidden="false">
+<!-- 	<div id="myModal" class="modal fade" aria-hidden="false">
 	    <div class="modal-dialog">
 	        <div class="modal-content">
 	            <div class="modal-header">
@@ -129,20 +140,64 @@
 			</div>
 	    </div>
 	</div>
+ -->
+ 
+ 	<jsp:include page="../utils/addingModalWindow.jsp">
+		 <jsp:param value="addingCategoryModalWindow" name="windowName"/>
+		 <jsp:param value="Adding a new category" name="titleText"/>
+		 <jsp:param value="Category name" name="labelText"/>
+		 <jsp:param value="categoryName" name="inputName"/>
+		 <jsp:param value="Add	category" name="buttonText"/>
+		 <jsp:param value="addCategory" name="actionMethodName"/>
+	 </jsp:include>
+	 
+	 <jsp:include page="../utils/addingModalWindow.jsp">
+		 <jsp:param value="addingAuthorModalWindow" name="windowName"/>
+		 <jsp:param value="Adding a new author" name="titleText"/>
+		 <jsp:param value="Author name" name="labelText"/>
+		 <jsp:param value="authorName" name="inputName"/>
+		 <jsp:param value="Add	author" name="buttonText"/>
+		 <jsp:param value="addAuthor" name="actionMethodName"/>
+	 </jsp:include>
 </div>
 </div>
-<%-- <c:out  value="${pageContext.request.requestURI}"/> --%>
 
 <jsp:include page="../utils/pageFooter.jsp"></jsp:include>
 
-
 <script type="text/javascript">
-	function showAddCategoryWindow() {
-		clearModalWindow();
-		$("#myModal").modal('show');
-	}
+
+	function addAuthor(authorName){
 	
-	function sendAddingCategory(categoryName){
+		if(authorName == "") {
+			$('#error').text("Name should be not empty");
+		} 
+		else {
+			var data = {"authorName" : authorName};
+			$.ajax({
+				url: '/Librarians/authors',
+				data: data,
+				method: "GET"
+			}).done(function(result){
+				if(result.isAuthorAdded == true) {
+					$("#addingAuthorModalWindow").modal('hide');
+					$('#error').text("");
+					
+					//updatCategories(result.updatedCategories);
+					
+				} else if (typeof result.isAuthorAdded === "undefined") {
+					$('#error').text("Only librarian have permission to add new category.");
+				} else 
+					/* if(result.isCategoryExisted == true) {
+					$('#error').text("The tipped category name is already existed. Duplication is not allowed.");
+				} else */
+				{
+					$('#error').text("Name should be not empty");
+				}
+			});
+		}
+	}
+
+	function addCategory(categoryName){
 
 		if(categoryName == "") {
 			$('#error').text("Name should be not empty");
@@ -155,7 +210,7 @@
 				method: "GET"
 			}).done(function(result){
 				if(result.isCategoryAdded == true) {
-					$("#myModal").modal('hide');
+					$("#addingCategoryModalWindow").modal('hide');
 					$('#error').text("");
 					
 					updatCategories(result.updatedCategories);
@@ -180,10 +235,5 @@
 			
 			$("#dropdown-categories").append(newOption);
 		}
-	}
-	
-	function clearModalWindow(){
-		$('#error').text("");
-		$("#categoryName").val("");
 	}
 </script>

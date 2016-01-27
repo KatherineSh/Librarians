@@ -16,6 +16,8 @@ import com.librarians.model.entity.BookHistory;
 import com.librarians.model.entity.BookInstance;
 import com.librarians.model.entity.Category;
 import com.librarians.model.service.SearchCriteria;
+import com.librarians.service.Author;
+import com.librarians.service.AuthorsProviderRestClient;
 
 @Service("bookService")
 public class BookServiceImpl implements BookService {
@@ -27,6 +29,7 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	private BookInstanceDao bookInstanceDao;
 
+
 	@Override
 	public void addBook(Book book, Integer instanceCount) {
 		Set<BookInstance> instances = new HashSet<BookInstance>();
@@ -34,6 +37,7 @@ public class BookServiceImpl implements BookService {
 			instances.add(new BookInstance(book));
 			instanceCount--;
 		}
+		
 		book.setInstances(instances);
 		bookDao.addBook(book);
 	}
