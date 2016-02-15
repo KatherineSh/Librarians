@@ -75,7 +75,7 @@ public class BookInstanceDaoImpl extends AbstractDao implements BookInstanceDao 
 	}
 
 	@Transactional
-	public boolean isBookAssignedToUser(Integer bookId, String userName) {
+	public boolean isBookTakenByUser(Integer bookId, String userName) {
 
 		@SuppressWarnings("unchecked")
 		List<BookInstance> takenInstances = (List<BookInstance>) getSession().createCriteria(BookInstance.class, "bi")
@@ -90,7 +90,7 @@ public class BookInstanceDaoImpl extends AbstractDao implements BookInstanceDao 
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public void removeUserAssignmentFromBookInstance(Integer bookId, String userName) throws Exception {
+	public void removeUserFromBookInstance(Integer bookId, String userName) throws Exception {
 		
 		Session currentSession = getSession();
 		//boolean isMoreBookInstanceLeft = false;

@@ -10,7 +10,7 @@ import com.librarians.model.service.UserRole;
 
 public interface UserService {
 	
-	public String findEmailByUserName(String name);
+	public String getEmailByName(String name);
 	
 	public Integer createUser(User user);
 
@@ -26,7 +26,7 @@ public interface UserService {
 
 	public Long getUserCount(UserRole role, String search);
 
-	public List<User> listUser(UserRole role, Integer offset, Integer limit, String search);
+	public List<User> search(UserRole role, Integer offset, Integer limit, String search);
 
 	public UserProfile getUserProfile();
 

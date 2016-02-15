@@ -13,9 +13,9 @@ public interface BookInstanceDao {
 
 	public void addBookInstanceToUser(Integer bookId, String userName) throws Exception;
 
-	public boolean isBookAssignedToUser(Integer bookId, String userName);
+	public boolean isBookTakenByUser(Integer bookId, String userName);
 
-	public void removeUserAssignmentFromBookInstance(Integer bookId, String userName) throws Exception;
+	public void removeUserFromBookInstance(Integer bookId, String userName) throws Exception;
 	
 	public List<BookHistory> getBookInstanceHistory(Integer bookInstanceId);
 

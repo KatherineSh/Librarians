@@ -16,19 +16,15 @@ import com.librarians.model.entity.BookHistory;
 import com.librarians.model.entity.BookInstance;
 import com.librarians.model.entity.Category;
 import com.librarians.model.service.SearchCriteria;
-import com.librarians.service.Author;
-import com.librarians.service.AuthorsProviderRestClient;
 
 @Service("bookService")
 public class BookServiceImpl implements BookService {
-	
 
 	@Autowired
 	private BookDao bookDao;
 	
 	@Autowired
 	private BookInstanceDao bookInstanceDao;
-
 
 	@Override
 	public void addBook(Book book, Integer instanceCount) {
@@ -63,11 +59,11 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public Map<Integer, Integer> getBookInstances(List<String> booksIdArray) {
+	public Map<Integer, Integer> getBookInstancesCount(List<String> booksIds) {
 		Map<Integer, Integer> result = new HashMap<Integer,Integer>();
 		
-		if(!booksIdArray.isEmpty()){
-			for(String id : booksIdArray){
+		if(!booksIds.isEmpty()){
+			for(String id : booksIds){
 				int value = Integer.parseInt(id);
 				Integer count = bookInstanceDao.getFreeInstanceCountById(value);
 				result.put(value, count);
@@ -77,7 +73,7 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public boolean assignBookToUser(Integer bookId, String userName) {
+	public boolean takeBook(Integer bookId, String userName) {
 		try {
 			bookInstanceDao.addBookInstanceToUser(bookId, userName);
 			
@@ -89,21 +85,21 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public Integer getBookInstancesLeftToAssign(Integer bookId) {
+	public Integer getBookInstancesFreeToTake(Integer bookId) {
 		Integer count = bookInstanceDao.getFreeInstanceCountById(bookId);
 		return count;
 	}
 
 	@Override
-	public boolean isBookAssignedToCurrentUser(Integer bookId, String userName) {
-		boolean isAssigned = bookInstanceDao.isBookAssignedToUser(bookId, userName);
-		return isAssigned;
+	public boolean isBookTakenByCurrentUser(Integer bookId, String userName) {
+		boolean isTaken = bookInstanceDao.isBookTakenByUser(bookId, userName);
+		return isTaken;
 	}
 
 	@Override
 	public boolean returnBook(Integer bookId, String userName) {
 		try {
-			bookInstanceDao.removeUserAssignmentFromBookInstance(bookId, userName);
+			bookInstanceDao.removeUserFromBookInstance(bookId, userName);
 			
 			return true;
 		} catch (Exception e) {

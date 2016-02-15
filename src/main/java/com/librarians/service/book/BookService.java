@@ -34,15 +34,15 @@ public interface BookService {
 	//instances
 	//TODO move to another service
 	
-	public Map<Integer, Integer> getBookInstances(List<String> booksIdArray);
+	public Map<Integer, Integer> getBookInstancesCount(List<String> booksIdArray);
 	
 	public List<BookInstance> getBookInstances(Integer bookId);
 
-	public boolean assignBookToUser(Integer bookId, String userName);
+	public boolean takeBook(Integer bookId, String userName);
 	
-	public Integer getBookInstancesLeftToAssign(Integer bookId);
+	public Integer getBookInstancesFreeToTake(Integer bookId);
 	
-	public boolean isBookAssignedToCurrentUser(Integer bookId, String currentUerName);
+	public boolean isBookTakenByCurrentUser(Integer bookId, String currentUerName);
 
 	public boolean returnBook(Integer bookId, String currentUerName);
 	

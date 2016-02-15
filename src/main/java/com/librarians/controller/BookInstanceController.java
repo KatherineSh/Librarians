@@ -41,11 +41,11 @@ public class BookInstanceController {
 
 		String currentUserName = principal.getName();
 		
-		boolean isAssigned = bookService.assignBookToUser(bookId, currentUserName);
-		Integer bookInstancesLeft = bookService.getBookInstancesLeftToAssign(bookId);
+		boolean isTaken = bookService.takeBook(bookId, currentUserName);
+		Integer bookInstancesLeft = bookService.getBookInstancesFreeToTake(bookId);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("isAssigned", isAssigned);
+		result.put("isAssigned", isTaken);
 		result.put("bookCountLeft", bookInstancesLeft);
 		
 		return result;
@@ -56,7 +56,7 @@ public class BookInstanceController {
 		String currentUserName = principal.getName();
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		boolean shouldToShow = bookService.isBookAssignedToCurrentUser(bookId, currentUserName);
+		boolean shouldToShow = bookService.isBookTakenByCurrentUser(bookId, currentUserName);
 		result.put("isReturnBookAvailable", shouldToShow);
 		return result;
 	}

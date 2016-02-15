@@ -166,7 +166,7 @@ public class BookController {
 		
 		if (role.equals(UserRole.USER.toString())) {
 			String[] books = req.getParameterValues("books[]");
-			map = bookService.getBookInstances(Arrays.asList(books));
+			map = bookService.getBookInstancesCount(Arrays.asList(books));
 		}
 		return map;
 	}

@@ -39,7 +39,7 @@ public class UserController {
 	{
 		
 		Long userCount = userservice.getUserCount(UserRole.USER, search);
-		List<User> userList = userservice.listUser(UserRole.USER, offset, limit, search); 
+		List<User> userList = userservice.search(UserRole.USER, offset, limit, search); 
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", userCount);

@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao; 
 	
 	@Override
-	public String findEmailByUserName(String name) {
+	public String getEmailByName(String name) {
 		String email = userDao.getEmailByUserName(name);
 		return email;
 	}
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> listUser(UserRole role, Integer offset, Integer limit, String search) {
+	public List<User> search(UserRole role, Integer offset, Integer limit, String search) {
 		return userDao.getLimitedUserList(role, offset, limit, search);
 	}
 
