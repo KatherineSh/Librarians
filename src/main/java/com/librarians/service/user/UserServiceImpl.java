@@ -44,16 +44,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isExistedEmail(User user) {
-		return userDao.isUserExistedByEmail(user.getEmail());
-	}
-	
-	@Override
-	public boolean isExistedName(User user) {
-		return userDao.isUserExistedByName(user.getName());
-	}
-
-	@Override
 	public boolean setUserEnabled(String tokenId) {
 		
 		VerificationToken token = tokenService.findToken(tokenId);
@@ -64,6 +54,16 @@ public class UserServiceImpl implements UserService {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean isExistedEmail(User user) {
+		return userDao.isUserExistedByEmail(user.getEmail());
+	}
+	
+	@Override
+	public boolean isExistedName(User user) {
+		return userDao.isUserExistedByName(user.getName());
 	}
 	
 	@Override
