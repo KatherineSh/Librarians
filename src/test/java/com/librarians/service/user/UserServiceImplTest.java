@@ -178,7 +178,7 @@ public class UserServiceImplTest {
 	        return Arrays.asList(data);
 	    }
 	    
-	    @Test
+	    @Test()
 		public void isUserUnique_shouldVeirfyEmailAndNameDuplication(){
 			BindingResult result = Mockito.mock(BindingResult.class);
 			User user = new User();

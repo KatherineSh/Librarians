@@ -35,27 +35,26 @@ public class CategoryController {
 		boolean isLibrarian = authentication.getAuthorities().contains(auth);
 
 		Map<String, Object> result = new HashMap<String, Object>();
+		boolean isCategoryAdded = false;
+		
 		if (isLibrarian && categoryName != null) {	
 			String name = categoryName.trim();
 			if(!name.isEmpty()) {
 				
-				boolean isExisted = bookService.isCategoryExisted(name);
-				if(!isExisted){
+				boolean isCategoryExisted = bookService.isCategoryExisted(name);
+				if(!isCategoryExisted){
 					Category category = new Category();
 					category.setCategoryName(name);
-					boolean isCategoryAdded = bookService.addCategory(category);			
-					result.put("isCategoryAdded", isCategoryAdded);
+					isCategoryAdded = bookService.addCategory(category);			
 					
 					List<Category> categories = bookService.getAllCategories();
 					result.put("updatedCategories", categories);
 				} else {
-					result.put("isCategoryAdded", false);
 					result.put("isCategoryExisted", true);
 				}
-			} else {
-				result.put("isCategoryAdded", false);
-			}
-		}
+			} 
+		} 
+		result.put("isCategoryAdded", isCategoryAdded);
 		return result;
 	}
 	
