@@ -12,3 +12,14 @@ Move the cursor to the end of what you want to cut.
 Press d to cut (or y to copy).
 Move to where you would like to paste.
 Press P to paste before the cursor, or p to paste after."
+
+
+Overriding read-only files:
+:w !sudo tee %
+and then just close :q!
+
+:w = Write a file.
+!sudo = Call shell sudo command.
+tee = The output of the vi/vim write command is redirected using tee.
+% = Triggers the use of the current filename.
+Simply put, the ‘tee’ command is run as sudo and follows the vi/vim command on the current filename given.
