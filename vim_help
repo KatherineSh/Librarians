@@ -1,0 +1,14 @@
+<ESC> o - To open a line below
+<ESc> Shift + o - To open a line above
+
+dd - delete
+v - select
+d - cut
+y - copy
+p - paste
+
+"Press v to select characters (or uppercase V to select whole lines, or Ctrl-v to select rectangular blocks).
+Move the cursor to the end of what you want to cut.
+Press d to cut (or y to copy).
+Move to where you would like to paste.
+Press P to paste before the cursor, or p to paste after."
